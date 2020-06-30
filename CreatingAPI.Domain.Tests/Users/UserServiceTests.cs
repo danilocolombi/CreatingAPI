@@ -42,7 +42,7 @@ namespace CreatingAPI.Domain.Tests.Users
         [Trait("Category", "Create User")]
         public async Task CreateUser_InvalidUser_ShouldReturnResultResponseWithError()
         {
-            var invalidUser = UserTestHelper.GetInvalidUser();
+            var invalidUser = UserTestHelper.GetFakeInvalidUser();
             var userService = new UserService(_repositoryMock.Object);
 
             var result = await userService.CreateUser(invalidUser);

@@ -13,5 +13,13 @@ namespace CreatingAPI.Domain.Tests.Bookmarks
 
             return fakeBookmark;
         }
+
+        public static Bookmark GetFakeInvalidBookmark()
+        {
+            var fakeBookmark = new Faker<Bookmark>()
+                .CustomInstantiator(b => new Bookmark(-1, b.Random.Int(1)));
+
+            return fakeBookmark;
+        }
     }
 }

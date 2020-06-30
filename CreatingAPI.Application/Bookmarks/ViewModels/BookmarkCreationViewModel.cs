@@ -5,12 +5,12 @@ namespace CreatingAPI.Application.Bookmarks.ViewModels
 {
     public class BookmarkCreationViewModel
     {
-        [Required]
-        [Range(1, Int32.MaxValue)]
+        [Required(ErrorMessage = "The {0} is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Invalid {0}")]
         public int UserId { get; set; }
 
-        [Required]
-        [Range(1, Int32.MaxValue)]
+        [Required(ErrorMessage = "The {0} is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Invalid {0}")]
         public int UnscrumbleId { get; set; }
     }
 }

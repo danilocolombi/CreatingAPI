@@ -3,25 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{5EC2D3AB-E73D-43C3-881A-861CB151BAAF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - API", "1 - API", "{5EC2D3AB-E73D-43C3-881A-861CB151BAAF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{816E8686-CDEB-46ED-88B1-B977CC0717DA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", "{816E8686-CDEB-46ED-88B1-B977CC0717DA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreatingAPI.Domain", "CreatingAPI.Domain\CreatingAPI.Domain.csproj", "{5B67E6B3-0821-463C-A96F-62E68C51A2BA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreatingAPI.Domain.Tests", "CreatingAPI.Domain.Tests\CreatingAPI.Domain.Tests.csproj", "{A87024FF-FDD2-4B22-92E9-87F169C67B85}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{9FB55C76-67D3-4811-BBFF-CC972673C28C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Infra", "5 - Infra", "{9FB55C76-67D3-4811-BBFF-CC972673C28C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreatingAPI.Infra.IoC", "CreatingAPI.Infra.IoC\CreatingAPI.Infra.IoC.csproj", "{5C223DF4-E064-4008-A240-94B6B2F6E592}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{DEC89706-2848-43C6-AAC2-A6C57048DA39}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Data", "4 - Data", "{DEC89706-2848-43C6-AAC2-A6C57048DA39}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreatingAPI.Data", "CreatingAPI.Data\CreatingAPI.Data.csproj", "{1FA0CB5D-FA89-4DC6-9906-112CBA16F8AB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreatingAPI", "CreatingAPI\CreatingAPI.csproj", "{ED703029-7D40-4660-91B8-E70A7E97FF03}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{35EA9ABF-8EBA-46DF-ACF3-1A1522977448}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Application", "{35EA9ABF-8EBA-46DF-ACF3-1A1522977448}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreatingAPI.Application", "CreatingAPI.Application\CreatingAPI.Application.csproj", "{AF4E6A6E-1F4D-43E9-A83B-6BE666F1D679}"
 EndProject
