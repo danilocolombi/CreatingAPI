@@ -10,7 +10,7 @@ namespace CreatingAPI.Application.Core
         public IEnumerable<string> Errors { get; set; } = new List<string>();
         public StatusCode StatusCode { get; set; }
 
-        public ResultResponse(ResultResponseBusiness resultResponseBusiness, Operation operation)
+        public ResultResponse(ValidationResult resultResponseBusiness, Operation operation)
         {
             Success = resultResponseBusiness.Success;
             Errors = resultResponseBusiness.ValidationErrors.Select(s => s.Message);

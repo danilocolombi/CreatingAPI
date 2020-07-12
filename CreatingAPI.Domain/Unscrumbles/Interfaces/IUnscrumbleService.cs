@@ -6,9 +6,9 @@ namespace CreatingAPI.Domain.Unscrumbles.Interfaces
 {
     public interface IUnscrumbleService
     {
-        Task<ResultResponseBusiness> CreateUnscrumble(Unscrumble unscrumble, IEnumerable<Exercise> exercises);
-        Task<ResultResponseBusiness> UpdateUnscrumble(int id, Unscrumble unscrumble, IEnumerable<Exercise> exercises);
-        Task<ResultResponseBusiness> DeleteUnscrumble(int id);
+        Task<ValidationResult> CreateUnscrumble(Unscrumble unscrumble, IEnumerable<Exercise> exercises);
+        Task<ValidationResult> UpdateUnscrumble(int id, Unscrumble unscrumble, IEnumerable<Exercise> exercises);
+        Task<ValidationResult> DeleteUnscrumble(int id);
         Task<Unscrumble> GetUnscrumble(int id);
     }
 }

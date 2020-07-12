@@ -5,7 +5,7 @@ namespace CreatingAPI.Domain.Bookmarks.Interfaces
 {
     public interface IBookmarkService
     {
-        Task<ResultResponseBusiness> CreateBookmark(Bookmark bookmark);
-        Task<ResultResponseBusiness> DeleteBookmark(int id);
+        Task<ValidationResult> CreateBookmark(Bookmark bookmark);
+        Task<ValidationResult> DeleteBookmark(int id);
     }
 }

@@ -4,7 +4,6 @@ using CreatingAPI.Domain.Users.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CreatingAPI.Data.Users.Repository
@@ -58,16 +57,9 @@ namespace CreatingAPI.Data.Users.Repository
 
         public async Task<bool> IsEmailAlreadyRegistered(string email)
         {
-            try
-            {
-                var user = await _dataContext.Users.FirstOrDefaultAsync(u => u.Email.Address == email);
+            var user = await _dataContext.Users.FirstOrDefaultAsync(u => u.Email.Address == email);
 
-                return user == null ? false : true;
-            }
-            catch (Exception ex)
-            {
-                return true;
-            }
+            return user == null ? false : true;
         }
     }
 }

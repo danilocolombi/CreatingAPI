@@ -1,28 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace CreatingAPI.Domain.Core.ValueObjects
 {
     public class Email : IEquatable<Email>
     {
-        public string Address { get; private set; }
+        public string Address { get; set; }
 
         private const int addressMaxLength = 150;
         private const int addressMinLength = 8;
-        public ICollection<ValidationError> ValidationErrors = new List<ValidationError>();
 
-        public bool IsValid(string email)
+        private Email(string address)
         {
-            if (!CheckEmailFormat(email)) ValidationErrors.Add(new ValidationError("E-mail address format is invalid"));
-            if (email.Length < addressMinLength)
-                ValidationErrors.Add(new ValidationError($"E-mail address must have more than {addressMinLength} characters"));
-            if (email.Length > addressMaxLength)
-                ValidationErrors.Add(new ValidationError($"E-mail address must have less than {addressMaxLength} characters"));
+            Address = address;
+        }
 
-            return !ValidationErrors.Any();
+        public static implicit operator Email(string address)
+            => Parse(address);
+
+        public static Email Parse(string address)
+        {
+            if (TryParse(address, out var email))
+                return email;
+
+            throw new Exception("Invalid email address");
+        }
+
+        public static bool TryParse(string address, out Email email)
+        {
+            if (!CheckEmailFormat(address) ||
+                address.Length < addressMinLength ||
+                address.Length > addressMaxLength)
+            {
+                email = null;
+                return false;
+            }
+
+            email = new Email(address);
+
+            return true;
         }
 
         private static bool CheckEmailFormat(string email)
@@ -30,12 +47,6 @@ namespace CreatingAPI.Domain.Core.ValueObjects
             var regexEmail = new Regex(@"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$");
             return regexEmail.IsMatch(email);
         }
-
-        public void Set(string address)
-        {
-            Address = address;
-        }
-
         public override string ToString()
         => $"[Address: {Address}]";
 

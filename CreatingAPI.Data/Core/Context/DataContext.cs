@@ -1,15 +1,14 @@
 ﻿using CreatingAPI.Data.Bookmarks.Mapping;
 using CreatingAPI.Data.Games.Mapping;
+using CreatingAPI.Data.TicTacToes.Mapping;
 using CreatingAPI.Data.Unscrumbles.Mapping;
 using CreatingAPI.Data.Users.Mapping;
 using CreatingAPI.Domain.Bookmarks;
 using CreatingAPI.Domain.Games;
+using CreatingAPI.Domain.TicTacToes;
 using CreatingAPI.Domain.Unscrumbles;
 using CreatingAPI.Domain.Users;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CreatingAPI.Data.Core.Context
 {
@@ -20,6 +19,8 @@ namespace CreatingAPI.Data.Core.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Bookmark> Bookmarks { get; set; }
+        public DbSet<TicTacToe> TicTacToes { get; set; }
+        public DbSet<TicTacToeSquare> TicTacToeSquares { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,6 +34,8 @@ namespace CreatingAPI.Data.Core.Context
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new GameMap());
             modelBuilder.ApplyConfiguration(new BookmarkMap());
+            modelBuilder.ApplyConfiguration(new TicTacToeMap());
+            modelBuilder.ApplyConfiguration(new TicTacToeSquareMap());
         }
     }
 }

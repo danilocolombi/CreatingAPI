@@ -13,35 +13,35 @@ namespace CreatingAPI.Domain.Users.Services
             _userRepository = userRepository;
         }
 
-        public async Task<ResultResponseBusiness> CreateUser(User user)
+        public async Task<ValidationResult> CreateUser(User user)
         {
             if (!user.IsValid())
-                return new ResultResponseBusiness(false, user.ValidationErrors);
+                return new ValidationResult(false, user.ValidationErrors);
 
             if (await _userRepository.IsEmailAlreadyRegistered(user.Email.Address))
-                return new ResultResponseBusiness(false, new ValidationError("This e-mail is already registered"));
+                return new ValidationResult(false, new ValidationError("This e-mail is already registered"));
 
             var createdUserId = await _userRepository.CreateUser(user);
 
             if (createdUserId <= 0)
-                return new ResultResponseBusiness(false, new ValidationError("There was an error while creating the user"));
+                return new ValidationResult(false, new ValidationError("There was an error while creating the user"));
 
-            return new ResultResponseBusiness(true);
+            return new ValidationResult(true);
         }
 
-        public async Task<ResultResponseBusiness> DeleteUser(int id)
+        public async Task<ValidationResult> DeleteUser(int id)
         {
             var user = await _userRepository.GetUser(id);
 
             if (user == null)
-                return new ResultResponseBusiness(false, new ValidationError("The user wasn't found"));
+                return new ValidationResult(false, new ValidationError("The user wasn't found"));
 
             var userWasDeleted = await _userRepository.DeleteUser(user);
 
             if (!userWasDeleted)
-                return new ResultResponseBusiness(false, new ValidationError("There was an error while deleting the user"));
+                return new ValidationResult(false, new ValidationError("There was an error while deleting the user"));
 
-            return new ResultResponseBusiness(true);
+            return new ValidationResult(true);
         }
 
         public async Task<User> GetUser(int id)
@@ -49,24 +49,24 @@ namespace CreatingAPI.Domain.Users.Services
             return await _userRepository.GetUser(id);
         }
 
-        public async Task<ResultResponseBusiness> ChangePassword(int id, string newPassword)
+        public async Task<ValidationResult> ChangePassword(int id, string newPassword)
         {
             var user = await _userRepository.GetUser(id);
 
             if (user == null)
-                return new ResultResponseBusiness(false, new ValidationError("The user wasn't found"));
+                return new ValidationResult(false, new ValidationError("The user wasn't found"));
 
             user.SetPassword(newPassword);
 
             if (!user.IsValid())
-                return new ResultResponseBusiness(false, user.ValidationErrors);
+                return new ValidationResult(false, user.ValidationErrors);
 
             var userWasUpdated = await _userRepository.UpdateUser(user);
 
             if (!userWasUpdated)
-                return new ResultResponseBusiness(false, new ValidationError("There was an error while updating the user"));
+                return new ValidationResult(false, new ValidationError("There was an error while updating the user"));
 
-            return new ResultResponseBusiness(true);
+            return new ValidationResult(true);
         }
     }
 }

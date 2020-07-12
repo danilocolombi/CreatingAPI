@@ -10,19 +10,24 @@ namespace CreatingAPI.Domain.Users
     public class User : Entity
     {
         public string Name { get; private set; }
-        public Email Email { get; private set; } = new Email();
-        public Password Password { get; private set; } = new Password();
-        public virtual ICollection<Unscrumble> Unscrumbles { get; private set; } = new List<Unscrumble>();
-        public virtual ICollection<Bookmark> Bookmarks { get; private set; } = new List<Bookmark>();
-        public virtual ICollection<Game> Games { get; set; } = new List<Game>();
+        public Email Email { get; private set; }
+        public Password Password { get; private set; }
+        public virtual ICollection<Unscrumble> Unscrumbles { get; private set; }
+        public virtual ICollection<Bookmark> Bookmarks { get; private set; }
+        public virtual ICollection<Game> Games { get; set; }
 
         public User() { }
 
         public User(string name, string email, string password)
         {
             SetName(name);
-            SetEmail(email);
-            SetPassword(password);
+            Email = email;
+            Password = password;
+        }
+
+        public void SetPassword(string password)
+        {
+            Password = password;
         }
 
         public bool SetName(string name)
@@ -45,17 +50,6 @@ namespace CreatingAPI.Domain.Users
 
             Name = name;
             return true;
-        }
-        public void SetEmail(string email)
-        {
-            if (Email.IsValid(email)) Email.Set(email);
-            else ValidationErrors.AddRange(Email.ValidationErrors);
-        }
-
-        public void SetPassword(string password)
-        {
-            if (Password.IsValid(password)) Password.Set(password);
-            else ValidationErrors.AddRange(Password.ValidationErrors);
         }
 
         public override string ToString()

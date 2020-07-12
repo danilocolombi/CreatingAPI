@@ -1,5 +1,4 @@
 ﻿using CreatingAPI.Domain.Activities;
-using CreatingAPI.Domain.Bookmarks;
 using CreatingAPI.Domain.Core;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,7 @@ namespace CreatingAPI.Domain.Unscrumbles
 {
     public class Unscrumble : Activity
     {
-        public virtual List<Exercise> Exercises { get; private set; } = new List<Exercise>();
-        public virtual ICollection<Bookmark> Bookmarks { get; private set; }
+        public virtual ICollection<Exercise> Exercises { get; private set; } = new List<Exercise>();
         Unscrumble() { }
 
         public Unscrumble(string title, int userId, bool isPublic) : base(title, userId, isPublic)
@@ -26,14 +24,15 @@ namespace CreatingAPI.Domain.Unscrumbles
                 if (!exercise.IsValid())
                 {
                     ValidationErrors.Add(new ValidationError($"Exercise {exercise.Position} is invalid: {exercise.ValidationErrors.FirstOrDefault()}"));
+                    Exercises.Clear();
                     return false;
                 }
+
+                Exercises.Add(exercise);
             }
 
-            Exercises.AddRange(exercises);
-
             if (Id > 0)
-                Exercises.ForEach(e => e.UnscrumbleId = Id);
+                Exercises.ToList().ForEach(e => e.UnscrumbleId = Id);
 
             return true;
         }

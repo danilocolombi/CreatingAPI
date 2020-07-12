@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CreatingAPI.Domain.Activities;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace CreatingAPI.Application.Bookmarks.ViewModels
@@ -12,5 +13,7 @@ namespace CreatingAPI.Application.Bookmarks.ViewModels
         [Required(ErrorMessage = "The {0} is required")]
         [Range(1, int.MaxValue, ErrorMessage = "Invalid {0}")]
         public int UnscrumbleId { get; set; }
+
+        public KindOfActivity KindOfActivity { get; set; }
     }
 }

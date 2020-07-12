@@ -4,14 +4,16 @@ using CreatingAPI.Data.Core.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CreatingAPI.Data.Core.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200712194603_TicTacToeCreation")]
+    partial class TicTacToeCreation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,10 +28,10 @@ namespace CreatingAPI.Data.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("TicTacToeId")
+                    b.Property<int>("TicTacToeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UnscrumbleId")
+                    b.Property<int>("UnscrumbleId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -208,12 +210,14 @@ namespace CreatingAPI.Data.Core.Migrations
                     b.HasOne("CreatingAPI.Domain.TicTacToes.TicTacToe", "TicTacToe")
                         .WithMany("Bookmarks")
                         .HasForeignKey("TicTacToeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CreatingAPI.Domain.Unscrumbles.Unscrumble", "Unscrumble")
                         .WithMany("Bookmarks")
                         .HasForeignKey("UnscrumbleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CreatingAPI.Domain.Users.User", "User")
                         .WithMany("Bookmarks")

@@ -1,6 +1,8 @@
-﻿using CreatingAPI.Domain.Core;
+﻿using CreatingAPI.Domain.Bookmarks;
+using CreatingAPI.Domain.Core;
 using CreatingAPI.Domain.Users;
 using System;
+using System.Collections.Generic;
 
 namespace CreatingAPI.Domain.Activities
 {
@@ -11,6 +13,8 @@ namespace CreatingAPI.Domain.Activities
         public bool IsPublic { get; private set; }
         public int UserId { get; private set; }
         public virtual User User { get; private set; }
+        public virtual ICollection<Bookmark> Bookmarks { get; private set; }
+
 
         public Activity() { }
 

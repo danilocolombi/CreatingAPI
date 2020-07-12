@@ -1,4 +1,6 @@
-﻿using CreatingAPI.Domain.Core;
+﻿using CreatingAPI.Domain.Activities;
+using CreatingAPI.Domain.Core;
+using CreatingAPI.Domain.TicTacToes;
 using CreatingAPI.Domain.Unscrumbles;
 using CreatingAPI.Domain.Users;
 
@@ -8,14 +10,16 @@ namespace CreatingAPI.Domain.Bookmarks
     {
         public int UserId { get; private set; }
         public virtual User User { get; set; }
-        public int UnscrumbleId { get; private set; }
+        public int? UnscrumbleId { get; private set; }
         public virtual Unscrumble Unscrumble { get; set; }
+        public int? TicTacToeId { get; private set; }
+        public virtual TicTacToe TicTacToe { get; set; }
 
         public Bookmark() { }
-        public Bookmark(int userId, int activityId)
+        public Bookmark(int userId, int activityId, KindOfActivity kindOfActivity)
         {
             SetUserId(userId);
-            SetUnscrumbleId(activityId);
+            SetId(activityId, kindOfActivity);
         }
 
         public bool SetUserId(int userId)
@@ -30,15 +34,27 @@ namespace CreatingAPI.Domain.Bookmarks
             return true;
         }
 
-        public bool SetUnscrumbleId(int unscrumbleId)
+        public bool SetId(int activityId, KindOfActivity kindOfActivity)
         {
-            if (unscrumbleId <= 0)
+            if (activityId <= 0)
             {
                 ValidationErrors.Add(new ValidationError("The activity is invalid"));
                 return false;
             }
 
-            UnscrumbleId = unscrumbleId;
+            switch (kindOfActivity)
+            {
+                case KindOfActivity.Unscrumble:
+                    UnscrumbleId = activityId;
+                    break;
+                case KindOfActivity.TicTacToe:
+                    TicTacToeId = activityId;
+                    break;
+                default:
+                    ValidationErrors.Add(new ValidationError("The kind of activity is invalid"));
+                    return false;
+            }
+
             return true;
         }
 

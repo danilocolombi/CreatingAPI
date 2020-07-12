@@ -10,21 +10,35 @@ namespace CreatingAPI.Domain.Core.ValueObjects
         public string Characters { get; private set; }
         private const int minLength = 5;
         private const int maxLength = 50;
-        public ICollection<ValidationError> ValidationErrors = new List<ValidationError>();
 
-        public bool IsValid(string password)
+        private Password(string characters)
         {
-            if (password.Length < minLength) ValidationErrors.Add(new ValidationError($"Your password needs to have at least {minLength} characters"));
-            if (password.Length > maxLength) ValidationErrors.Add(new ValidationError($"Your password can't have more than {maxLength} characters"));
-            if (!password.Any(char.IsUpper)) ValidationErrors.Add(new ValidationError("Your password needs to have at least one capital letter"));
-            if (!password.Any(char.IsDigit)) ValidationErrors.Add(new ValidationError("You password needs to have at least one number"));
-
-            return !ValidationErrors.Any();
+            Characters = characters;
         }
 
-        public void Set(string password)
+        public static implicit operator Password(string characters)
+            => Parse(characters);
+
+        public static Password Parse(string characters)
         {
-            Characters = password;
+            if (TryParse(characters, out var password))
+                return password;
+
+            throw new Exception("invalid password");
+        }
+
+        public static bool TryParse(string characters, out Password password)
+        {
+            if (characters.Length < minLength ||
+                characters.Length > maxLength ||
+                !characters.Any(char.IsUpper) ||
+                !characters.Any(char.IsDigit))
+            {
+                password = null;
+                return false;
+            }
+            password = new Password(characters);
+            return true;
         }
 
         public override string ToString()

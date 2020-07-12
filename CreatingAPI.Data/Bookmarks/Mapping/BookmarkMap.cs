@@ -14,7 +14,10 @@ namespace CreatingAPI.Data.Bookmarks.Mapping
                 .IsRequired();
 
             builder.Property(bm => bm.UnscrumbleId)
-                .IsRequired();
+                .IsRequired(false);
+
+            builder.Property(bm => bm.TicTacToeId)
+                .IsRequired(false);
 
             builder.Ignore(bm => bm.ValidationErrors);
 
