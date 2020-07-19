@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System;
 using Xunit;
 
 namespace CreatingAPI.Domain.Tests.Users
@@ -56,9 +57,9 @@ namespace CreatingAPI.Domain.Tests.Users
             var user = UserTestHelper.GetFakeUser();
             var invalidPassword = "";
 
-             user.SetPassword(invalidPassword);
+            Action act = () => user.SetPassword(invalidPassword);
 
-            user.ValidationErrors.Should().NotBeEmpty();
+            act.Should().Throw<Exception>().WithMessage("invalid password");
             user.Password.Characters.Should().NotBe(invalidPassword);
         }
     }

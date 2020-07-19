@@ -20,7 +20,7 @@ namespace CreatingAPI.Domain.Tests.Users
         public static User GetFakeInvalidUser()
         {
             var fakeUser = new Faker<User>()
-                .CustomInstantiator(f => new User(f.Person.FullName, f.Internet.Email(), "abc"));
+                .CustomInstantiator(f => new User("", f.Internet.Email(), "A1B2C3"));
 
             return fakeUser;
         }

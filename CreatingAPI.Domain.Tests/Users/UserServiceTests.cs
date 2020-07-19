@@ -90,7 +90,7 @@ namespace CreatingAPI.Domain.Tests.Users
 
             var result = await userService.ChangePassword(userId, UserTestHelper.INVALID_PASSWORD);
 
-            result.Success.Should().BeFalse();
+            result.ValidationErrors.FirstOrDefault().Message.Should().Be("invalid password");
             _repositoryMock.Verify(rm => rm.UpdateUser(It.IsAny<User>()), Times.Never);
         }
 
