@@ -3,14 +3,14 @@ using CreatingAPI.Domain.Core;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CreatingAPI.Domain.Unscrumbles
+namespace CreatingAPI.Domain.Unscrambles
 {
-    public class Unscrumble : Activity
+    public class Unscramble : Activity
     {
         public virtual ICollection<Exercise> Exercises { get; private set; } = new List<Exercise>();
-        Unscrumble() { }
+        Unscramble() { }
 
-        public Unscrumble(string title, int userId, bool isPublic) : base(title, userId, isPublic)
+        public Unscramble(string title, int userId, bool isPublic) : base(title, userId, isPublic)
         {
         }
 
@@ -32,7 +32,7 @@ namespace CreatingAPI.Domain.Unscrumbles
             }
 
             if (Id > 0)
-                Exercises.ToList().ForEach(e => e.UnscrumbleId = Id);
+                Exercises.ToList().ForEach(e => e.UnscrambleId = Id);
 
             return true;
         }
@@ -45,23 +45,23 @@ namespace CreatingAPI.Domain.Unscrumbles
 
         public override bool Equals(object obj)
         {
-            var otherUnscrumble = obj as Unscrumble;
+            var otherUnscramble = obj as Unscramble;
 
-            if (otherUnscrumble == null) return false;
+            if (otherUnscramble == null) return false;
 
-            if (string.Equals(this.Title, otherUnscrumble.Title) &&
-                this.CreatedAt == otherUnscrumble.CreatedAt &&
-                this.IsPublic == otherUnscrumble.IsPublic &&
-                this.UserId == otherUnscrumble.UserId)
+            if (string.Equals(this.Title, otherUnscramble.Title) &&
+                this.CreatedAt == otherUnscramble.CreatedAt &&
+                this.IsPublic == otherUnscramble.IsPublic &&
+                this.UserId == otherUnscramble.UserId)
                 return true;
 
             return false;
         }
 
-        public static bool operator ==(Unscrumble unscrumble1, Unscrumble unscrumble2)
-            => ReferenceEquals(unscrumble1, null) ? ReferenceEquals(unscrumble2, null) : unscrumble1.Equals(unscrumble2);
+        public static bool operator ==(Unscramble unscramble1, Unscramble unscramble2)
+            => ReferenceEquals(unscramble1, null) ? ReferenceEquals(unscramble2, null) : unscramble1.Equals(unscramble2);
 
-        public static bool operator !=(Unscrumble unscrumble1, Unscrumble unscrumble2)
-          => !(unscrumble1 == unscrumble2);
+        public static bool operator !=(Unscramble unscramble1, Unscramble unscramble2)
+          => !(unscramble1 == unscramble2);
     }
 }

@@ -1,9 +1,9 @@
 ﻿using CreatingAPI.Application.Activities.ViewModels;
 using System.Collections.Generic;
 
-namespace CreatingAPI.Application.Unscrumbles.ViewModels
+namespace CreatingAPI.Application.Unscrambles.ViewModels
 {
-    public class UnscrumbleCreationViewModel : ActivityCreationViewModel
+    public class UnscrambleCreationViewModel : ActivityCreationViewModel
     {
 
         public IEnumerable<ExerciseViewModel> Exercises { get; set; }

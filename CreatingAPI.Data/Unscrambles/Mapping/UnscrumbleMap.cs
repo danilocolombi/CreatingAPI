@@ -1,23 +1,23 @@
-﻿using CreatingAPI.Domain.Unscrumbles;
+﻿using CreatingAPI.Domain.Unscrambles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CreatingAPI.Data.Unscrumbles.Mapping
+namespace CreatingAPI.Data.Unscrambles.Mapping
 {
-    public class UnscrumbleMap : IEntityTypeConfiguration<Unscrumble>
+    public class UnscrumbleMap : IEntityTypeConfiguration<Unscramble>
     {
-        public void Configure(EntityTypeBuilder<Unscrumble> builder)
+        public void Configure(EntityTypeBuilder<Unscramble> builder)
         {
             builder.HasKey(u => u.Id);
 
             builder.HasMany(u => u.Bookmarks)
-                .WithOne(bm => bm.Unscrumble)
-                .HasForeignKey(bm => bm.UnscrumbleId)
+                .WithOne(bm => bm.Unscramble)
+                .HasForeignKey(bm => bm.UnscrambleId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(u => u.Exercises)
-                .WithOne(e => e.Unscrumble)
-                .HasForeignKey(e => e.UnscrumbleId)
+                .WithOne(e => e.Unscramble)
+                .HasForeignKey(e => e.UnscrambleId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(u => u.CreatedAt)
@@ -34,7 +34,7 @@ namespace CreatingAPI.Data.Unscrumbles.Mapping
                 .IsRequired();
 
             builder.Ignore(u => u.ValidationErrors);
-            builder.ToTable("Unscrumble");
+            builder.ToTable("Unscramble");
         }
     }
 }

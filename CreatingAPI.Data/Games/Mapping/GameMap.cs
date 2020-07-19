@@ -24,7 +24,7 @@ namespace CreatingAPI.Data.Games.Mapping
                 .IsRequired()
                 .HasColumnType("TINYINT");
 
-            builder.Property(g => g.UnscrumbleId)
+            builder.Property(g => g.UnscrambleId)
                 .IsRequired();
 
             builder.Property(g => g.UserId)

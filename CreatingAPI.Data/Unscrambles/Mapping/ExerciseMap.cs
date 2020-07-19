@@ -1,8 +1,8 @@
-﻿using CreatingAPI.Domain.Unscrumbles;
+﻿using CreatingAPI.Domain.Unscrambles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CreatingAPI.Data.Unscrumbles.Mapping
+namespace CreatingAPI.Data.Unscrambles.Mapping
 {
     public class ExerciseMap : IEntityTypeConfiguration<Exercise>
     {
@@ -18,7 +18,7 @@ namespace CreatingAPI.Data.Unscrumbles.Mapping
                 .IsRequired()
                 .HasMaxLength(150);
 
-            builder.Property(e => e.UnscrumbleId)
+            builder.Property(e => e.UnscrambleId)
                 .IsRequired();
 
             builder.Ignore(g => g.ValidationErrors);

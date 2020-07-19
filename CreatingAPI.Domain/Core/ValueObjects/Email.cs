@@ -29,15 +29,12 @@ namespace CreatingAPI.Domain.Core.ValueObjects
 
         public static bool TryParse(string address, out Email email)
         {
+            email = new Email(address);
+
             if (!CheckEmailFormat(address) ||
                 address.Length < addressMinLength ||
                 address.Length > addressMaxLength)
-            {
-                email = null;
                 return false;
-            }
-
-            email = new Email(address);
 
             return true;
         }

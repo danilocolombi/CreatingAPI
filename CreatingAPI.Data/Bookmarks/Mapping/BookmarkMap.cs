@@ -13,7 +13,7 @@ namespace CreatingAPI.Data.Bookmarks.Mapping
             builder.Property(bm => bm.UserId)
                 .IsRequired();
 
-            builder.Property(bm => bm.UnscrumbleId)
+            builder.Property(bm => bm.UnscrambleId)
                 .IsRequired(false);
 
             builder.Property(bm => bm.TicTacToeId)

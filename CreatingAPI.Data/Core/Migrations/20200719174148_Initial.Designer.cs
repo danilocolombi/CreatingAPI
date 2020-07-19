@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CreatingAPI.Data.Core.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200712194928_BookmarkActivityIdNotRequired")]
-    partial class BookmarkActivityIdNotRequired
+    [Migration("20200719174148_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,7 +31,7 @@ namespace CreatingAPI.Data.Core.Migrations
                     b.Property<int?>("TicTacToeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UnscrumbleId")
+                    b.Property<int?>("UnscrambleId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -41,7 +41,7 @@ namespace CreatingAPI.Data.Core.Migrations
 
                     b.HasIndex("TicTacToeId");
 
-                    b.HasIndex("UnscrumbleId");
+                    b.HasIndex("UnscrambleId");
 
                     b.HasIndex("UserId");
 
@@ -67,7 +67,7 @@ namespace CreatingAPI.Data.Core.Migrations
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UnscrumbleId")
+                    b.Property<int>("UnscrambleId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -75,7 +75,7 @@ namespace CreatingAPI.Data.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UnscrumbleId");
+                    b.HasIndex("UnscrambleId");
 
                     b.HasIndex("UserId");
 
@@ -135,7 +135,7 @@ namespace CreatingAPI.Data.Core.Migrations
                     b.ToTable("TicTacToeSquare");
                 });
 
-            modelBuilder.Entity("CreatingAPI.Domain.Unscrumbles.Exercise", b =>
+            modelBuilder.Entity("CreatingAPI.Domain.Unscrambles.Exercise", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -150,17 +150,17 @@ namespace CreatingAPI.Data.Core.Migrations
                     b.Property<byte>("Position")
                         .HasColumnType("TINYINT");
 
-                    b.Property<int>("UnscrumbleId")
+                    b.Property<int>("UnscrambleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UnscrumbleId");
+                    b.HasIndex("UnscrambleId");
 
                     b.ToTable("Exercise");
                 });
 
-            modelBuilder.Entity("CreatingAPI.Domain.Unscrumbles.Unscrumble", b =>
+            modelBuilder.Entity("CreatingAPI.Domain.Unscrambles.Unscramble", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -185,7 +185,7 @@ namespace CreatingAPI.Data.Core.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Unscrumble");
+                    b.ToTable("Unscramble");
                 });
 
             modelBuilder.Entity("CreatingAPI.Domain.Users.User", b =>
@@ -212,9 +212,9 @@ namespace CreatingAPI.Data.Core.Migrations
                         .HasForeignKey("TicTacToeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CreatingAPI.Domain.Unscrumbles.Unscrumble", "Unscrumble")
+                    b.HasOne("CreatingAPI.Domain.Unscrambles.Unscramble", "Unscramble")
                         .WithMany("Bookmarks")
-                        .HasForeignKey("UnscrumbleId")
+                        .HasForeignKey("UnscrambleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CreatingAPI.Domain.Users.User", "User")
@@ -226,9 +226,9 @@ namespace CreatingAPI.Data.Core.Migrations
 
             modelBuilder.Entity("CreatingAPI.Domain.Games.Game", b =>
                 {
-                    b.HasOne("CreatingAPI.Domain.Unscrumbles.Unscrumble", "Unscrumble")
+                    b.HasOne("CreatingAPI.Domain.Unscrambles.Unscramble", "Unscramble")
                         .WithMany()
-                        .HasForeignKey("UnscrumbleId")
+                        .HasForeignKey("UnscrambleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -257,19 +257,19 @@ namespace CreatingAPI.Data.Core.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CreatingAPI.Domain.Unscrumbles.Exercise", b =>
+            modelBuilder.Entity("CreatingAPI.Domain.Unscrambles.Exercise", b =>
                 {
-                    b.HasOne("CreatingAPI.Domain.Unscrumbles.Unscrumble", "Unscrumble")
+                    b.HasOne("CreatingAPI.Domain.Unscrambles.Unscramble", "Unscramble")
                         .WithMany("Exercises")
-                        .HasForeignKey("UnscrumbleId")
+                        .HasForeignKey("UnscrambleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CreatingAPI.Domain.Unscrumbles.Unscrumble", b =>
+            modelBuilder.Entity("CreatingAPI.Domain.Unscrambles.Unscramble", b =>
                 {
                     b.HasOne("CreatingAPI.Domain.Users.User", "User")
-                        .WithMany("Unscrumbles")
+                        .WithMany("Unscrambles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();

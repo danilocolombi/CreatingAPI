@@ -14,7 +14,7 @@ namespace CreatingAPI.Data.Users.Mapping
                 .IsRequired()
                 .HasMaxLength(150);
 
-            builder.HasMany(u => u.Unscrumbles)
+            builder.HasMany(u => u.Unscrambles)
                 .WithOne(u => u.User)
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.NoAction);

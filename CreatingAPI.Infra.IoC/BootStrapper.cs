@@ -4,8 +4,8 @@ using CreatingAPI.Application.Bookmarks;
 using CreatingAPI.Application.Bookmarks.Interfaces;
 using CreatingAPI.Application.Games;
 using CreatingAPI.Application.Games.Interfaces;
-using CreatingAPI.Application.Unscrumbles;
-using CreatingAPI.Application.Unscrumbles.Interfaces;
+using CreatingAPI.Application.Unscrambles;
+using CreatingAPI.Application.Unscrambles.Interfaces;
 using CreatingAPI.Application.Users;
 using CreatingAPI.Application.Users.Interfaces;
 using CreatingAPI.Data.Bookmarks.Repository;
@@ -16,8 +16,8 @@ using CreatingAPI.Domain.Bookmarks.Interfaces;
 using CreatingAPI.Domain.Bookmarks.Services;
 using CreatingAPI.Domain.Games.Interfaces;
 using CreatingAPI.Domain.Games.Services;
-using CreatingAPI.Domain.Unscrumbles.Interfaces;
-using CreatingAPI.Domain.Unscrumbles.Services;
+using CreatingAPI.Domain.Unscrambles.Interfaces;
+using CreatingAPI.Domain.Unscrambles.Services;
 using CreatingAPI.Domain.Users.Interfaces;
 using CreatingAPI.Domain.Users.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,17 +31,17 @@ namespace CreatingAPI.Infra.IoC
             serviceCollection.AddTransient<IActivityAppService, ActivityAppService>();
             serviceCollection.AddTransient<IBookmarkAppService, BookmarkAppService>();
             serviceCollection.AddTransient<IGameAppService, GameAppService>();
-            serviceCollection.AddTransient<IUnscrumbleAppService, UnscrumbleAppService>();
+            serviceCollection.AddTransient<IUnscrambleAppService, UnscrambleAppService>();
             serviceCollection.AddTransient<IUserAppService, UserAppService>();
 
             serviceCollection.AddTransient<IBookmarkService, BookmarkService>();
             serviceCollection.AddTransient<IGameService, GameService>();
-            serviceCollection.AddTransient<IUnscrumbleService, UnscrumbleService>();
+            serviceCollection.AddTransient<IUnscrambleService, UnscrumbleService>();
             serviceCollection.AddTransient<IUserService, UserService>();
 
             serviceCollection.AddTransient<IBookmarkRepository, BookmarkRepository>();
             serviceCollection.AddTransient<IGameRepository, GameRepository>();
-            serviceCollection.AddTransient<IUnscrumbleRepository, UnscrumbleRepository>();
+            serviceCollection.AddTransient<IUnscrambleRepository, UnscrambleRepository>();
             serviceCollection.AddTransient<IUserRepository, UserRepository>();
         }
     }

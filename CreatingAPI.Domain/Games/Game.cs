@@ -1,7 +1,6 @@
 ﻿using CreatingAPI.Domain.Core;
-using CreatingAPI.Domain.Unscrumbles;
+using CreatingAPI.Domain.Unscrambles;
 using CreatingAPI.Domain.Users;
-using Microsoft.VisualBasic.CompilerServices;
 using System;
 
 namespace CreatingAPI.Domain.Games
@@ -14,8 +13,8 @@ namespace CreatingAPI.Domain.Games
         public int NumberOfWrongAnswers { get; private set; }
         public int UserId { get; private set; }
         public virtual User User { get; set; }
-        public int UnscrumbleId { get; private set; }
-        public virtual Unscrumble Unscrumble { get; set; }
+        public int UnscrambleId { get; private set; }
+        public virtual Unscramble Unscramble { get; set; }
 
         public Game() { }
 
@@ -49,7 +48,7 @@ namespace CreatingAPI.Domain.Games
                 return false;
             }
 
-            UnscrumbleId = unscrumbleId;
+            UnscrambleId = unscrumbleId;
 
             return true;
         }
@@ -112,10 +111,10 @@ namespace CreatingAPI.Domain.Games
         }
 
         public override string ToString()
-             => $"[Id: {Id}; StartedAt: {StartedAt}; EndedAt: {EndedAt}; UnscrumbleId: {UnscrumbleId}; UserId: {UserId}]";
+             => $"[Id: {Id}; StartedAt: {StartedAt}; EndedAt: {EndedAt}; UnscrumbleId: {UnscrambleId}; UserId: {UserId}]";
 
         public override int GetHashCode()
-            => (StartedAt, EndedAt, NumberOfCorrectAnswers, NumberOfWrongAnswers, UnscrumbleId, UserId).GetHashCode();
+            => (StartedAt, EndedAt, NumberOfCorrectAnswers, NumberOfWrongAnswers, UnscrambleId, UserId).GetHashCode();
 
         public override bool Equals(object obj)
         {
@@ -128,7 +127,7 @@ namespace CreatingAPI.Domain.Games
                 this.EndedAt == otherGame.EndedAt &&
                 this.NumberOfCorrectAnswers == otherGame.NumberOfCorrectAnswers &&
                 this.NumberOfWrongAnswers == otherGame.NumberOfWrongAnswers &&
-                this.UnscrumbleId == otherGame.UnscrumbleId &&
+                this.UnscrambleId == otherGame.UnscrambleId &&
                 this.UserId == otherGame.UserId)
                 return true;
 

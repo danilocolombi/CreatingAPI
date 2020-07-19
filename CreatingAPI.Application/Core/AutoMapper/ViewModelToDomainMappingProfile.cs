@@ -2,12 +2,12 @@
 using CreatingAPI.Application.Bookmarks.ViewModels;
 using CreatingAPI.Application.Games.ViewModels;
 using CreatingAPI.Application.TicTacToes.ViewModels;
-using CreatingAPI.Application.Unscrumbles.ViewModels;
+using CreatingAPI.Application.Unscrambles.ViewModels;
 using CreatingAPI.Application.Users.ViewModels;
 using CreatingAPI.Domain.Bookmarks;
 using CreatingAPI.Domain.Games;
 using CreatingAPI.Domain.TicTacToes;
-using CreatingAPI.Domain.Unscrumbles;
+using CreatingAPI.Domain.Unscrambles;
 using CreatingAPI.Domain.Users;
 
 namespace CreatingAPI.Application.Core.AutoMapper
@@ -28,9 +28,9 @@ namespace CreatingAPI.Application.Core.AutoMapper
             CreateMap<ExerciseViewModel, Exercise>()
                 .ConstructUsing(e => new Exercise(e.Description, e.Position));
 
-            CreateMap<UnscrumbleCreationViewModel, Unscrumble>()
+            CreateMap<UnscrambleCreationViewModel, Unscramble>()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
-                .ConstructUsing(u => new Unscrumble(u.Title, u.UserId, u.IsPublic));
+                .ConstructUsing(u => new Unscramble(u.Title, u.UserId, u.IsPublic));
 
             CreateMap<TicTacToeCreationViewModel, TicTacToe>()
               .IgnoreAllPropertiesWithAnInaccessibleSetter()

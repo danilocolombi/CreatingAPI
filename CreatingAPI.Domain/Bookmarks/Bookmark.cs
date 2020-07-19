@@ -1,7 +1,7 @@
 ﻿using CreatingAPI.Domain.Activities;
 using CreatingAPI.Domain.Core;
 using CreatingAPI.Domain.TicTacToes;
-using CreatingAPI.Domain.Unscrumbles;
+using CreatingAPI.Domain.Unscrambles;
 using CreatingAPI.Domain.Users;
 
 namespace CreatingAPI.Domain.Bookmarks
@@ -10,8 +10,8 @@ namespace CreatingAPI.Domain.Bookmarks
     {
         public int UserId { get; private set; }
         public virtual User User { get; set; }
-        public int? UnscrumbleId { get; private set; }
-        public virtual Unscrumble Unscrumble { get; set; }
+        public int? UnscrambleId { get; private set; }
+        public virtual Unscramble Unscramble { get; set; }
         public int? TicTacToeId { get; private set; }
         public virtual TicTacToe TicTacToe { get; set; }
 
@@ -45,7 +45,7 @@ namespace CreatingAPI.Domain.Bookmarks
             switch (kindOfActivity)
             {
                 case KindOfActivity.Unscrumble:
-                    UnscrumbleId = activityId;
+                    UnscrambleId = activityId;
                     break;
                 case KindOfActivity.TicTacToe:
                     TicTacToeId = activityId;
@@ -59,10 +59,10 @@ namespace CreatingAPI.Domain.Bookmarks
         }
 
         public override string ToString()
-        => $"[Id: {Id}; UserId: {UserId}; UnscrumbleId: {UnscrumbleId}]";
+        => $"[Id: {Id}; UserId: {UserId}; UnscrumbleId: {UnscrambleId}]";
 
         public override int GetHashCode()
-        => (UserId, UnscrumbleId).GetHashCode();
+        => (UserId, UnscrambleId).GetHashCode();
 
         public override bool Equals(object obj)
         {
@@ -71,7 +71,7 @@ namespace CreatingAPI.Domain.Bookmarks
             if (otherBookmark == null)
                 return false;
 
-            if (this.UnscrumbleId == otherBookmark.UnscrumbleId &&
+            if (this.UnscrambleId == otherBookmark.UnscrambleId &&
                 this.UserId == otherBookmark.UserId)
                 return true;
 

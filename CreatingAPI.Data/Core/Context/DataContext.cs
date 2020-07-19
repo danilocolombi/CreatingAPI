@@ -1,12 +1,12 @@
 ﻿using CreatingAPI.Data.Bookmarks.Mapping;
 using CreatingAPI.Data.Games.Mapping;
 using CreatingAPI.Data.TicTacToes.Mapping;
-using CreatingAPI.Data.Unscrumbles.Mapping;
+using CreatingAPI.Data.Unscrambles.Mapping;
 using CreatingAPI.Data.Users.Mapping;
 using CreatingAPI.Domain.Bookmarks;
 using CreatingAPI.Domain.Games;
 using CreatingAPI.Domain.TicTacToes;
-using CreatingAPI.Domain.Unscrumbles;
+using CreatingAPI.Domain.Unscrambles;
 using CreatingAPI.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +14,7 @@ namespace CreatingAPI.Data.Core.Context
 {
     public class DataContext : DbContext
     {
-        public DbSet<Unscrumble> Unscrumbles { get; set; }
+        public DbSet<Unscramble> Unscrambles { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Game> Games { get; set; }

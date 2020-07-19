@@ -2,7 +2,7 @@
 using CreatingAPI.Domain.Core;
 using CreatingAPI.Domain.Core.ValueObjects;
 using CreatingAPI.Domain.Games;
-using CreatingAPI.Domain.Unscrumbles;
+using CreatingAPI.Domain.Unscrambles;
 using System.Collections.Generic;
 
 namespace CreatingAPI.Domain.Users
@@ -12,7 +12,7 @@ namespace CreatingAPI.Domain.Users
         public string Name { get; private set; }
         public Email Email { get; private set; }
         public Password Password { get; private set; }
-        public virtual ICollection<Unscrumble> Unscrumbles { get; private set; }
+        public virtual ICollection<Unscramble> Unscrambles { get; private set; }
         public virtual ICollection<Bookmark> Bookmarks { get; private set; }
         public virtual ICollection<Game> Games { get; set; }
 

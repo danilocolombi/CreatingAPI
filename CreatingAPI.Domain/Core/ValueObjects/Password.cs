@@ -29,15 +29,14 @@ namespace CreatingAPI.Domain.Core.ValueObjects
 
         public static bool TryParse(string characters, out Password password)
         {
+            password = new Password(characters);
+
             if (characters.Length < minLength ||
                 characters.Length > maxLength ||
                 !characters.Any(char.IsUpper) ||
                 !characters.Any(char.IsDigit))
-            {
-                password = null;
                 return false;
-            }
-            password = new Password(characters);
+
             return true;
         }
 

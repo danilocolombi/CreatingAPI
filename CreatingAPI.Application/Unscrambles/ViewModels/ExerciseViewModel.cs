@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CreatingAPI.Application.Unscrumbles.ViewModels
+namespace CreatingAPI.Application.Unscrambles.ViewModels
 {
     public class ExerciseViewModel
     {

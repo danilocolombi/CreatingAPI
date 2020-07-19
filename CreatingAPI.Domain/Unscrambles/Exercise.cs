@@ -1,13 +1,13 @@
 ﻿using CreatingAPI.Domain.Core;
 
-namespace CreatingAPI.Domain.Unscrumbles
+namespace CreatingAPI.Domain.Unscrambles
 {
     public class Exercise : Entity
     {
         public string Description { get; private set; }
         public int Position { get; set; }
-        public int UnscrumbleId { get; set; }
-        public virtual Unscrumble Unscrumble { get; set; }
+        public int UnscrambleId { get; set; }
+        public virtual Unscramble Unscramble { get; set; }
 
         public Exercise() { }
 
@@ -55,6 +55,6 @@ namespace CreatingAPI.Domain.Unscrumbles
             => $"[Id: {Id}; Description: {Description}; Position: {Position}]";
 
         public override int GetHashCode()
-            => (Id, Description, Position, UnscrumbleId).GetHashCode();
+            => (Id, Description, Position, UnscrambleId).GetHashCode();
     }
 }
