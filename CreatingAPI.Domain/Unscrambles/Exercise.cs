@@ -61,7 +61,7 @@ namespace CreatingAPI.Domain.Unscrambles
         {
             if (position < MIN_POSITION_EXERCISE)
             {
-                ValidationErrors.Add(new ValidationError($"The position can't be less than {MAX_POSITION_EXERCISE}"));
+                ValidationErrors.Add(new ValidationError($"The position can't be less than {MIN_POSITION_EXERCISE}"));
                 return false;
             }
             if (position > MAX_POSITION_EXERCISE)

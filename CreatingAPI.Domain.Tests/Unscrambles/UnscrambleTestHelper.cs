@@ -12,6 +12,8 @@ namespace CreatingAPI.Domain.Tests.Unscrambles
             var fakeUnscramble = new Faker<Unscramble>()
                 .CustomInstantiator(f => new Unscramble(f.Lorem.Sentence(), f.Random.Int(1), f.Random.Bool()));
 
+            fakeUnscramble.RuleFor(u => u.Exercises, f => GetFakeExercises());
+
             return fakeUnscramble;
         }
 
@@ -25,7 +27,7 @@ namespace CreatingAPI.Domain.Tests.Unscrambles
 
         public static IEnumerable<Exercise> GetFakeExercises()
         {
-            int uniquePosition = 0;
+            int uniquePosition = 1;
 
             return new Faker<Exercise>()
                 .CustomInstantiator(f => new Exercise(f.Lorem.Sentence(), uniquePosition++)).Generate(10);

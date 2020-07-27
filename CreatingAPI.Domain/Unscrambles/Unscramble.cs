@@ -45,6 +45,9 @@ namespace CreatingAPI.Domain.Unscrambles
             {
                 var words = exercise.Description.Split(' ');
 
+                if (words.Length < 4)
+                    continue;
+
                 (string value, int position) shortestWord;
 
                 while (words.Length > 4)

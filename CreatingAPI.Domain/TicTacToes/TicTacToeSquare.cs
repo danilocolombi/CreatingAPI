@@ -32,6 +32,8 @@ namespace CreatingAPI.Domain.TicTacToes
                 return false;
             }
 
+            Position = position;
+
             return true;
         }
 
