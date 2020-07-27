@@ -9,7 +9,7 @@ namespace CreatingAPI.Domain.TicTacToes
     {
         public ICollection<TicTacToeSquare> Squares { get; set; }
 
-        private const int numberOfSquares = 9;
+        private const int NUMBER_OF_SQUARES = 9;
 
         public TicTacToe() { }
         public TicTacToe(string title, int userId, bool isPublic) : base(title, userId, isPublic)
@@ -18,17 +18,27 @@ namespace CreatingAPI.Domain.TicTacToes
 
         public bool CreateSquares(IEnumerable<TicTacToeSquare> squares)
         {
-            if (squares.Count() != numberOfSquares)
-                ValidationErrors.Add(new ValidationError($"A TicTacToe needs {numberOfSquares} squares"));
+            if (squares.Count() != NUMBER_OF_SQUARES)
+            {
+                ValidationErrors.Add(new ValidationError($"A TicTacToe needs {NUMBER_OF_SQUARES} squares"));
+                return false;
+            }
 
-            Squares = new List<TicTacToeSquare>(numberOfSquares);
+            Squares = new List<TicTacToeSquare>(NUMBER_OF_SQUARES);
 
             foreach (var square in squares)
             {
                 if (!square.IsValid())
                 {
                     ValidationErrors.Add(new ValidationError($"Square {square.Position} is invalid: {square.ValidationErrors.FirstOrDefault()}"));
-                    Squares.Clear();
+                    return false;
+                }
+
+                var squaresInThisPosition = squares.Where(p => p.Position == square.Position).Count();
+
+                if (squaresInThisPosition != 1)
+                {
+                    ValidationErrors.Add(new ValidationError($"You can't have multiple squares in the same position"));
                     return false;
                 }
 

@@ -9,11 +9,30 @@ namespace CreatingAPI.Domain.TicTacToes
         public int TicTacToeId { get; set; }
         public virtual TicTacToe TicTacToe { get; set; }
 
+        private const int MIN_POSITION_SQUARE = 1;
+        private const int MAX_POSITION_SQUARE = 9;
 
         public TicTacToeSquare(string description, int position)
         {
             Description = description;
-            Position = position;
+            SetPosition(position);
+        }
+
+        public bool SetPosition(int position)
+        {
+            if (position < MIN_POSITION_SQUARE)
+            {
+                ValidationErrors.Add(new ValidationError($"A square minimum position is {MIN_POSITION_SQUARE}"));
+                return false;
+            }
+
+            if (position > MAX_POSITION_SQUARE)
+            {
+                ValidationErrors.Add(new ValidationError($"A square maximum position is {MAX_POSITION_SQUARE}"));
+                return false;
+            }
+
+            return true;
         }
 
         public override string ToString()

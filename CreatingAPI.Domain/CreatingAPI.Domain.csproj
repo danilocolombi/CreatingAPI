@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Unscrambles\ValueObjects\ShuffledExercise.cs~RF5450369.TMP" />
     <None Remove="Users\Services\UserService.cs~RFae94053.TMP" />
   </ItemGroup>
 

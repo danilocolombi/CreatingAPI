@@ -9,6 +9,11 @@ namespace CreatingAPI.Domain.Unscrambles
         public int UnscrambleId { get; set; }
         public virtual Unscramble Unscramble { get; set; }
 
+        private const int MIN_NUMBER_OF_WORDS = 3;
+        private const int MAX_NUMBER_OF_WORDS = 10;
+        private const int MIN_POSITION_EXERCISE = 1;
+        private const int MAX_POSITION_EXERCISE = 50;
+
         public Exercise() { }
 
         public Exercise(string description, int position)
@@ -35,15 +40,33 @@ namespace CreatingAPI.Domain.Unscrambles
                 return false;
             }
 
+            var words = description.Split(' ');
+
+            if (words.Length < MIN_NUMBER_OF_WORDS)
+            {
+                ValidationErrors.Add(new ValidationError($"The mininum number of words to create an exercise is {MIN_NUMBER_OF_WORDS}"));
+                return false;
+            }
+            if (words.Length > MAX_NUMBER_OF_WORDS)
+            {
+                ValidationErrors.Add(new ValidationError($"The maximum number of words to create an exercise is {MAX_NUMBER_OF_WORDS}"));
+                return false;
+            }
+
             Description = description;
             return true;
         }
 
         public bool SetPosition(int position)
         {
-            if (position < 0)
+            if (position < MIN_POSITION_EXERCISE)
             {
-                ValidationErrors.Add(new ValidationError("The position can't be less than 0"));
+                ValidationErrors.Add(new ValidationError($"The position can't be less than {MAX_POSITION_EXERCISE}"));
+                return false;
+            }
+            if (position > MAX_POSITION_EXERCISE)
+            {
+                ValidationErrors.Add(new ValidationError($"The position can't be more than {MAX_POSITION_EXERCISE}"));
                 return false;
             }
 

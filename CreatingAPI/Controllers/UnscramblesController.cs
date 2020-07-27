@@ -67,5 +67,17 @@ namespace CreatingAPI.Controllers
 
             return Ok(unscramble);
         }
+
+        [HttpGet("ShuffledExercises/{unscrambleId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetUnscrumble(int unscrambleId, [FromQuery] bool randomizeOrder, [FromServices] IUnscrambleAppService unscrambleAppService)
+        {
+            var exercises = await unscrambleAppService.GetShuffledExercises(unscrambleId, randomizeOrder);
+
+            if (exercises == null) return NotFound();
+
+            return Ok(exercises);
+        }
     }
 }

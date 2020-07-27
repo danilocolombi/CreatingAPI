@@ -4,6 +4,7 @@ using CreatingAPI.Application.Unscrambles.Interfaces;
 using CreatingAPI.Application.Unscrambles.ViewModels;
 using CreatingAPI.Domain.Unscrambles;
 using CreatingAPI.Domain.Unscrambles.Interfaces;
+using CreatingAPI.Domain.Unscrambles.ValueObjects;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -54,6 +55,11 @@ namespace CreatingAPI.Application.Unscrambles
             var unscrambleViewModel = _mapper.Map<UnscrambleViewModel>(unscramble);
 
             return unscrambleViewModel;
+        }
+
+        public async Task<IEnumerable<ShuffledExercise>> GetShuffledExercises(int idUnscramble, bool randomizeOrder)
+        {
+            return await _unscrambleService.GetShuffledExercises(idUnscramble, randomizeOrder);
         }
     }
 }

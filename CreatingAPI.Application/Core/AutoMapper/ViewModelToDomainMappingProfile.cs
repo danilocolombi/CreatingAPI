@@ -38,7 +38,6 @@ namespace CreatingAPI.Application.Core.AutoMapper
 
             CreateMap<TicTacToeSquareViewModel, TicTacToeSquare>()
                .ConstructUsing(e => new TicTacToeSquare(e.Description, e.Position));
-
         }
     }
 }

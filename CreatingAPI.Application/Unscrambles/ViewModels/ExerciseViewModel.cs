@@ -10,7 +10,7 @@ namespace CreatingAPI.Application.Unscrambles.ViewModels
         public string Description { get; set; }
 
         [Required(ErrorMessage = "The {0} is required")]
-        [Range(0, 50, ErrorMessage = "Invalid {0}")]
+        [Range(1, 50, ErrorMessage = "Invalid {0}")]
         public int Position { get; set; }
     }
 }

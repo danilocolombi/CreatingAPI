@@ -4,18 +4,23 @@ using CreatingAPI.Application.Bookmarks;
 using CreatingAPI.Application.Bookmarks.Interfaces;
 using CreatingAPI.Application.Games;
 using CreatingAPI.Application.Games.Interfaces;
+using CreatingAPI.Application.TicTacToes;
+using CreatingAPI.Application.TicTacToes.Interfaces;
 using CreatingAPI.Application.Unscrambles;
 using CreatingAPI.Application.Unscrambles.Interfaces;
 using CreatingAPI.Application.Users;
 using CreatingAPI.Application.Users.Interfaces;
 using CreatingAPI.Data.Bookmarks.Repository;
 using CreatingAPI.Data.Games.Repository;
+using CreatingAPI.Data.TicTacToes.Repository;
 using CreatingAPI.Data.Unscrumbles.Repository;
 using CreatingAPI.Data.Users.Repository;
 using CreatingAPI.Domain.Bookmarks.Interfaces;
 using CreatingAPI.Domain.Bookmarks.Services;
 using CreatingAPI.Domain.Games.Interfaces;
 using CreatingAPI.Domain.Games.Services;
+using CreatingAPI.Domain.TicTacToes.Interfaces;
+using CreatingAPI.Domain.TicTacToes.Services;
 using CreatingAPI.Domain.Unscrambles.Interfaces;
 using CreatingAPI.Domain.Unscrambles.Services;
 using CreatingAPI.Domain.Users.Interfaces;
@@ -33,16 +38,19 @@ namespace CreatingAPI.Infra.IoC
             serviceCollection.AddTransient<IGameAppService, GameAppService>();
             serviceCollection.AddTransient<IUnscrambleAppService, UnscrambleAppService>();
             serviceCollection.AddTransient<IUserAppService, UserAppService>();
+            serviceCollection.AddTransient<ITicTacToeAppService, TicTacToeAppService>();
 
             serviceCollection.AddTransient<IBookmarkService, BookmarkService>();
             serviceCollection.AddTransient<IGameService, GameService>();
             serviceCollection.AddTransient<IUnscrambleService, UnscrumbleService>();
             serviceCollection.AddTransient<IUserService, UserService>();
+            serviceCollection.AddTransient<ITicTacToeService, TicTacToeService>();
 
             serviceCollection.AddTransient<IBookmarkRepository, BookmarkRepository>();
             serviceCollection.AddTransient<IGameRepository, GameRepository>();
             serviceCollection.AddTransient<IUnscrambleRepository, UnscrambleRepository>();
             serviceCollection.AddTransient<IUserRepository, UserRepository>();
+            serviceCollection.AddTransient<ITicTacToeRepository, TicTacToeRepository>();
         }
     }
 }
