@@ -19,6 +19,9 @@ namespace CreatingAPI.Data.Bookmarks.Mapping
             builder.Property(bm => bm.TicTacToeId)
                 .IsRequired(false);
 
+            builder.Property(bm => bm.PickerId)
+               .IsRequired(false);
+
             builder.Ignore(bm => bm.ValidationErrors);
 
             builder.ToTable("Bookmark");

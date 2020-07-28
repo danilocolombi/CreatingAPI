@@ -34,6 +34,7 @@ namespace CreatingAPI.Data.Unscrambles.Mapping
                 .IsRequired();
 
             builder.Ignore(u => u.ValidationErrors);
+
             builder.ToTable("Unscramble");
         }
     }

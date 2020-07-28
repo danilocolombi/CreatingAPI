@@ -45,6 +45,16 @@ namespace CreatingAPI.Data.Users.Mapping
                 .HasMaxLength(150);
             });
 
+            builder.HasMany(u => u.TicTacToes)
+            .WithOne(u => u.User)
+            .HasForeignKey(u => u.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(u => u.Pickers)
+            .WithOne(u => u.User)
+            .HasForeignKey(u => u.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
             builder.Ignore(u => u.ValidationErrors);
 
             builder.ToTable("User");

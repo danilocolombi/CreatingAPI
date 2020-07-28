@@ -2,6 +2,8 @@
 using CreatingAPI.Domain.Core;
 using CreatingAPI.Domain.Core.ValueObjects;
 using CreatingAPI.Domain.Games;
+using CreatingAPI.Domain.Pickers;
+using CreatingAPI.Domain.TicTacToes;
 using CreatingAPI.Domain.Unscrambles;
 using System.Collections.Generic;
 
@@ -15,6 +17,8 @@ namespace CreatingAPI.Domain.Users
         public virtual ICollection<Unscramble> Unscrambles { get; private set; }
         public virtual ICollection<Bookmark> Bookmarks { get; private set; }
         public virtual ICollection<Game> Games { get; set; }
+        public virtual ICollection<TicTacToe> TicTacToes { get; set; }
+        public virtual ICollection<Picker> Pickers { get; set; }
 
         public User() { }
 

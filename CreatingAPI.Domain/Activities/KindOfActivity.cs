@@ -2,7 +2,8 @@
 {
     public enum KindOfActivity
     {
-        Unscrumble = 1,
-        TicTacToe
+        Unscramble = 1,
+        TicTacToe,
+        Picker
     }
 }

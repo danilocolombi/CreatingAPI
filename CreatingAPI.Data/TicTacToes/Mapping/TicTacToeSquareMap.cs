@@ -21,7 +21,8 @@ namespace CreatingAPI.Data.TicTacToes.Mapping
             builder.Property(ts => ts.TicTacToeId)
                 .IsRequired();
 
-            builder.Ignore(g => g.ValidationErrors);
+            builder.Ignore(ts => ts.ValidationErrors);
+
             builder.ToTable("TicTacToeSquare");
         }
     }

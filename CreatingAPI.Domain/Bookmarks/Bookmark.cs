@@ -1,5 +1,6 @@
 ﻿using CreatingAPI.Domain.Activities;
 using CreatingAPI.Domain.Core;
+using CreatingAPI.Domain.Pickers;
 using CreatingAPI.Domain.TicTacToes;
 using CreatingAPI.Domain.Unscrambles;
 using CreatingAPI.Domain.Users;
@@ -14,6 +15,8 @@ namespace CreatingAPI.Domain.Bookmarks
         public virtual Unscramble Unscramble { get; set; }
         public int? TicTacToeId { get; private set; }
         public virtual TicTacToe TicTacToe { get; set; }
+        public int? PickerId { get; set; }
+        public virtual Picker Picker { get; set; }
 
         public Bookmark() { }
         public Bookmark(int userId, int activityId, KindOfActivity kindOfActivity)
@@ -44,11 +47,14 @@ namespace CreatingAPI.Domain.Bookmarks
 
             switch (kindOfActivity)
             {
-                case KindOfActivity.Unscrumble:
+                case KindOfActivity.Unscramble:
                     UnscrambleId = activityId;
                     break;
                 case KindOfActivity.TicTacToe:
                     TicTacToeId = activityId;
+                    break;
+                case KindOfActivity.Picker:
+                    PickerId = activityId;
                     break;
                 default:
                     ValidationErrors.Add(new ValidationError("The kind of activity is invalid"));
@@ -59,10 +65,10 @@ namespace CreatingAPI.Domain.Bookmarks
         }
 
         public override string ToString()
-        => $"[Id: {Id}; UserId: {UserId}; UnscrumbleId: {UnscrambleId}]";
+        => $"[Id: {Id}; UserId: {UserId}; UnscrumbleId: {UnscrambleId}; TicTacToeId: {TicTacToeId}; PickerId: {PickerId}]";
 
         public override int GetHashCode()
-        => (UserId, UnscrambleId).GetHashCode();
+        => (UserId, UnscrambleId.GetValueOrDefault(), TicTacToeId.GetValueOrDefault(), PickerId.GetValueOrDefault()).GetHashCode();
 
         public override bool Equals(object obj)
         {
@@ -71,7 +77,9 @@ namespace CreatingAPI.Domain.Bookmarks
             if (otherBookmark == null)
                 return false;
 
-            if (this.UnscrambleId == otherBookmark.UnscrambleId &&
+            if (this.UnscrambleId.GetValueOrDefault() == otherBookmark.UnscrambleId.GetValueOrDefault() &&
+                this.TicTacToeId.GetValueOrDefault() == otherBookmark.TicTacToeId.GetValueOrDefault() &&
+                this.PickerId.GetValueOrDefault() == otherBookmark.PickerId.GetValueOrDefault() &&
                 this.UserId == otherBookmark.UserId)
                 return true;
 

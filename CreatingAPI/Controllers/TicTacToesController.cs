@@ -10,7 +10,7 @@ namespace CreatingAPI.Controllers
     [Consumes("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class TicTacToeController : ControllerBase
+    public class TicTacToesController : ControllerBase
     {
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]

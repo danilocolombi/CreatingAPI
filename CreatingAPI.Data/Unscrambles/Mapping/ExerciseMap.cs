@@ -21,7 +21,8 @@ namespace CreatingAPI.Data.Unscrambles.Mapping
             builder.Property(e => e.UnscrambleId)
                 .IsRequired();
 
-            builder.Ignore(g => g.ValidationErrors);
+            builder.Ignore(e => e.ValidationErrors);
+
             builder.ToTable("Exercise");
         }
     }

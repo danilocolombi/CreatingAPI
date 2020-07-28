@@ -33,7 +33,8 @@ namespace CreatingAPI.Data.TicTacToes.Mapping
             builder.Property(ttt => ttt.UserId)
                 .IsRequired();
 
-            builder.Ignore(u => u.ValidationErrors);
+            builder.Ignore(ttt => ttt.ValidationErrors);
+
             builder.ToTable("TicTacToe");
         }
     }

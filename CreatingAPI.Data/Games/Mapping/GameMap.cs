@@ -31,6 +31,7 @@ namespace CreatingAPI.Data.Games.Mapping
                 .IsRequired();
 
             builder.Ignore(g => g.ValidationErrors);
+
             builder.ToTable("Game");
         }
     }
