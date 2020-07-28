@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using CreatingAPI.Application.Bookmarks.ViewModels;
 using CreatingAPI.Application.Games.ViewModels;
+using CreatingAPI.Application.Pickers.ViewModels;
 using CreatingAPI.Application.TicTacToes.ViewModels;
 using CreatingAPI.Application.Unscrambles.ViewModels;
 using CreatingAPI.Application.Users.ViewModels;
 using CreatingAPI.Domain.Bookmarks;
 using CreatingAPI.Domain.Games;
+using CreatingAPI.Domain.Pickers;
 using CreatingAPI.Domain.TicTacToes;
 using CreatingAPI.Domain.Unscrambles;
 using CreatingAPI.Domain.Users;
@@ -29,15 +31,19 @@ namespace CreatingAPI.Application.Core.AutoMapper
                 .ConstructUsing(e => new Exercise(e.Description, e.Position));
 
             CreateMap<UnscrambleCreationViewModel, Unscramble>()
-                .IgnoreAllPropertiesWithAnInaccessibleSetter()
                 .ConstructUsing(u => new Unscramble(u.Title, u.UserId, u.IsPublic));
 
             CreateMap<TicTacToeCreationViewModel, TicTacToe>()
-              .IgnoreAllPropertiesWithAnInaccessibleSetter()
               .ConstructUsing(u => new TicTacToe(u.Title, u.UserId, u.IsPublic));
 
             CreateMap<TicTacToeSquareViewModel, TicTacToeSquare>()
-               .ConstructUsing(e => new TicTacToeSquare(e.Description, e.Position));
+               .ConstructUsing(ts => new TicTacToeSquare(ts.Description, ts.Position));
+
+            CreateMap<PickerCreationViewModel, Picker>()
+              .ConstructUsing(p => new Picker(p.Title, p.UserId, p.IsPublic));
+
+            CreateMap<PickerTopicViewModel, PickerTopic>()
+               .ConstructUsing(pt => new PickerTopic(pt.Description));
         }
     }
 }

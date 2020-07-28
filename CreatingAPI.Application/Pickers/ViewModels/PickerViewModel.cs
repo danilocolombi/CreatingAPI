@@ -1,6 +1,8 @@
-﻿namespace CreatingAPI.Application.Pickers.ViewModels
+﻿using CreatingAPI.Application.Activities.ViewModels;
+
+namespace CreatingAPI.Application.Pickers.ViewModels
 {
-    public class PickerViewModel
+    public class PickerViewModel : ActivityViewModel
     {
     }
 }
