@@ -42,6 +42,9 @@ namespace CreatingAPI.Domain.TicTacToes
                     return false;
                 }
 
+                if (Id > 0)
+                    square.TicTacToeId = Id;
+
                 Squares.Add(square);
             }
 

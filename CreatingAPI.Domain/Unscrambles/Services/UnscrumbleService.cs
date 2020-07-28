@@ -56,7 +56,7 @@ namespace CreatingAPI.Domain.Unscrambles.Services
         {
             if (id <= 0) return new ValidationResult(false, new ValidationError("The activity is invalid"));
 
-            unscramble.Id = id;
+            unscramble.SetId(id);
 
             if (!unscramble.AddExercises(exercises))
                 return new ValidationResult(false, unscramble.ValidationErrors);

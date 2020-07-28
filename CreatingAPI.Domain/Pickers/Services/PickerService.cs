@@ -33,7 +33,7 @@ namespace CreatingAPI.Domain.Pickers.Services
         {
             if (id <= 0) return new ValidationResult(false, new ValidationError("The activity is invalid"));
 
-            picker.Id = id;
+            picker.SetId(id);
 
             if (!picker.IsValid())
                 return new ValidationResult(false, picker.ValidationErrors);

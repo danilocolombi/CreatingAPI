@@ -7,7 +7,7 @@ namespace CreatingAPI.Domain.Pickers
 {
     public class Picker : Activity
     {
-        public ICollection<PickerTopic> Topics { get; private set; }
+        public virtual ICollection<PickerTopic> Topics { get; private set; }
 
         public Picker() { }
 
@@ -27,6 +27,9 @@ namespace CreatingAPI.Domain.Pickers
                     ValidationErrors.Add(new ValidationError($"{topic.ValidationErrors.FirstOrDefault().Message}"));
                     return false;
                 }
+
+                if (Id > 0)
+                    topic.PickerId = Id;
 
                 Topics.Add(topic);
             }

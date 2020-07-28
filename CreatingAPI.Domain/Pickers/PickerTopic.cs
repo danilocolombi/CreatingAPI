@@ -4,9 +4,9 @@ namespace CreatingAPI.Domain.Pickers
 {
     public class PickerTopic : Entity
     {
-        public int Description { get; private set; }
+        public string Description { get; private set; }
         public int PickerId { get; set; }
-        public virtual Picker Picker { get; set; }
+        public virtual Picker Picker { get; }
 
         public PickerTopic() { }
 
@@ -32,6 +32,8 @@ namespace CreatingAPI.Domain.Pickers
                 ValidationErrors.Add(new ValidationError("The description can't have more than 150 characters"));
                 return false;
             }
+
+            Description = description;
 
             return true;
         }

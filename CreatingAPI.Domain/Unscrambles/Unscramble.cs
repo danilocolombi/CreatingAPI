@@ -28,11 +28,11 @@ namespace CreatingAPI.Domain.Unscrambles
                     return false;
                 }
 
+                if (Id > 0)
+                    exercise.UnscrambleId = Id;
+
                 Exercises.Add(exercise);
             }
-
-            if (Id > 0)
-                Exercises.ToList().ForEach(e => e.UnscrambleId = Id);
 
             return true;
         }

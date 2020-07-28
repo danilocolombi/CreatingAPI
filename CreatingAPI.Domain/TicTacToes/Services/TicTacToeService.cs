@@ -32,7 +32,7 @@ namespace CreatingAPI.Domain.TicTacToes.Services
         {
             if (id <= 0) return new ValidationResult(false, new ValidationError("The activity is invalid"));
 
-            ticTacToe.Id = id;
+            ticTacToe.SetId(id);
 
             if (!ticTacToe.IsValid())
                 return new ValidationResult(false, ticTacToe.ValidationErrors);
