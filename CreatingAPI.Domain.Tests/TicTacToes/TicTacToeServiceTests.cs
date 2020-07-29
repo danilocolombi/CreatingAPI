@@ -59,11 +59,11 @@ namespace CreatingAPI.Domain.Tests.TicTacToes
         [Trait("Category", "Create TicTacToe")]
         public async Task CreateTicTacToe_InvalidSquare_ShouldReturnResultResponseWithError()
         {
-            var invalidTicTacToe = TicTacToeTestHelper.GetFakeInvalidTicTacToe();
+            var ticTacToe = TicTacToeTestHelper.GetFakeTicTacToe();
             var squares = TicTacToeTestHelper.GetFakeInvalidTicTacToeSquares();
             var ticTacToeService = new TicTacToeService(_repositoryMock.Object);
 
-            var result = await ticTacToeService.CreateTicTacToe(invalidTicTacToe, squares);
+            var result = await ticTacToeService.CreateTicTacToe(ticTacToe, squares);
 
             result.Success.Should().BeFalse();
             _repositoryMock.Verify(rm => rm.CreateTicTacToe(It.IsAny<TicTacToe>()), Times.Never);
