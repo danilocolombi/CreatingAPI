@@ -53,6 +53,6 @@ namespace CreatingAPI.Application.Pickers
             var pickerViewModel = _mapper.Map<PickerViewModel>(picker);
 
             return pickerViewModel;
-        }       
+        }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CreatingAPI.Application.Core
+﻿namespace CreatingAPI.Application.Core
 {
     public enum StatusCode
     {

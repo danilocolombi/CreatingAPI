@@ -7,7 +7,7 @@ namespace CreatingAPI.Domain.Core
         public bool Success { get; set; }
         public List<ValidationError> ValidationErrors { get; set; } = new List<ValidationError>();
 
-        public ValidationResult(){}
+        public ValidationResult() { }
         public ValidationResult(bool success, IEnumerable<ValidationError> validationErrors)
         {
             Success = success;

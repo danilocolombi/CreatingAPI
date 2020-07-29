@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CreatingAPI.Application.Bookmarks.Interfaces;
+﻿using CreatingAPI.Application.Bookmarks.Interfaces;
 using CreatingAPI.Application.Bookmarks.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CreatingAPI.Controllers
 {

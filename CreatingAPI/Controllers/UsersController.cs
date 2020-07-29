@@ -11,7 +11,7 @@ namespace CreatingAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
-    {       
+    {
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
