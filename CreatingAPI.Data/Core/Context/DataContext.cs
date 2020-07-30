@@ -1,6 +1,7 @@
 ﻿using CreatingAPI.Data.Bookmarks.Mapping;
 using CreatingAPI.Data.Games.Mapping;
 using CreatingAPI.Data.Pickers.Mapping;
+using CreatingAPI.Data.Quizzes.Mapping;
 using CreatingAPI.Data.TicTacToes.Mapping;
 using CreatingAPI.Data.Unscrambles.Mapping;
 using CreatingAPI.Data.Users.Mapping;
@@ -42,6 +43,8 @@ namespace CreatingAPI.Data.Core.Context
             modelBuilder.ApplyConfiguration(new TicTacToeSquareMap());
             modelBuilder.ApplyConfiguration(new PickerMap());
             modelBuilder.ApplyConfiguration(new PickerTopicMap());
+            modelBuilder.ApplyConfiguration(new QuizMap());
+            modelBuilder.ApplyConfiguration(new QuizQuestionMap());
         }
     }
 }

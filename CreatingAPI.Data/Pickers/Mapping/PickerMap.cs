@@ -1,13 +1,16 @@
-﻿using CreatingAPI.Domain.Pickers;
+﻿using CreatingAPI.Data.Activities.Mapping;
+using CreatingAPI.Domain.Pickers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CreatingAPI.Data.Pickers.Mapping
 {
-    public class PickerMap : IEntityTypeConfiguration<Picker>
+    public class PickerMap : ActivityMap<Picker>
     {
-        public void Configure(EntityTypeBuilder<Picker> builder)
+        public override void Configure(EntityTypeBuilder<Picker> builder)
         {
+            base.Configure(builder);
+
             builder.HasKey(p => p.Id);
 
             builder.HasMany(p => p.Topics)
@@ -19,21 +22,6 @@ namespace CreatingAPI.Data.Pickers.Mapping
              .WithOne(bm => bm.Picker)
              .HasForeignKey(bm => bm.PickerId)
              .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Property(p => p.CreatedAt)
-                .IsRequired();
-
-            builder.Property(p => p.IsPublic)
-                .IsRequired();
-
-            builder.Property(p => p.Title)
-                .IsRequired()
-                .HasMaxLength(150);
-
-            builder.Property(p => p.UserId)
-                .IsRequired();
-
-            builder.Ignore(p => p.ValidationErrors);
 
             builder.ToTable("Picker");
         }

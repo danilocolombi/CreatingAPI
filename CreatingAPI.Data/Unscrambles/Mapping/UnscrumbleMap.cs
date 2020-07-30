@@ -1,14 +1,16 @@
-﻿using CreatingAPI.Domain.Unscrambles;
+﻿using CreatingAPI.Data.Activities.Mapping;
+using CreatingAPI.Domain.TicTacToes;
+using CreatingAPI.Domain.Unscrambles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CreatingAPI.Data.Unscrambles.Mapping
 {
-    public class UnscrumbleMap : IEntityTypeConfiguration<Unscramble>
+    public class UnscrumbleMap : ActivityMap<Unscramble>
     {
-        public void Configure(EntityTypeBuilder<Unscramble> builder)
+        public override void Configure(EntityTypeBuilder<Unscramble> builder)
         {
-            builder.HasKey(u => u.Id);
+            base.Configure(builder);
 
             builder.HasMany(u => u.Bookmarks)
                 .WithOne(bm => bm.Unscramble)
@@ -19,21 +21,6 @@ namespace CreatingAPI.Data.Unscrambles.Mapping
                 .WithOne(e => e.Unscramble)
                 .HasForeignKey(e => e.UnscrambleId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Property(u => u.CreatedAt)
-                .IsRequired();
-
-            builder.Property(u => u.IsPublic)
-                .IsRequired();
-
-            builder.Property(u => u.Title)
-                .IsRequired()
-                .HasMaxLength(150);
-
-            builder.Property(u => u.UserId)
-                .IsRequired();
-
-            builder.Ignore(u => u.ValidationErrors);
 
             builder.ToTable("Unscramble");
         }

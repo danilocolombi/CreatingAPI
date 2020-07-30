@@ -6,10 +6,10 @@ namespace CreatingAPI.Domain.Core.ValueObjects
 {
     public class Email : IEquatable<Email>
     {
-        public string Address { get; set; }
+        public string Address { get; private set; }
 
-        private const int addressMaxLength = 150;
-        private const int addressMinLength = 8;
+        private const int ADDRESS_MAX_LENGTH = 150;
+        private const int ADDRESS_MIN_LENGTH = 8;
 
         private Email(string address)
         {
@@ -32,8 +32,8 @@ namespace CreatingAPI.Domain.Core.ValueObjects
             email = new Email(address);
 
             if (!CheckEmailFormat(address) ||
-                address.Length < addressMinLength ||
-                address.Length > addressMaxLength)
+                address.Length < ADDRESS_MIN_LENGTH ||
+                address.Length > ADDRESS_MAX_LENGTH)
                 return false;
 
             return true;
@@ -49,6 +49,14 @@ namespace CreatingAPI.Domain.Core.ValueObjects
 
         public override int GetHashCode()
         => StringComparer.OrdinalIgnoreCase.GetHashCode(Address);
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Email otherEmail)
+                return Equals(otherEmail);
+
+            return false;
+        }
 
         public bool Equals([AllowNull] Email other)
         {

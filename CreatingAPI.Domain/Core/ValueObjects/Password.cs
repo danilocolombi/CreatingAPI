@@ -7,8 +7,9 @@ namespace CreatingAPI.Domain.Core.ValueObjects
     public class Password : IEquatable<Password>
     {
         public string Characters { get; private set; }
-        private const int minLength = 5;
-        private const int maxLength = 50;
+
+        private const int MIN_LENGTH = 5;
+        private const int MAX_LENGTH = 50;
 
         private Password(string characters)
         {
@@ -30,8 +31,8 @@ namespace CreatingAPI.Domain.Core.ValueObjects
         {
             password = new Password(characters);
 
-            if (characters.Length < minLength ||
-                characters.Length > maxLength ||
+            if (characters.Length < MIN_LENGTH ||
+                characters.Length > MAX_LENGTH ||
                 !characters.Any(char.IsUpper) ||
                 !characters.Any(char.IsDigit))
                 return false;
@@ -44,6 +45,14 @@ namespace CreatingAPI.Domain.Core.ValueObjects
 
         public override int GetHashCode()
             => StringComparer.OrdinalIgnoreCase.GetHashCode(Characters);
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Password otherPassword)
+                return Equals(otherPassword);
+
+            return false;
+        }
 
         public bool Equals([AllowNull] Password other)
         {

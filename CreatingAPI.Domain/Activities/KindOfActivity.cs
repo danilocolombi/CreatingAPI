@@ -4,6 +4,7 @@
     {
         Unscramble = 1,
         TicTacToe,
-        Picker
+        Picker,
+        Quiz
     }
 }

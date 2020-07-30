@@ -1,6 +1,7 @@
 ﻿using CreatingAPI.Domain.Activities;
 using CreatingAPI.Domain.Core;
 using CreatingAPI.Domain.Pickers;
+using CreatingAPI.Domain.Quizzes;
 using CreatingAPI.Domain.TicTacToes;
 using CreatingAPI.Domain.Unscrambles;
 using CreatingAPI.Domain.Users;
@@ -17,6 +18,8 @@ namespace CreatingAPI.Domain.Bookmarks
         public virtual TicTacToe TicTacToe { get; set; }
         public int? PickerId { get; set; }
         public virtual Picker Picker { get; set; }
+        public int? QuizId { get; set; }
+        public virtual Quiz Quiz { get; set; }
 
         public Bookmark() { }
         public Bookmark(int userId, int activityId, KindOfActivity kindOfActivity)
@@ -55,6 +58,9 @@ namespace CreatingAPI.Domain.Bookmarks
                     break;
                 case KindOfActivity.Picker:
                     PickerId = activityId;
+                    break;
+                case KindOfActivity.Quiz:
+                    QuizId = activityId;
                     break;
                 default:
                     ValidationErrors.Add(new ValidationError("The kind of activity is invalid"));

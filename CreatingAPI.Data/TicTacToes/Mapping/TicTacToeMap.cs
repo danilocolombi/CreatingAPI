@@ -1,14 +1,15 @@
-﻿using CreatingAPI.Domain.TicTacToes;
+﻿using CreatingAPI.Data.Activities.Mapping;
+using CreatingAPI.Domain.TicTacToes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CreatingAPI.Data.TicTacToes.Mapping
 {
-    public class TicTacToeMap : IEntityTypeConfiguration<TicTacToe>
+    public class TicTacToeMap : ActivityMap<TicTacToe>
     {
-        public void Configure(EntityTypeBuilder<TicTacToe> builder)
+        public override void Configure(EntityTypeBuilder<TicTacToe> builder)
         {
-            builder.HasKey(ttt => ttt.Id);
+            base.Configure(builder);
 
             builder.HasMany(ttt => ttt.Squares)
                 .WithOne(ts => ts.TicTacToe)
@@ -19,21 +20,6 @@ namespace CreatingAPI.Data.TicTacToes.Mapping
              .WithOne(bm => bm.TicTacToe)
              .HasForeignKey(bm => bm.TicTacToeId)
              .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Property(ttt => ttt.CreatedAt)
-                .IsRequired();
-
-            builder.Property(ttt => ttt.IsPublic)
-                .IsRequired();
-
-            builder.Property(ttt => ttt.Title)
-                .IsRequired()
-                .HasMaxLength(150);
-
-            builder.Property(ttt => ttt.UserId)
-                .IsRequired();
-
-            builder.Ignore(ttt => ttt.ValidationErrors);
 
             builder.ToTable("TicTacToe");
         }

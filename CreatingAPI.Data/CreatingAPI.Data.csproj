@@ -5,7 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Activities\" />
+    <Compile Remove="Core\Migrations\20200730201049_Activities_Map_Changed.cs" />
+    <Compile Remove="Core\Migrations\20200730201049_Activities_Map_Changed.Designer.cs" />
+    <Compile Remove="Core\Migrations\20200730215531_Quiz_Table_Creation.cs" />
+    <Compile Remove="Core\Migrations\20200730215531_Quiz_Table_Creation.Designer.cs" />
+    <Compile Remove="Core\Migrations\20200730215822_Quiz_Table_Creation.cs" />
+    <Compile Remove="Core\Migrations\20200730215822_Quiz_Table_Creation.Designer.cs" />
+    <Compile Remove="Core\Migrations\20200730215951_Quiz_Table_Creation.cs" />
+    <Compile Remove="Core\Migrations\20200730215951_Quiz_Table_Creation.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

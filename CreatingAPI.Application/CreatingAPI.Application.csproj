@@ -16,8 +16,4 @@
     <ProjectReference Include="..\CreatingAPI.Domain\CreatingAPI.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Quizzes\ViewModels\" />
-  </ItemGroup>
-
 </Project>
