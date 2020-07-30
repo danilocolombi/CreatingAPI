@@ -6,8 +6,8 @@ namespace CreatingAPI.Application.Users.Interfaces
 {
     public interface IUserAppService
     {
-        Task<ResultResponse> CreateUser(UserCreationViewModel userCreationViewModel);
-        Task<ResultResponse> ChangePassword(int idUser, string newPassword);
-        Task<ResultResponse> DeleteUser(int idUser);
+        Task<ResultResponse> CreateAsync(UserCreationViewModel userCreationViewModel);
+        Task<ResultResponse> ChangePasswordAsync(int idUser, string newPassword);
+        Task<ResultResponse> DeleteAsync(int idUser);
     }
 }

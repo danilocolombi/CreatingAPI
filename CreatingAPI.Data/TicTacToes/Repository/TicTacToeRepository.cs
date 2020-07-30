@@ -18,7 +18,7 @@ namespace CreatingAPI.Data.TicTacToes.Repository
             _dataContext = dataContext;
         }
 
-        public async Task<int> CreateTicTacToe(TicTacToe ticTacToe)
+        public async Task<int> CreateAsync(TicTacToe ticTacToe)
         {
             try
             {
@@ -37,11 +37,11 @@ namespace CreatingAPI.Data.TicTacToes.Repository
             }
         }
 
-        public async Task<bool> UpdateTicTacToe(TicTacToe ticTacToe)
+        public async Task<bool> UpdateAsync(TicTacToe ticTacToe)
         {
             try
             {
-                var savedTicTacToe = await GetTicTacToe(ticTacToe.Id);
+                var savedTicTacToe = await GetAsync(ticTacToe.Id);
 
                 if (savedTicTacToe == null) return false;
 
@@ -60,7 +60,7 @@ namespace CreatingAPI.Data.TicTacToes.Repository
             }
         }
 
-        public async Task<TicTacToe> GetTicTacToe(int id)
+        public async Task<TicTacToe> GetAsync(int id)
         {
             var ticTacToe = await _dataContext.TicTacToes
                                                 .Where(u => u.Id == id)
@@ -70,7 +70,7 @@ namespace CreatingAPI.Data.TicTacToes.Repository
             return ticTacToe;
         }
 
-        public async Task<bool> DeleteTicTacToe(TicTacToe ticTacToe)
+        public async Task<bool> DeleteAsync(TicTacToe ticTacToe)
         {
             _dataContext.Remove(ticTacToe);
 

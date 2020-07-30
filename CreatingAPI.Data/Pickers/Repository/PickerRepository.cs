@@ -18,7 +18,7 @@ namespace CreatingAPI.Data.Pickers.Repository
             _dataContext = dataContext;
         }
 
-        public async Task<int> CreatePicker(Picker picker)
+        public async Task<int> CreateAsync(Picker picker)
         {
             try
             {
@@ -37,11 +37,11 @@ namespace CreatingAPI.Data.Pickers.Repository
             }
         }
 
-        public async Task<bool> UpdatePicker(Picker picker)
+        public async Task<bool> UpdateAsync(Picker picker)
         {
             try
             {
-                var savedPicker = await GetPicker(picker.Id);
+                var savedPicker = await GetAsync(picker.Id);
 
                 if (savedPicker == null) return false;
 
@@ -60,7 +60,7 @@ namespace CreatingAPI.Data.Pickers.Repository
             }
         }
 
-        public async Task<Picker> GetPicker(int id)
+        public async Task<Picker> GetAsync(int id)
         {
             var picker = await _dataContext.Pickers
                                                .Where(u => u.Id == id)
@@ -70,7 +70,7 @@ namespace CreatingAPI.Data.Pickers.Repository
             return picker;
         }
 
-        public async Task<bool> DeletePicker(Picker picker)
+        public async Task<bool> DeleteAsync(Picker picker)
         {
             _dataContext.Remove(picker);
 

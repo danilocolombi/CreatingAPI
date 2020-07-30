@@ -19,32 +19,32 @@ namespace CreatingAPI.Application.Users
             _mapper = mapper;
         }
 
-        public async Task<ResultResponse> CreateUser(UserCreationViewModel userCreationViewModel)
+        public async Task<ResultResponse> CreateAsync(UserCreationViewModel userCreationViewModel)
         {
             var user = _mapper.Map<User>(userCreationViewModel);
 
-            var businessResult = await _userService.CreateUser(user);
+            var businessResult = await _userService.CreateAsync(user);
 
             return new ResultResponse(businessResult, Operation.CREATE);
         }
 
-        public async Task<ResultResponse> ChangePassword(int idUser, string newPassword)
+        public async Task<ResultResponse> ChangePasswordAsync(int idUser, string newPassword)
         {
-            var businessResult = await _userService.ChangePassword(idUser, newPassword);
+            var businessResult = await _userService.ChangePasswordAsync(idUser, newPassword);
 
             return new ResultResponse(businessResult, Operation.UPDATE);
         }
 
-        public async Task<ResultResponse> DeleteUser(int idUser)
+        public async Task<ResultResponse> DeleteAsync(int idUser)
         {
-            var businessResult = await _userService.DeleteUser(idUser);
+            var businessResult = await _userService.DeleteAsync(idUser);
 
             return new ResultResponse(businessResult, Operation.DELETE);
         }
 
-        public async Task<UserViewModel> GetUser(int idUser)
+        public async Task<UserViewModel> GetAsync(int idUser)
         {
-            var user = await _userService.GetUser(idUser);
+            var user = await _userService.GetAsync(idUser);
 
             var userViewModel = _mapper.Map<UserViewModel>(user);
 

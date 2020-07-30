@@ -12,15 +12,15 @@ namespace CreatingAPI.Domain.TicTacToes.Services
         {
             _ticTacToeRepository = ticTacToeRepository;
         }
-        public async Task<ValidationResult> CreateTicTacToe(TicTacToe ticTacToe, IEnumerable<TicTacToeSquare> squares)
+        public async Task<ValidationResult> CreateAsync(TicTacToe ticTacToe, IEnumerable<TicTacToeSquare> squares)
         {
             if (!ticTacToe.IsValid())
                 return new ValidationResult(false, ticTacToe.ValidationErrors);
 
-            if (!ticTacToe.CreateSquares(squares))
+            if (!ticTacToe.AddSquares(squares))
                 return new ValidationResult(false, ticTacToe.ValidationErrors);
 
-            var createdTicTacToeId = await _ticTacToeRepository.CreateTicTacToe(ticTacToe);
+            var createdTicTacToeId = await _ticTacToeRepository.CreateAsync(ticTacToe);
 
             if (createdTicTacToeId <= 0)
                 return new ValidationResult(false, new ValidationError("There was an error while creating the activity"));
@@ -28,7 +28,7 @@ namespace CreatingAPI.Domain.TicTacToes.Services
             return new ValidationResult(true);
         }
 
-        public async Task<ValidationResult> UpdateTicTacToe(int id, TicTacToe ticTacToe, IEnumerable<TicTacToeSquare> squares)
+        public async Task<ValidationResult> UpdateAsync(int id, TicTacToe ticTacToe, IEnumerable<TicTacToeSquare> squares)
         {
             if (id <= 0) return new ValidationResult(false, new ValidationError("The activity is invalid"));
 
@@ -37,10 +37,10 @@ namespace CreatingAPI.Domain.TicTacToes.Services
             if (!ticTacToe.IsValid())
                 return new ValidationResult(false, ticTacToe.ValidationErrors);
 
-            if (!ticTacToe.CreateSquares(squares))
+            if (!ticTacToe.AddSquares(squares))
                 return new ValidationResult(false, ticTacToe.ValidationErrors);
 
-            var ticTacToeWasUpdated = await _ticTacToeRepository.UpdateTicTacToe(ticTacToe);
+            var ticTacToeWasUpdated = await _ticTacToeRepository.UpdateAsync(ticTacToe);
 
             if (!ticTacToeWasUpdated)
                 return new ValidationResult(false, new ValidationError("The activity wasn't found"));
@@ -48,21 +48,21 @@ namespace CreatingAPI.Domain.TicTacToes.Services
             return new ValidationResult(true);
         }
 
-        public async Task<TicTacToe> GetTicTacToe(int id)
+        public async Task<TicTacToe> GetAsync(int id)
         {
-            return await _ticTacToeRepository.GetTicTacToe(id);
+            return await _ticTacToeRepository.GetAsync(id);
         }
 
-        public async Task<ValidationResult> DeleteTicTacToe(int id)
+        public async Task<ValidationResult> DeleteAsync(int id)
         {
             if (id <= 0) return new ValidationResult(false, new ValidationError("The activity is invalid"));
 
-            var ticTacToe = await _ticTacToeRepository.GetTicTacToe(id);
+            var ticTacToe = await _ticTacToeRepository.GetAsync(id);
 
             if (ticTacToe == null)
                 return new ValidationResult(false, new ValidationError("The activity wasn't found"));
 
-            var ticTacToeWasDeleted = await _ticTacToeRepository.DeleteTicTacToe(ticTacToe);
+            var ticTacToeWasDeleted = await _ticTacToeRepository.DeleteAsync(ticTacToe);
 
             if (!ticTacToeWasDeleted)
                 return new ValidationResult(false, new ValidationError("There was an error while deleting the activity"));

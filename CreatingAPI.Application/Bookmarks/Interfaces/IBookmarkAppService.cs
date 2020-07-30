@@ -6,7 +6,7 @@ namespace CreatingAPI.Application.Bookmarks.Interfaces
 {
     public interface IBookmarkAppService
     {
-        Task<ResultResponse> CreateBookmark(BookmarkCreationViewModel bookmarkCreationViewModel);
-        Task<ResultResponse> DeleteBookmark(int idBookmark);
+        Task<ResultResponse> CreateAsync(BookmarkCreationViewModel bookmarkCreationViewModel);
+        Task<ResultResponse> DeleteAsync(int idBookmark);
     }
 }

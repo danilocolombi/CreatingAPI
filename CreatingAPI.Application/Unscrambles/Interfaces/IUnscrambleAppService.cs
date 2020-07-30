@@ -8,10 +8,10 @@ namespace CreatingAPI.Application.Unscrambles.Interfaces
 {
     public interface IUnscrambleAppService
     {
-        Task<ResultResponse> CreateUnscramble(UnscrambleCreationViewModel unscrambleCreationViewModel);
-        Task<ResultResponse> UpdateUnscramble(int id, UnscrambleCreationViewModel unscrambleCreationViewModel);
-        Task<ResultResponse> DeleteUnscramble(int idUnscramble);
-        Task<UnscrambleViewModel> GetUnscramble(int idUnscramble);
+        Task<ResultResponse> CreateAsync(UnscrambleCreationViewModel unscrambleCreationViewModel);
+        Task<ResultResponse> UpdateAsync(int id, UnscrambleCreationViewModel unscrambleCreationViewModel);
+        Task<ResultResponse> DeleteAsync(int idUnscramble);
+        Task<UnscrambleViewModel> GetAsync(int idUnscramble);
         Task<IEnumerable<ShuffledExercise>> GetShuffledExercises(int idUnscramble, bool randomizeOrder);
 
     }

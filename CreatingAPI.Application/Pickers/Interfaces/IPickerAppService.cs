@@ -6,9 +6,9 @@ namespace CreatingAPI.Application.Pickers.Interfaces
 {
     public interface IPickerAppService
     {
-        Task<ResultResponse> CreatePicker(PickerCreationViewModel pickerCreationViewModel);
-        Task<ResultResponse> UpdatePicker(int id, PickerCreationViewModel pickerCreationViewModel);
-        Task<ResultResponse> DeletePicker(int id);
-        Task<PickerViewModel> GetPicker(int id);
+        Task<ResultResponse> CreateAsync(PickerCreationViewModel pickerCreationViewModel);
+        Task<ResultResponse> UpdateAsync(int id, PickerCreationViewModel pickerCreationViewModel);
+        Task<ResultResponse> DeleteAsync(int id);
+        Task<PickerViewModel> GetAsync(int id);
     }
 }

@@ -13,9 +13,9 @@ namespace CreatingAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateBookmark([FromBody] BookmarkCreationViewModel bookmark, [FromServices] IBookmarkAppService bookmarkAppService)
+        public async Task<IActionResult> CreateAsync([FromBody] BookmarkCreationViewModel bookmark, [FromServices] IBookmarkAppService bookmarkAppService)
         {
-            var resultBookmarkCreated = await bookmarkAppService.CreateBookmark(bookmark);
+            var resultBookmarkCreated = await bookmarkAppService.CreateAsync(bookmark);
 
             if (resultBookmarkCreated.StatusCode == Application.Core.StatusCode.BAD_REQUEST)
                 return BadRequest(resultBookmarkCreated.Errors);
@@ -26,9 +26,9 @@ namespace CreatingAPI.Controllers
         [HttpDelete("{bookmarkId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteBookmark(int bookmarkId, [FromServices] IBookmarkAppService bookmarkAppService)
+        public async Task<IActionResult> DeleteAsync(int bookmarkId, [FromServices] IBookmarkAppService bookmarkAppService)
         {
-            var resultBookmarkDeleted = await bookmarkAppService.DeleteBookmark(bookmarkId);
+            var resultBookmarkDeleted = await bookmarkAppService.DeleteAsync(bookmarkId);
 
             if (resultBookmarkDeleted.StatusCode == Application.Core.StatusCode.NOT_FOUND)
                 return NotFound(resultBookmarkDeleted.Errors);

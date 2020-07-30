@@ -15,9 +15,9 @@ namespace CreatingAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateUnscrumble([FromBody] UnscrambleCreationViewModel usncramble, [FromServices] IUnscrambleAppService unscrambleAppService)
+        public async Task<IActionResult> CreateAsync([FromBody] UnscrambleCreationViewModel usncramble, [FromServices] IUnscrambleAppService unscrambleAppService)
         {
-            var resultUnscrambleCreated = await unscrambleAppService.CreateUnscramble(usncramble);
+            var resultUnscrambleCreated = await unscrambleAppService.CreateAsync(usncramble);
 
             if (resultUnscrambleCreated.StatusCode == Application.Core.StatusCode.BAD_REQUEST)
                 return BadRequest(resultUnscrambleCreated.Errors);
@@ -29,10 +29,10 @@ namespace CreatingAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateUnscrumble(int unscrambleId, [FromBody] UnscrambleCreationViewModel usncramble,
+        public async Task<IActionResult> UpdateAsync(int unscrambleId, [FromBody] UnscrambleCreationViewModel usncramble,
                                                                     [FromServices] IUnscrambleAppService unscrambleAppService)
         {
-            var resultUnscrambleUpdated = await unscrambleAppService.UpdateUnscramble(unscrambleId, usncramble);
+            var resultUnscrambleUpdated = await unscrambleAppService.UpdateAsync(unscrambleId, usncramble);
 
             if (resultUnscrambleUpdated.StatusCode == Application.Core.StatusCode.BAD_REQUEST)
                 return BadRequest(resultUnscrambleUpdated.Errors);
@@ -46,9 +46,9 @@ namespace CreatingAPI.Controllers
         [HttpDelete("{unscrambleId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteUnscrumble(int unscrambleId, [FromServices] IUnscrambleAppService unscrambleAppService)
+        public async Task<IActionResult> DeleteAsync(int unscrambleId, [FromServices] IUnscrambleAppService unscrambleAppService)
         {
-            var resultUnscrambleDeleted = await unscrambleAppService.DeleteUnscramble(unscrambleId);
+            var resultUnscrambleDeleted = await unscrambleAppService.DeleteAsync(unscrambleId);
 
             if (resultUnscrambleDeleted.StatusCode == Application.Core.StatusCode.NOT_FOUND)
                 return NotFound(resultUnscrambleDeleted.Errors);
@@ -59,9 +59,9 @@ namespace CreatingAPI.Controllers
         [HttpGet("{unscrambleId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUnscrumble(int unscrambleId, [FromServices] IUnscrambleAppService unscrambleAppService)
+        public async Task<IActionResult> GetAsync(int unscrambleId, [FromServices] IUnscrambleAppService unscrambleAppService)
         {
-            var unscramble = await unscrambleAppService.GetUnscramble(unscrambleId);
+            var unscramble = await unscrambleAppService.GetAsync(unscrambleId);
 
             if (unscramble == null) return NotFound();
 

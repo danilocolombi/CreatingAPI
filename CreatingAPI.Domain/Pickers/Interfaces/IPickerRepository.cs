@@ -4,9 +4,9 @@ namespace CreatingAPI.Domain.Pickers.Interfaces
 {
     public interface IPickerRepository
     {
-        Task<int> CreatePicker(Picker picker);
-        Task<bool> UpdatePicker(Picker picker);
-        Task<Picker> GetPicker(int id);
-        Task<bool> DeletePicker(Picker picker);
+        Task<int> CreateAsync(Picker picker);
+        Task<bool> UpdateAsync(Picker picker);
+        Task<Picker> GetAsync(int id);
+        Task<bool> DeleteAsync(Picker picker);
     }
 }

@@ -16,7 +16,7 @@ namespace CreatingAPI.Data.Users.Repository
         {
             _dataContext = dataContext;
         }
-        public async Task<int> CreateUser(User user)
+        public async Task<int> CreateAsync(User user)
         {
             try
             {
@@ -35,21 +35,21 @@ namespace CreatingAPI.Data.Users.Repository
             }
         }
 
-        public async Task<bool> DeleteUser(User user)
+        public async Task<bool> DeleteAsync(User user)
         {
             _dataContext.Remove(user);
 
             return await _dataContext.SaveChangesAsync() > 0;
         }
 
-        public async Task<User> GetUser(int id)
+        public async Task<User> GetAsync(int id)
         {
             var user = await _dataContext.Users.FindAsync(id);
 
             return user;
         }
 
-        public async Task<bool> UpdateUser(User user)
+        public async Task<bool> UpdateAsync(User user)
         {
             _dataContext.Update(user);
             return await _dataContext.SaveChangesAsync() > 0;

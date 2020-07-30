@@ -19,18 +19,18 @@ namespace CreatingAPI.Application.Bookmarks
             _mapper = mapper;
         }
 
-        public async Task<ResultResponse> CreateBookmark(BookmarkCreationViewModel bookmarkCreationViewModel)
+        public async Task<ResultResponse> CreateAsync(BookmarkCreationViewModel bookmarkCreationViewModel)
         {
             var bookmark = _mapper.Map<Bookmark>(bookmarkCreationViewModel);
 
-            var businessResult = await _bookmarkService.CreateBookmark(bookmark);
+            var businessResult = await _bookmarkService.CreateAsync(bookmark);
 
             return new ResultResponse(businessResult, Operation.CREATE);
         }
 
-        public async Task<ResultResponse> DeleteBookmark(int idBookmark)
+        public async Task<ResultResponse> DeleteAsync(int idBookmark)
         {
-            var businessResult = await _bookmarkService.DeleteBookmark(idBookmark);
+            var businessResult = await _bookmarkService.DeleteAsync(idBookmark);
 
             return new ResultResponse(businessResult, Operation.DELETE);
         }

@@ -18,105 +18,105 @@ namespace CreatingAPI.Domain.Tests.Users
         public UserServiceTests()
         {
             _repositoryMock = new Mock<IUserRepository>();
-            _repositoryMock.Setup(rm => rm.CreateUser(It.IsAny<User>())).ReturnsAsync(UserTestHelper.GetRandomInt());
-            _repositoryMock.Setup(rm => rm.UpdateUser(It.IsAny<User>())).ReturnsAsync(true);
-            _repositoryMock.Setup(rm => rm.DeleteUser(It.IsAny<User>())).ReturnsAsync(true);
-            _repositoryMock.Setup(rm => rm.GetUser(It.Is<int>(i => i == ID_INEXISTENT_USER))).ReturnsAsync((User)null);
-            _repositoryMock.Setup(rm => rm.GetUser(It.Is<int>(i => i != ID_INEXISTENT_USER))).ReturnsAsync(UserTestHelper.GetFakeUser());
+            _repositoryMock.Setup(rm => rm.CreateAsync(It.IsAny<User>())).ReturnsAsync(UserTestHelper.GetRandomInt());
+            _repositoryMock.Setup(rm => rm.UpdateAsync(It.IsAny<User>())).ReturnsAsync(true);
+            _repositoryMock.Setup(rm => rm.DeleteAsync(It.IsAny<User>())).ReturnsAsync(true);
+            _repositoryMock.Setup(rm => rm.GetAsync(It.Is<int>(i => i == ID_INEXISTENT_USER))).ReturnsAsync((User)null);
+            _repositoryMock.Setup(rm => rm.GetAsync(It.Is<int>(i => i != ID_INEXISTENT_USER))).ReturnsAsync(UserTestHelper.GetFakeUser());
         }
 
         [Fact(DisplayName = "Create an user with success, should return ResultResponse with success")]
-        [Trait("Category", "Create User")]
-        public async Task CreateUser_ShouldReturnResultResponseWithSuccess()
+        [Trait("Category", "Create")]
+        public async Task CreateAsync_ShouldReturnResultResponseWithSuccess()
         {
             var user = UserTestHelper.GetFakeUser();
             var userService = new UserService(_repositoryMock.Object);
 
-            var result = await userService.CreateUser(user);
+            var result = await userService.CreateAsync(user);
 
             result.Success.Should().BeTrue();
-            _repositoryMock.Verify(rm => rm.CreateUser(user), Times.Once);
+            _repositoryMock.Verify(rm => rm.CreateAsync(user), Times.Once);
         }
 
         [Fact(DisplayName = "Create an invalid user, should return ResultResponse with error")]
-        [Trait("Category", "Create User")]
-        public async Task CreateUser_InvalidUser_ShouldReturnResultResponseWithError()
+        [Trait("Category", "Create")]
+        public async Task CreateAsync_InvalidUser_ShouldReturnResultResponseWithError()
         {
             var invalidUser = UserTestHelper.GetFakeInvalidUser();
             var userService = new UserService(_repositoryMock.Object);
 
-            var result = await userService.CreateUser(invalidUser);
+            var result = await userService.CreateAsync(invalidUser);
 
             result.Success.Should().BeFalse();
             invalidUser.IsValid().Should().BeFalse();
-            _repositoryMock.Verify(mr => mr.CreateUser(It.IsAny<User>()), Times.Never);
+            _repositoryMock.Verify(mr => mr.CreateAsync(It.IsAny<User>()), Times.Never);
         }
 
 
         [Fact(DisplayName = "Change an user password with success, should return ResultResponse with success")]
         [Trait("Category", "Change Password")]
-        public async Task ChangePassword_ShouldReturnResultResponseWithSuccess()
+        public async Task ChangePasswordAsync_ShouldReturnResultResponseWithSuccess()
         {
             var userId = UserTestHelper.GetRandomInt();
             var password = UserTestHelper.VALID_PASSWORD;
             var userService = new UserService(_repositoryMock.Object);
 
-            var result = await userService.ChangePassword(userId, password);
+            var result = await userService.ChangePasswordAsync(userId, password);
 
             result.Success.Should().BeTrue();
-            _repositoryMock.Verify(rm => rm.UpdateUser(It.Is<User>(u => u.Password.Characters == password)), Times.Once);
+            _repositoryMock.Verify(rm => rm.UpdateAsync(It.Is<User>(u => u.Password.Characters == password)), Times.Once);
         }
 
         [Fact(DisplayName = "Change an inexistent user's password, should return ResultResponse with Error")]
         [Trait("Category", "Change Password")]
-        public async Task ChangePassword_InexistentUser_ShouldReturnResultResponseWithError()
+        public async Task ChangePasswordAsync_InexistentUser_ShouldReturnResultResponseWithError()
         {
             var password = UserTestHelper.VALID_PASSWORD;
             var userService = new UserService(_repositoryMock.Object);
 
-            var result = await userService.ChangePassword(ID_INEXISTENT_USER, password);
+            var result = await userService.ChangePasswordAsync(ID_INEXISTENT_USER, password);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The user wasn't found");
-            _repositoryMock.Verify(rm => rm.UpdateUser(It.IsAny<User>()), Times.Never);
+            _repositoryMock.Verify(rm => rm.UpdateAsync(It.IsAny<User>()), Times.Never);
         }
 
         [Fact(DisplayName = "Change an user's password to an invalid one, should return ResultResponse with Error")]
         [Trait("Category", "Change Password")]
-        public async Task ChangePassword_InvalidPassword_ShouldReturnResultResponseWithError()
+        public async Task ChangePasswordAsync_InvalidPassword_ShouldReturnResultResponseWithError()
         {
             var userId = UserTestHelper.GetRandomInt();
             var userService = new UserService(_repositoryMock.Object);
 
-            var result = await userService.ChangePassword(userId, UserTestHelper.INVALID_PASSWORD);
+            var result = await userService.ChangePasswordAsync(userId, UserTestHelper.INVALID_PASSWORD);
 
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("invalid password");
-            _repositoryMock.Verify(rm => rm.UpdateUser(It.IsAny<User>()), Times.Never);
+            _repositoryMock.Verify(rm => rm.UpdateAsync(It.IsAny<User>()), Times.Never);
         }
 
         [Fact(DisplayName = "Delete User, should return ResultResponse with Success")]
-        [Trait("Category", "Delete User")]
-        public async Task DeleteUser_ShouldReturnResultResponseWithSuccess()
+        [Trait("Category", "Delete")]
+        public async Task DeleteAsync_ShouldReturnResultResponseWithSuccess()
         {
             var userId = UserTestHelper.GetRandomInt();
             var userService = new UserService(_repositoryMock.Object);
 
-            var result = await userService.DeleteUser(userId);
+            var result = await userService.DeleteAsync(userId);
 
             result.Success.Should().BeTrue();
-            _repositoryMock.Verify(rm => rm.DeleteUser(It.IsAny<User>()), Times.Once);
+            _repositoryMock.Verify(rm => rm.DeleteAsync(It.IsAny<User>()), Times.Once);
         }
 
         [Fact(DisplayName = "Delete inexistent user, should return ResultResponse with Error")]
-        [Trait("Category", "Delete User")]
-        public async Task DeleteUser_InexistentUser_ShouldReturnResultResponseWithError()
+        [Trait("Category", "Delete")]
+        public async Task DeleteAsync_InexistentUser_ShouldReturnResultResponseWithError()
         {
             var userService = new UserService(_repositoryMock.Object);
 
-            var result = await userService.DeleteUser(ID_INEXISTENT_USER);
+            var result = await userService.DeleteAsync(ID_INEXISTENT_USER);
 
             result.Success.Should().BeFalse();
-            _repositoryMock.Verify(rm => rm.DeleteUser(It.IsAny<User>()), Times.Never);
+            _repositoryMock.Verify(rm => rm.DeleteAsync(It.IsAny<User>()), Times.Never);
         }
     }
 }

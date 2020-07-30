@@ -19,131 +19,131 @@ namespace CreatingAPI.Domain.Tests.Pickers
         public PickerServiceTests()
         {
             _repositoryMock = new Mock<IPickerRepository>(MockBehavior.Loose);
-            _repositoryMock.Setup(rm => rm.CreatePicker(It.Is<Picker>(p => p.Title != TITLE_GENERATES_DATABASE_ERROR_PICKER)))
+            _repositoryMock.Setup(rm => rm.CreateAsync(It.Is<Picker>(p => p.Title != TITLE_GENERATES_DATABASE_ERROR_PICKER)))
                                                                                 .ReturnsAsync(PickerTestHelper.GetRandomInt());
-            _repositoryMock.Setup(rm => rm.CreatePicker(It.Is<Picker>(p => p.Title == TITLE_GENERATES_DATABASE_ERROR_PICKER))).ReturnsAsync(0);
+            _repositoryMock.Setup(rm => rm.CreateAsync(It.Is<Picker>(p => p.Title == TITLE_GENERATES_DATABASE_ERROR_PICKER))).ReturnsAsync(0);
 
-            _repositoryMock.Setup(rm => rm.UpdatePicker(It.Is<Picker>(p => p.Title != TITLE_GENERATES_DATABASE_ERROR_PICKER))).ReturnsAsync(true);
-            _repositoryMock.Setup(rm => rm.UpdatePicker(It.Is<Picker>(p => p.Title == TITLE_GENERATES_DATABASE_ERROR_PICKER))).ReturnsAsync(false);
+            _repositoryMock.Setup(rm => rm.UpdateAsync(It.Is<Picker>(p => p.Title != TITLE_GENERATES_DATABASE_ERROR_PICKER))).ReturnsAsync(true);
+            _repositoryMock.Setup(rm => rm.UpdateAsync(It.Is<Picker>(p => p.Title == TITLE_GENERATES_DATABASE_ERROR_PICKER))).ReturnsAsync(false);
 
-            _repositoryMock.Setup(rm => rm.DeletePicker(It.IsAny<Picker>())).ReturnsAsync(true);
+            _repositoryMock.Setup(rm => rm.DeleteAsync(It.IsAny<Picker>())).ReturnsAsync(true);
 
-            _repositoryMock.Setup(rm => rm.GetPicker(It.Is<int>(i => i != ID_INEXISTENT_PICKER))).ReturnsAsync(PickerTestHelper.GetFakePicker());
-            _repositoryMock.Setup(rm => rm.GetPicker(It.Is<int>(i => i == ID_INEXISTENT_PICKER))).ReturnsAsync((Picker)null);
+            _repositoryMock.Setup(rm => rm.GetAsync(It.Is<int>(i => i != ID_INEXISTENT_PICKER))).ReturnsAsync(PickerTestHelper.GetFakePicker());
+            _repositoryMock.Setup(rm => rm.GetAsync(It.Is<int>(i => i == ID_INEXISTENT_PICKER))).ReturnsAsync((Picker)null);
         }
 
         [Fact(DisplayName = "Create picker with success, should return ResultResponse with success")]
-        [Trait("Category", "Create Picker")]
-        public async Task CreatePicker_ShouldReturnResultResponseWithSuccess()
+        [Trait("Category", "Create")]
+        public async Task CreateAsync_ShouldReturnResultResponseWithSuccess()
         {
             var picker = PickerTestHelper.GetFakePicker();
             var topics = PickerTestHelper.GetFakeTopics();
             var pickerService = new PickerService(_repositoryMock.Object);
 
-            var result = await pickerService.CreatePicker(picker, topics);
+            var result = await pickerService.CreateAsync(picker, topics);
 
             result.Success.Should().BeTrue();
             picker.IsValid().Should().BeTrue();
-            _repositoryMock.Verify(rm => rm.CreatePicker(picker), Times.Once);
+            _repositoryMock.Verify(rm => rm.CreateAsync(picker), Times.Once);
         }
 
         [Fact(DisplayName = "Create an invalid picker, should return ResultResponse with error")]
-        [Trait("Category", "Create Picker")]
-        public async Task CreatePicker_InvalidPicker_ShouldReturnResultResponseWithError()
+        [Trait("Category", "Create")]
+        public async Task CreateAsync_InvalidPicker_ShouldReturnResultResponseWithError()
         {
             var invalidPicker = PickerTestHelper.GetFakeInvalidPicker();
             var topics = PickerTestHelper.GetFakeTopics();
             var pickerService = new PickerService(_repositoryMock.Object);
 
-            var result = await pickerService.CreatePicker(invalidPicker, topics);
+            var result = await pickerService.CreateAsync(invalidPicker, topics);
 
             result.Success.Should().BeFalse();
             invalidPicker.IsValid().Should().BeFalse();
-            _repositoryMock.Verify(rm => rm.CreatePicker(It.IsAny<Picker>()), Times.Never);
+            _repositoryMock.Verify(rm => rm.CreateAsync(It.IsAny<Picker>()), Times.Never);
         }
 
         [Fact(DisplayName = "Create picker with invalid topics, should return ResultResponse with error")]
-        [Trait("Category", "Create Picker")]
-        public async Task CreatePicker_InvalidTopic_ShouldReturnResultResponseWithError()
+        [Trait("Category", "Create")]
+        public async Task CreateAsync_InvalidTopic_ShouldReturnResultResponseWithError()
         {
             var picker = PickerTestHelper.GetFakePicker();
             var topics = PickerTestHelper.GetFakeInvalidTopics();
             var pickerService = new PickerService(_repositoryMock.Object);
 
-            var result = await pickerService.CreatePicker(picker, topics);
+            var result = await pickerService.CreateAsync(picker, topics);
 
             result.Success.Should().BeFalse();
-            _repositoryMock.Verify(rm => rm.CreatePicker(It.IsAny<Picker>()), Times.Never);
+            _repositoryMock.Verify(rm => rm.CreateAsync(It.IsAny<Picker>()), Times.Never);
         }
 
         [Fact(DisplayName = "Create picker that throws a database error, should return ResultResponse with error")]
-        [Trait("Category", "Create Picker")]
-        public async Task CreatePicker_DatabaseError_ShouldReturnResultResponseWithError()
+        [Trait("Category", "Create")]
+        public async Task CreateAsync_DatabaseError_ShouldReturnResultResponseWithError()
         {
             var picker = PickerTestHelper.GetFakePicker();
             var topics = PickerTestHelper.GetFakeTopics();
             picker.SetTitle(TITLE_GENERATES_DATABASE_ERROR_PICKER);
             var pickerService = new PickerService(_repositoryMock.Object);
 
-            var result = await pickerService.CreatePicker(picker, topics);
+            var result = await pickerService.CreateAsync(picker, topics);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("There was an error while creating the activity");
-            _repositoryMock.Verify(rm => rm.CreatePicker(It.IsAny<Picker>()), Times.Once);
+            _repositoryMock.Verify(rm => rm.CreateAsync(It.IsAny<Picker>()), Times.Once);
         }
 
         [Fact(DisplayName = "Update picker with success, should return ResultResponse with success")]
-        [Trait("Category", "Update Picker")]
-        public async Task UpdatePicker_ShouldReturnResultResponseWithSuccess()
+        [Trait("Category", "Update")]
+        public async Task UpdateAsync_ShouldReturnResultResponseWithSuccess()
         {
             var picker = PickerTestHelper.GetFakePicker();
             var topics = PickerTestHelper.GetFakeTopics();
             var id = PickerTestHelper.GetRandomInt();
             var pickerService = new PickerService(_repositoryMock.Object);
 
-            var result = await pickerService.UpdatePicker(id, picker, topics);
+            var result = await pickerService.UpdateAsync(id, picker, topics);
 
             result.Success.Should().BeTrue();
             picker.IsValid().Should().BeTrue();
-            _repositoryMock.Verify(rm => rm.UpdatePicker(picker), Times.Once);
+            _repositoryMock.Verify(rm => rm.UpdateAsync(picker), Times.Once);
         }
 
         [Theory(DisplayName = "Update pciker with an invalid id, should return ResultResponse with success")]
-        [Trait("Category", "Update Picker")]
+        [Trait("Category", "Update")]
         [InlineData(-1)]
         [InlineData(0)]
-        public async Task UpdatePicker_InvalidId_ShouldReturnResultResponseWithError(int invalidId)
+        public async Task UpdateAsync_InvalidId_ShouldReturnResultResponseWithError(int invalidId)
         {
             var picker = PickerTestHelper.GetFakePicker();
             var topics = PickerTestHelper.GetFakeTopics();
             var pickerService = new PickerService(_repositoryMock.Object);
 
-            var result = await pickerService.UpdatePicker(invalidId, picker, topics);
+            var result = await pickerService.UpdateAsync(invalidId, picker, topics);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity is invalid");
-            _repositoryMock.Verify(rm => rm.UpdatePicker(It.IsAny<Picker>()), Times.Never);
+            _repositoryMock.Verify(rm => rm.UpdateAsync(It.IsAny<Picker>()), Times.Never);
         }
 
         [Fact(DisplayName = "Update an invalid picker, should return ResultResponse with error")]
-        [Trait("Category", "Update Picker")]
-        public async Task UpdatePicker_InvalidPicker_ShouldReturnResultResponseWithError()
+        [Trait("Category", "Update")]
+        public async Task UpdateAsync_InvalidPicker_ShouldReturnResultResponseWithError()
         {
             var picker = PickerTestHelper.GetFakeInvalidPicker();
             var topics = PickerTestHelper.GetFakeTopics();
             var id = PickerTestHelper.GetRandomInt();
             var pickerService = new PickerService(_repositoryMock.Object);
 
-            var result = await pickerService.UpdatePicker(id, picker, topics);
+            var result = await pickerService.UpdateAsync(id, picker, topics);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.Should().NotBeEmpty();
-            _repositoryMock.Verify(rm => rm.UpdatePicker(It.IsAny<Picker>()), Times.Never);
+            _repositoryMock.Verify(rm => rm.UpdateAsync(It.IsAny<Picker>()), Times.Never);
         }
 
         [Fact(DisplayName = "Update picker with database error, should return ResultResponse with error")]
-        [Trait("Category", "Update Picker")]
-        public async Task UpdatePicker_DatabaseError_ShouldReturnResultResponseWithError()
+        [Trait("Category", "Update")]
+        public async Task UpdateAsync_DatabaseError_ShouldReturnResultResponseWithError()
         {
             var picker = PickerTestHelper.GetFakePicker();
             picker.SetTitle(TITLE_GENERATES_DATABASE_ERROR_PICKER);
@@ -151,52 +151,52 @@ namespace CreatingAPI.Domain.Tests.Pickers
             var id = PickerTestHelper.GetRandomInt();
             var pickerService = new PickerService(_repositoryMock.Object);
 
-            var result = await pickerService.UpdatePicker(id, picker, topics);
+            var result = await pickerService.UpdateAsync(id, picker, topics);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity wasn't found");
-            _repositoryMock.Verify(rm => rm.UpdatePicker(picker), Times.Once);
+            _repositoryMock.Verify(rm => rm.UpdateAsync(picker), Times.Once);
         }
 
         [Fact(DisplayName = "Delete picker with success, should return ResultResponse with success")]
-        [Trait("Category", "Delete Picker")]
-        public async Task DeletePicker_ShouldReturnResultResponseWithSuccess()
+        [Trait("Category", "Delete")]
+        public async Task DeleteAsync_ShouldReturnResultResponseWithSuccess()
         {
             var id = PickerTestHelper.GetRandomInt();
             var pickerService = new PickerService(_repositoryMock.Object);
 
-            var result = await pickerService.DeletePicker(id);
+            var result = await pickerService.DeleteAsync(id);
 
             result.Success.Should().BeTrue();
-            _repositoryMock.Verify(rm => rm.DeletePicker(It.IsAny<Picker>()), Times.Once);
+            _repositoryMock.Verify(rm => rm.DeleteAsync(It.IsAny<Picker>()), Times.Once);
         }
 
         [Theory(DisplayName = "Delete picker with invalid id, should return ResultResponse with error")]
-        [Trait("Category", "Delete Picker")]
+        [Trait("Category", "Delete")]
         [InlineData(-1)]
         [InlineData(0)]
-        public async Task DeletePicker_InvalidId_ShouldReturnResultResponseWithError(int invalidId)
+        public async Task DeleteAsync_InvalidId_ShouldReturnResultResponseWithError(int invalidId)
         {
             var pickerService = new PickerService(_repositoryMock.Object);
 
-            var result = await pickerService.DeletePicker(invalidId);
+            var result = await pickerService.DeleteAsync(invalidId);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity is invalid");
-            _repositoryMock.Verify(rm => rm.DeletePicker(It.IsAny<Picker>()), Times.Never);
+            _repositoryMock.Verify(rm => rm.DeleteAsync(It.IsAny<Picker>()), Times.Never);
         }
 
         [Fact(DisplayName = "Delete picker with inexistent id, should return ResultResponse with error")]
-        [Trait("Category", "Delete Picker")]
-        public async Task DeletePicker_InexistentId_ShouldReturnResultResponseWithError()
+        [Trait("Category", "Delete")]
+        public async Task DeleteAsync_InexistentId_ShouldReturnResultResponseWithError()
         {
             var pickerService = new PickerService(_repositoryMock.Object);
 
-            var result = await pickerService.DeletePicker(ID_INEXISTENT_PICKER);
+            var result = await pickerService.DeleteAsync(ID_INEXISTENT_PICKER);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity wasn't found");
-            _repositoryMock.Verify(rm => rm.DeletePicker(It.IsAny<Picker>()), Times.Never);
+            _repositoryMock.Verify(rm => rm.DeleteAsync(It.IsAny<Picker>()), Times.Never);
         }
     }
 }

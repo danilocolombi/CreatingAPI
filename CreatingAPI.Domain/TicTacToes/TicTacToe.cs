@@ -16,7 +16,7 @@ namespace CreatingAPI.Domain.TicTacToes
         {
         }
 
-        public bool CreateSquares(IEnumerable<TicTacToeSquare> squares)
+        public bool AddSquares(IEnumerable<TicTacToeSquare> squares)
         {
             if (squares.Count() != NUMBER_OF_SQUARES)
             {

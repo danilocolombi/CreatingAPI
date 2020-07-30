@@ -13,12 +13,12 @@ namespace CreatingAPI.Domain.Bookmarks.Services
             _bookmarkRepository = bookmarkRepository;
         }
 
-        public async Task<ValidationResult> CreateBookmark(Bookmark bookmark)
+        public async Task<ValidationResult> CreateAsync(Bookmark bookmark)
         {
             if (!bookmark.IsValid())
                 return new ValidationResult(false, bookmark.ValidationErrors);
 
-            var createdBookmarkId = await _bookmarkRepository.CreateBookmark(bookmark);
+            var createdBookmarkId = await _bookmarkRepository.CreateAsync(bookmark);
 
             if (createdBookmarkId <= 0)
                 return new ValidationResult(false, new ValidationError("There was an error while creating the bookmark"));
@@ -26,16 +26,16 @@ namespace CreatingAPI.Domain.Bookmarks.Services
             return new ValidationResult(true);
         }
 
-        public async Task<ValidationResult> DeleteBookmark(int id)
+        public async Task<ValidationResult> DeleteAsync(int id)
         {
             if (id <= 0) return new ValidationResult(false, new ValidationError("The bookmark is invalid"));
 
-            var bookmark = await _bookmarkRepository.GetBookmark(id);
+            var bookmark = await _bookmarkRepository.GetAsync(id);
 
             if (bookmark == null)
                 return new ValidationResult(false, new ValidationError("The bookmark wasn't found"));
 
-            var bookmarkWasDeleted = await _bookmarkRepository.DeleteBookmark(bookmark);
+            var bookmarkWasDeleted = await _bookmarkRepository.DeleteAsync(bookmark);
 
             if (!bookmarkWasDeleted)
                 return new ValidationResult(false, new ValidationError("There was an error while deleting the bookmark"));

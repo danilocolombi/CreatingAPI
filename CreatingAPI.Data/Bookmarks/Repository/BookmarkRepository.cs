@@ -15,7 +15,7 @@ namespace CreatingAPI.Data.Bookmarks.Repository
         {
             _dataContext = dataContext;
         }
-        public async Task<int> CreateBookmark(Bookmark bookmark)
+        public async Task<int> CreateAsync(Bookmark bookmark)
         {
             try
             {
@@ -34,14 +34,14 @@ namespace CreatingAPI.Data.Bookmarks.Repository
             }
         }
 
-        public async Task<bool> DeleteBookmark(Bookmark bookmark)
+        public async Task<bool> DeleteAsync(Bookmark bookmark)
         {
             _dataContext.Remove(bookmark);
 
             return await _dataContext.SaveChangesAsync() > 0;
         }
 
-        public async Task<Bookmark> GetBookmark(int id)
+        public async Task<Bookmark> GetAsync(int id)
         {
             return await _dataContext.Bookmarks.FindAsync(id);
         }

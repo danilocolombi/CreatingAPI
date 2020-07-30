@@ -14,7 +14,7 @@ namespace CreatingAPI.Domain.Unscrambles.Services
         {
             _unscrambleRepository = unscrambleRepository;
         }
-        public async Task<ValidationResult> CreateUnscramble(Unscramble unscramble, IEnumerable<Exercise> exercises)
+        public async Task<ValidationResult> CreateAsync(Unscramble unscramble, IEnumerable<Exercise> exercises)
         {
             if (!unscramble.IsValid())
                 return new ValidationResult(false, unscramble.ValidationErrors);
@@ -22,7 +22,7 @@ namespace CreatingAPI.Domain.Unscrambles.Services
             if (!unscramble.AddExercises(exercises))
                 return new ValidationResult(false, unscramble.ValidationErrors);
 
-            var createdUnscrumbleId = await _unscrambleRepository.CreateUnscramble(unscramble);
+            var createdUnscrumbleId = await _unscrambleRepository.CreateAsync(unscramble);
 
             if (createdUnscrumbleId <= 0)
                 return new ValidationResult(false, new ValidationError("There was an error while creating the activity"));
@@ -30,16 +30,16 @@ namespace CreatingAPI.Domain.Unscrambles.Services
             return new ValidationResult(true);
         }
 
-        public async Task<ValidationResult> DeleteUnscramble(int id)
+        public async Task<ValidationResult> DeleteAsync(int id)
         {
             if (id <= 0) return new ValidationResult(false, new ValidationError("The activity is invalid"));
 
-            var unscramble = await _unscrambleRepository.GetUnscramble(id);
+            var unscramble = await _unscrambleRepository.GetAsync(id);
 
             if (unscramble == null)
                 return new ValidationResult(false, new ValidationError("The activity wasn't found"));
 
-            var unscrambleWasDeleted = await _unscrambleRepository.DeleteUnscramble(unscramble);
+            var unscrambleWasDeleted = await _unscrambleRepository.DeleteAsync(unscramble);
 
             if (!unscrambleWasDeleted)
                 return new ValidationResult(false, new ValidationError("There was an error while deleting the activity"));
@@ -47,12 +47,12 @@ namespace CreatingAPI.Domain.Unscrambles.Services
             return new ValidationResult(true);
         }
 
-        public async Task<Unscramble> GetUnscramble(int id)
+        public async Task<Unscramble> GetAsync(int id)
         {
-            return await _unscrambleRepository.GetUnscramble(id);
+            return await _unscrambleRepository.GetAsync(id);
         }
 
-        public async Task<ValidationResult> UpdateUnscramble(int id, Unscramble unscramble, IEnumerable<Exercise> exercises)
+        public async Task<ValidationResult> UpdateAsync(int id, Unscramble unscramble, IEnumerable<Exercise> exercises)
         {
             if (id <= 0) return new ValidationResult(false, new ValidationError("The activity is invalid"));
 
@@ -64,7 +64,7 @@ namespace CreatingAPI.Domain.Unscrambles.Services
             if (!unscramble.IsValid())
                 return new ValidationResult(false, unscramble.ValidationErrors);
 
-            var unscrambleWasUpdated = await _unscrambleRepository.UpdateUnscramble(unscramble);
+            var unscrambleWasUpdated = await _unscrambleRepository.UpdateAsync(unscramble);
 
             if (!unscrambleWasUpdated)
                 return new ValidationResult(false, new ValidationError("The activity wasn't found"));
@@ -74,7 +74,7 @@ namespace CreatingAPI.Domain.Unscrambles.Services
 
         public async Task<IEnumerable<ShuffledExercise>> GetShuffledExercises(int idUnscramble, bool randomizeOrder)
         {
-            var unscramble = await _unscrambleRepository.GetUnscramble(idUnscramble);
+            var unscramble = await _unscrambleRepository.GetAsync(idUnscramble);
 
             if (unscramble == null)
                 return null;

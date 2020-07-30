@@ -16,9 +16,9 @@ namespace CreatingAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateUser([FromBody] UserCreationViewModel user, [FromServices] IUserAppService userAppService)
+        public async Task<IActionResult> CreateAsync([FromBody] UserCreationViewModel user, [FromServices] IUserAppService userAppService)
         {
-            var resultUserCreated = await userAppService.CreateUser(user);
+            var resultUserCreated = await userAppService.CreateAsync(user);
 
             if (resultUserCreated.StatusCode == Application.Core.StatusCode.BAD_REQUEST)
                 return BadRequest(resultUserCreated.Errors);
@@ -30,9 +30,9 @@ namespace CreatingAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ChangePassword(int userId, string newPassword, [FromServices] IUserAppService userAppService)
+        public async Task<IActionResult> ChangePasswordAsync(int userId, string newPassword, [FromServices] IUserAppService userAppService)
         {
-            var resultUserUpdated = await userAppService.ChangePassword(userId, newPassword);
+            var resultUserUpdated = await userAppService.ChangePasswordAsync(userId, newPassword);
 
             if (resultUserUpdated.StatusCode == Application.Core.StatusCode.BAD_REQUEST)
                 return BadRequest(resultUserUpdated.Errors);
@@ -46,9 +46,9 @@ namespace CreatingAPI.Controllers
         [HttpDelete("{userId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteUser(int userId, [FromServices] IUserAppService userAppService)
+        public async Task<IActionResult> DeleteAsync(int userId, [FromServices] IUserAppService userAppService)
         {
-            var resultUserDeleted = await userAppService.DeleteUser(userId);
+            var resultUserDeleted = await userAppService.DeleteAsync(userId);
 
             if (resultUserDeleted.StatusCode == Application.Core.StatusCode.NOT_FOUND)
                 return NotFound(resultUserDeleted.Errors);

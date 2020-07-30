@@ -6,9 +6,9 @@ namespace CreatingAPI.Domain.Pickers.Interfaces
 {
     public interface IPickerService
     {
-        Task<ValidationResult> CreatePicker(Picker picker, IEnumerable<PickerTopic> topics);
-        Task<ValidationResult> UpdatePicker(int id, Picker picker, IEnumerable<PickerTopic> topics);
-        Task<ValidationResult> DeletePicker(int id);
-        Task<Picker> GetPicker(int id);
+        Task<ValidationResult> CreateAsync(Picker picker, IEnumerable<PickerTopic> topics);
+        Task<ValidationResult> UpdateAsync(int id, Picker picker, IEnumerable<PickerTopic> topics);
+        Task<ValidationResult> DeleteAsync(int id);
+        Task<Picker> GetAsync(int id);
     }
 }

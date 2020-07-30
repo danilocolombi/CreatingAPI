@@ -18,7 +18,7 @@ namespace CreatingAPI.Data.Unscrumbles.Repository
             _dataContext = dataContext;
         }
 
-        public async Task<int> CreateUnscramble(Unscramble unscramble)
+        public async Task<int> CreateAsync(Unscramble unscramble)
         {
             try
             {
@@ -37,14 +37,14 @@ namespace CreatingAPI.Data.Unscrumbles.Repository
             }
         }
 
-        public async Task<bool> DeleteUnscramble(Unscramble unscramble)
+        public async Task<bool> DeleteAsync(Unscramble unscramble)
         {
             _dataContext.Remove(unscramble);
 
             return await _dataContext.SaveChangesAsync() > 0;
         }
 
-        public async Task<Unscramble> GetUnscramble(int id)
+        public async Task<Unscramble> GetAsync(int id)
         {
             var usncrumble = await _dataContext.Unscrambles
                                                 .Where(u => u.Id == id)
@@ -54,9 +54,9 @@ namespace CreatingAPI.Data.Unscrumbles.Repository
             return usncrumble;
         }
 
-        public async Task<bool> UpdateUnscramble(Unscramble unscramble)
+        public async Task<bool> UpdateAsync(Unscramble unscramble)
         {
-            var savedUnscrambled = await GetUnscramble(unscramble.Id);
+            var savedUnscrambled = await GetAsync(unscramble.Id);
 
             if (savedUnscrambled == null) return false;
 

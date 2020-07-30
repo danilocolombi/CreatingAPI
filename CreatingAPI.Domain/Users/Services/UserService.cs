@@ -14,7 +14,7 @@ namespace CreatingAPI.Domain.Users.Services
             _userRepository = userRepository;
         }
 
-        public async Task<ValidationResult> CreateUser(User user)
+        public async Task<ValidationResult> CreateAsync(User user)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace CreatingAPI.Domain.Users.Services
                 if (await _userRepository.IsEmailAlreadyRegistered(user.Email.Address))
                     return new ValidationResult(false, new ValidationError("This e-mail is already registered"));
 
-                var createdUserId = await _userRepository.CreateUser(user);
+                var createdUserId = await _userRepository.CreateAsync(user);
 
                 if (createdUserId <= 0)
                     return new ValidationResult(false, new ValidationError("There was an error while creating the user"));
@@ -37,14 +37,14 @@ namespace CreatingAPI.Domain.Users.Services
             }
         }
 
-        public async Task<ValidationResult> DeleteUser(int id)
+        public async Task<ValidationResult> DeleteAsync(int id)
         {
-            var user = await _userRepository.GetUser(id);
+            var user = await _userRepository.GetAsync(id);
 
             if (user == null)
                 return new ValidationResult(false, new ValidationError("The user wasn't found"));
 
-            var userWasDeleted = await _userRepository.DeleteUser(user);
+            var userWasDeleted = await _userRepository.DeleteAsync(user);
 
             if (!userWasDeleted)
                 return new ValidationResult(false, new ValidationError("There was an error while deleting the user"));
@@ -52,16 +52,16 @@ namespace CreatingAPI.Domain.Users.Services
             return new ValidationResult(true);
         }
 
-        public async Task<User> GetUser(int id)
+        public async Task<User> GetAsync(int id)
         {
-            return await _userRepository.GetUser(id);
+            return await _userRepository.GetAsync(id);
         }
 
-        public async Task<ValidationResult> ChangePassword(int id, string newPassword)
+        public async Task<ValidationResult> ChangePasswordAsync(int id, string newPassword)
         {
             try
             {
-                var user = await _userRepository.GetUser(id);
+                var user = await _userRepository.GetAsync(id);
 
                 if (user == null)
                     return new ValidationResult(false, new ValidationError("The user wasn't found"));
@@ -71,7 +71,7 @@ namespace CreatingAPI.Domain.Users.Services
                 if (!user.IsValid())
                     return new ValidationResult(false, user.ValidationErrors);
 
-                var userWasUpdated = await _userRepository.UpdateUser(user);
+                var userWasUpdated = await _userRepository.UpdateAsync(user);
 
                 if (!userWasUpdated)
                     return new ValidationResult(false, new ValidationError("There was an error while updating the user"));

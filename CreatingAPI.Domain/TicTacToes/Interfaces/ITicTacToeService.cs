@@ -6,9 +6,9 @@ namespace CreatingAPI.Domain.TicTacToes.Interfaces
 {
     public interface ITicTacToeService
     {
-        Task<ValidationResult> CreateTicTacToe(TicTacToe ticTacToe, IEnumerable<TicTacToeSquare> squares);
-        Task<ValidationResult> UpdateTicTacToe(int id, TicTacToe ticTacToe, IEnumerable<TicTacToeSquare> squares);
-        Task<TicTacToe> GetTicTacToe(int id);
-        Task<ValidationResult> DeleteTicTacToe(int id);
+        Task<ValidationResult> CreateAsync(TicTacToe ticTacToe, IEnumerable<TicTacToeSquare> squares);
+        Task<ValidationResult> UpdateAsync(int id, TicTacToe ticTacToe, IEnumerable<TicTacToeSquare> squares);
+        Task<TicTacToe> GetAsync(int id);
+        Task<ValidationResult> DeleteAsync(int id);
     }
 }

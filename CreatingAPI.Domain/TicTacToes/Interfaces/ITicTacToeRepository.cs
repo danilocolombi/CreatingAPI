@@ -4,9 +4,9 @@ namespace CreatingAPI.Domain.TicTacToes.Interfaces
 {
     public interface ITicTacToeRepository
     {
-        Task<int> CreateTicTacToe(TicTacToe ticTacToe);
-        Task<bool> UpdateTicTacToe(TicTacToe ticTacToe);
-        Task<TicTacToe> GetTicTacToe(int id);
-        Task<bool> DeleteTicTacToe(TicTacToe ticTacToe);
+        Task<int> CreateAsync(TicTacToe ticTacToe);
+        Task<bool> UpdateAsync(TicTacToe ticTacToe);
+        Task<TicTacToe> GetAsync(int id);
+        Task<bool> DeleteAsync(TicTacToe ticTacToe);
     }
 }

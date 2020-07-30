@@ -20,36 +20,36 @@ namespace CreatingAPI.Application.TicTacToes
             _mapper = mapper;
         }
 
-        public async Task<ResultResponse> CreateTicTacToe(TicTacToeCreationViewModel ticTacToeCreationViewModel)
+        public async Task<ResultResponse> CreateAsync(TicTacToeCreationViewModel ticTacToeCreationViewModel)
         {
             var ticTacToe = _mapper.Map<TicTacToe>(ticTacToeCreationViewModel);
             var squares = _mapper.Map<IEnumerable<TicTacToeSquare>>(ticTacToeCreationViewModel.Squares);
 
-            var businessResult = await _ticTacToeService.CreateTicTacToe(ticTacToe, squares);
+            var businessResult = await _ticTacToeService.CreateAsync(ticTacToe, squares);
 
             return new ResultResponse(businessResult, Operation.CREATE);
         }
 
-        public async Task<ResultResponse> UpdateTicTacToe(int id, TicTacToeCreationViewModel ticTacToeCreationViewModel)
+        public async Task<ResultResponse> UpdateAsync(int id, TicTacToeCreationViewModel ticTacToeCreationViewModel)
         {
             var ticTacToe = _mapper.Map<TicTacToe>(ticTacToeCreationViewModel);
             var squares = _mapper.Map<IEnumerable<TicTacToeSquare>>(ticTacToeCreationViewModel.Squares);
 
-            var businessResult = await _ticTacToeService.UpdateTicTacToe(id, ticTacToe, squares);
+            var businessResult = await _ticTacToeService.UpdateAsync(id, ticTacToe, squares);
 
             return new ResultResponse(businessResult, Operation.UPDATE);
         }
 
-        public async Task<ResultResponse> DeleteTicTacToe(int id)
+        public async Task<ResultResponse> DeleteAsync(int id)
         {
-            var businessResult = await _ticTacToeService.DeleteTicTacToe(id);
+            var businessResult = await _ticTacToeService.DeleteAsync(id);
 
             return new ResultResponse(businessResult, Operation.DELETE);
         }
 
-        public async Task<TicTacToeViewModel> GetTicTacToe(int id)
+        public async Task<TicTacToeViewModel> GetAsync(int id)
         {
-            var ticTacToe = await _ticTacToeService.GetTicTacToe(id);
+            var ticTacToe = await _ticTacToeService.GetAsync(id);
 
             var ticTacToeViewModel = _mapper.Map<TicTacToeViewModel>(ticTacToe);
 

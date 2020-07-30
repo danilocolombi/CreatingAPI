@@ -21,36 +21,36 @@ namespace CreatingAPI.Application.Unscrambles
             _mapper = mapper;
         }
 
-        public async Task<ResultResponse> CreateUnscramble(UnscrambleCreationViewModel unscrambleCreationViewModel)
+        public async Task<ResultResponse> CreateAsync(UnscrambleCreationViewModel unscrambleCreationViewModel)
         {
             var unscramble = _mapper.Map<Unscramble>(unscrambleCreationViewModel);
             var exercises = _mapper.Map<IEnumerable<Exercise>>(unscrambleCreationViewModel.Exercises);
 
-            var businessResult = await _unscrambleService.CreateUnscramble(unscramble, exercises);
+            var businessResult = await _unscrambleService.CreateAsync(unscramble, exercises);
 
             return new ResultResponse(businessResult, Operation.CREATE);
         }
 
-        public async Task<ResultResponse> UpdateUnscramble(int id, UnscrambleCreationViewModel unscrambleCreationViewModel)
+        public async Task<ResultResponse> UpdateAsync(int id, UnscrambleCreationViewModel unscrambleCreationViewModel)
         {
             var unscramble = _mapper.Map<Unscramble>(unscrambleCreationViewModel);
             var exercises = _mapper.Map<IEnumerable<Exercise>>(unscrambleCreationViewModel.Exercises);
 
-            var businessResult = await _unscrambleService.UpdateUnscramble(id, unscramble, exercises);
+            var businessResult = await _unscrambleService.UpdateAsync(id, unscramble, exercises);
 
             return new ResultResponse(businessResult, Operation.UPDATE);
         }
 
-        public async Task<ResultResponse> DeleteUnscramble(int idUnscramble)
+        public async Task<ResultResponse> DeleteAsync(int idUnscramble)
         {
-            var businessResult = await _unscrambleService.DeleteUnscramble(idUnscramble);
+            var businessResult = await _unscrambleService.DeleteAsync(idUnscramble);
 
             return new ResultResponse(businessResult, Operation.DELETE);
         }
 
-        public async Task<UnscrambleViewModel> GetUnscramble(int idUnscramble)
+        public async Task<UnscrambleViewModel> GetAsync(int idUnscramble)
         {
-            var unscramble = await _unscrambleService.GetUnscramble(idUnscramble);
+            var unscramble = await _unscrambleService.GetAsync(idUnscramble);
 
             var unscrambleViewModel = _mapper.Map<UnscrambleViewModel>(unscramble);
 

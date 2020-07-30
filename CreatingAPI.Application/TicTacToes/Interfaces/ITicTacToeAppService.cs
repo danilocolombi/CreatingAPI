@@ -6,9 +6,9 @@ namespace CreatingAPI.Application.TicTacToes.Interfaces
 {
     public interface ITicTacToeAppService
     {
-        Task<ResultResponse> CreateTicTacToe(TicTacToeCreationViewModel ticTacToeCreationViewModel);
-        Task<ResultResponse> UpdateTicTacToe(int id, TicTacToeCreationViewModel ticTacToeCreationViewModel);
-        Task<ResultResponse> DeleteTicTacToe(int id);
-        Task<TicTacToeViewModel> GetTicTacToe(int id);
+        Task<ResultResponse> CreateAsync(TicTacToeCreationViewModel ticTacToeCreationViewModel);
+        Task<ResultResponse> UpdateAsync(int id, TicTacToeCreationViewModel ticTacToeCreationViewModel);
+        Task<ResultResponse> DeleteAsync(int id);
+        Task<TicTacToeViewModel> GetAsync(int id);
     }
 }

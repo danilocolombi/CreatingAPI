@@ -13,7 +13,7 @@ namespace CreatingAPI.Domain.Pickers.Services
         {
             _pickerRepository = pickerRepository;
         }
-        public async Task<ValidationResult> CreatePicker(Picker picker, IEnumerable<PickerTopic> topics)
+        public async Task<ValidationResult> CreateAsync(Picker picker, IEnumerable<PickerTopic> topics)
         {
             if (!picker.IsValid())
                 return new ValidationResult(false, picker.ValidationErrors);
@@ -21,7 +21,7 @@ namespace CreatingAPI.Domain.Pickers.Services
             if (!picker.AddTopics(topics))
                 return new ValidationResult(false, picker.ValidationErrors);
 
-            var createdPickerId = await _pickerRepository.CreatePicker(picker);
+            var createdPickerId = await _pickerRepository.CreateAsync(picker);
 
             if (createdPickerId <= 0)
                 return new ValidationResult(false, new ValidationError("There was an error while creating the activity"));
@@ -29,7 +29,7 @@ namespace CreatingAPI.Domain.Pickers.Services
             return new ValidationResult(true);
         }
 
-        public async Task<ValidationResult> UpdatePicker(int id, Picker picker, IEnumerable<PickerTopic> topics)
+        public async Task<ValidationResult> UpdateAsync(int id, Picker picker, IEnumerable<PickerTopic> topics)
         {
             if (id <= 0) return new ValidationResult(false, new ValidationError("The activity is invalid"));
 
@@ -41,7 +41,7 @@ namespace CreatingAPI.Domain.Pickers.Services
             if (!picker.AddTopics(topics))
                 return new ValidationResult(false, picker.ValidationErrors);
 
-            var pickerWasUpdated = await _pickerRepository.UpdatePicker(picker);
+            var pickerWasUpdated = await _pickerRepository.UpdateAsync(picker);
 
             if (!pickerWasUpdated)
                 return new ValidationResult(false, new ValidationError("The activity wasn't found"));
@@ -49,16 +49,16 @@ namespace CreatingAPI.Domain.Pickers.Services
             return new ValidationResult(true);
         }
 
-        public async Task<ValidationResult> DeletePicker(int id)
+        public async Task<ValidationResult> DeleteAsync(int id)
         {
             if (id <= 0) return new ValidationResult(false, new ValidationError("The activity is invalid"));
 
-            var picker = await _pickerRepository.GetPicker(id);
+            var picker = await _pickerRepository.GetAsync(id);
 
             if (picker == null)
                 return new ValidationResult(false, new ValidationError("The activity wasn't found"));
 
-            var pickerWasDeleted = await _pickerRepository.DeletePicker(picker);
+            var pickerWasDeleted = await _pickerRepository.DeleteAsync(picker);
 
             if (!pickerWasDeleted)
                 return new ValidationResult(false, new ValidationError("There was an error while deleting the activity"));
@@ -66,9 +66,9 @@ namespace CreatingAPI.Domain.Pickers.Services
             return new ValidationResult(true);
         }
 
-        public async Task<Picker> GetPicker(int id)
+        public async Task<Picker> GetAsync(int id)
         {
-            return await _pickerRepository.GetPicker(id);
+            return await _pickerRepository.GetAsync(id);
         }
     }
 }

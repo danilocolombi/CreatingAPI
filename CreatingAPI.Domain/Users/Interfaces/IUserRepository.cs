@@ -4,10 +4,10 @@ namespace CreatingAPI.Domain.Users.Interfaces
 {
     public interface IUserRepository
     {
-        Task<int> CreateUser(User user);
-        Task<bool> UpdateUser(User user);
-        Task<bool> DeleteUser(User user);
-        Task<User> GetUser(int id);
+        Task<int> CreateAsync(User user);
+        Task<bool> UpdateAsync(User user);
+        Task<bool> DeleteAsync(User user);
+        Task<User> GetAsync(int id);
         Task<bool> IsEmailAlreadyRegistered(string email);
     }
 }
