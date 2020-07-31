@@ -29,7 +29,7 @@ namespace CreatingAPI.Domain.Pickers
                 }
 
                 if (Id > 0)
-                    topic.PickerId = Id;
+                    topic.SetPickerId(Id);
 
                 Topics.Add(topic);
             }

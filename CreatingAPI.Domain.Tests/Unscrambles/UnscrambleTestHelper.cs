@@ -17,14 +17,6 @@ namespace CreatingAPI.Domain.Tests.Unscrambles
             return fakeUnscramble;
         }
 
-        public static Unscramble GetFakeInvalidUnscramble()
-        {
-            var fakeUnscramble = new Faker<Unscramble>()
-                .CustomInstantiator(f => new Unscramble(f.Lorem.Paragraph(2), f.Random.Int(-1000, -1), f.Random.Bool()));
-
-            return fakeUnscramble;
-        }
-
         public static IEnumerable<Exercise> GetFakeExercises()
         {
             int uniquePosition = 1;

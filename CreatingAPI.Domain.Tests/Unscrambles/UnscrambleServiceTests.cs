@@ -39,21 +39,6 @@ namespace CreatingAPI.Domain.Tests.Unscrambles
             _repositoryMock.Verify(mr => mr.CreateAsync(unscramble), Times.Once);
         }
 
-        [Fact(DisplayName = "Create an invalid unscramble, should return ResultResponse with error")]
-        [Trait("Category", "Create")]
-        public async Task CreateAsync_InvalidUnscramble_ShouldReturnResultResponseWithError()
-        {
-            var invalidUnscramble = UnscrambleTestHelper.GetFakeInvalidUnscramble();
-            var exercises = UnscrambleTestHelper.GetFakeExercises();
-            var unscrambleService = new UnscrumbleService(_repositoryMock.Object);
-
-            var result = await unscrambleService.CreateAsync(invalidUnscramble, exercises);
-
-            result.Success.Should().BeFalse();
-            invalidUnscramble.IsValid().Should().BeFalse();
-            _repositoryMock.Verify(mr => mr.CreateAsync(It.IsAny<Unscramble>()), Times.Never);
-        }
-
         [Fact(DisplayName = "Update unscramble with success, should return ResultResponse with success")]
         [Trait("Category", "Update")]
         public async Task UpdateAsync_ShouldReturnResultResponseWithSuccess()
@@ -84,22 +69,6 @@ namespace CreatingAPI.Domain.Tests.Unscrambles
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity is invalid");
-            _repositoryMock.Verify(mr => mr.UpdateAsync(It.IsAny<Unscramble>()), Times.Never);
-        }
-
-        [Fact(DisplayName = "Update an invalid unscramble, should return ResultResponse with error")]
-        [Trait("Category", "Update")]
-        public async Task UpdateAsync_InvalidUnscramble_ShouldReturnResultResponseWithError()
-        {
-            var invalidUnscramble = UnscrambleTestHelper.GetFakeInvalidUnscramble();
-            var id = UnscrambleTestHelper.GetRandomInt();
-            var exercises = UnscrambleTestHelper.GetFakeExercises();
-            var unscrambleService = new UnscrumbleService(_repositoryMock.Object);
-
-            var result = await unscrambleService.UpdateAsync(id, invalidUnscramble, exercises);
-
-            result.Success.Should().BeFalse();
-            result.ValidationErrors.Should().NotBeEmpty();
             _repositoryMock.Verify(mr => mr.UpdateAsync(It.IsAny<Unscramble>()), Times.Never);
         }
 

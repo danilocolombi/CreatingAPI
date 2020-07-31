@@ -10,34 +10,22 @@ namespace CreatingAPI.Domain.Bookmarks
 {
     public class Bookmark : Entity
     {
-        public int UserId { get; private set; }
-        public virtual User User { get; set; }
+        public int UserId { get; }
+        public virtual User User { get; }
         public int? UnscrambleId { get; private set; }
-        public virtual Unscramble Unscramble { get; set; }
+        public virtual Unscramble Unscramble { get; }
         public int? TicTacToeId { get; private set; }
-        public virtual TicTacToe TicTacToe { get; set; }
-        public int? PickerId { get; set; }
-        public virtual Picker Picker { get; set; }
-        public int? QuizId { get; set; }
-        public virtual Quiz Quiz { get; set; }
+        public virtual TicTacToe TicTacToe { get; }
+        public int? PickerId { get; private set; }
+        public virtual Picker Picker { get; }
+        public int? QuizId { get; private set; }
+        public virtual Quiz Quiz { get; }
 
         public Bookmark() { }
         public Bookmark(int userId, int activityId, KindOfActivity kindOfActivity)
         {
-            SetUserId(userId);
-            SetId(activityId, kindOfActivity);
-        }
-
-        public bool SetUserId(int userId)
-        {
-            if (userId <= 0)
-            {
-                ValidationErrors.Add(new ValidationError("The user is invalid"));
-                return false;
-            }
-
             UserId = userId;
-            return true;
+            SetId(activityId, kindOfActivity);
         }
 
         public bool SetId(int activityId, KindOfActivity kindOfActivity)

@@ -7,7 +7,7 @@ namespace CreatingAPI.Domain.TicTacToes
 {
     public class TicTacToe : Activity
     {
-        public ICollection<TicTacToeSquare> Squares { get; set; }
+        public ICollection<TicTacToeSquare> Squares { get; private set; }
 
         private const int NUMBER_OF_SQUARES = 9;
 
@@ -34,7 +34,7 @@ namespace CreatingAPI.Domain.TicTacToes
                     return false;
                 }
 
-                var squaresInThisPosition = squares.Where(p => p.Position == square.Position).Count();
+                var squaresInThisPosition = squares.Count(p => p.Position == square.Position);
 
                 if (squaresInThisPosition != 1)
                 {
@@ -43,7 +43,7 @@ namespace CreatingAPI.Domain.TicTacToes
                 }
 
                 if (Id > 0)
-                    square.TicTacToeId = Id;
+                    square.SetTicTacToeId(Id);
 
                 Squares.Add(square);
             }

@@ -17,14 +17,6 @@ namespace CreatingAPI.Domain.Tests.Users
             return fakeUser;
         }
 
-        public static User GetFakeInvalidUser()
-        {
-            var fakeUser = new Faker<User>()
-                .CustomInstantiator(f => new User("", f.Internet.Email(), "A1B2C3"));
-
-            return fakeUser;
-        }
-
         public static string GetRandomName() => new Faker().Person.FullName;
     }
 }

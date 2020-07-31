@@ -38,21 +38,6 @@ namespace CreatingAPI.Domain.Tests.Users
             _repositoryMock.Verify(rm => rm.CreateAsync(user), Times.Once);
         }
 
-        [Fact(DisplayName = "Create an invalid user, should return ResultResponse with error")]
-        [Trait("Category", "Create")]
-        public async Task CreateAsync_InvalidUser_ShouldReturnResultResponseWithError()
-        {
-            var invalidUser = UserTestHelper.GetFakeInvalidUser();
-            var userService = new UserService(_repositoryMock.Object);
-
-            var result = await userService.CreateAsync(invalidUser);
-
-            result.Success.Should().BeFalse();
-            invalidUser.IsValid().Should().BeFalse();
-            _repositoryMock.Verify(mr => mr.CreateAsync(It.IsAny<User>()), Times.Never);
-        }
-
-
         [Fact(DisplayName = "Change an user password with success, should return ResultResponse with success")]
         [Trait("Category", "Change Password")]
         public async Task ChangePasswordAsync_ShouldReturnResultResponseWithSuccess()

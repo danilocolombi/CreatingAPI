@@ -5,9 +5,9 @@ namespace CreatingAPI.Domain.Unscrambles
     public class Exercise : Entity
     {
         public string Description { get; private set; }
-        public int Position { get; set; }
-        public int UnscrambleId { get; set; }
-        public virtual Unscramble Unscramble { get; set; }
+        public int Position { get; private set; }
+        public int UnscrambleId { get; private set; }
+        public virtual Unscramble Unscramble { get;  }
 
         private const int MIN_NUMBER_OF_WORDS = 3;
         private const int MAX_NUMBER_OF_WORDS = 10;
@@ -23,23 +23,7 @@ namespace CreatingAPI.Domain.Unscrambles
         }
 
         public bool SetDescription(string description)
-        {
-            if (string.IsNullOrWhiteSpace(description))
-            {
-                ValidationErrors.Add(new ValidationError("The description can't be empty"));
-                return false;
-            }
-            if (description.Length < 3)
-            {
-                ValidationErrors.Add(new ValidationError("The description can't have less than 3 characters"));
-                return false;
-            }
-            if (description.Length > 150)
-            {
-                ValidationErrors.Add(new ValidationError("The description can't have more than 150 characters"));
-                return false;
-            }
-
+        {        
             var words = description.Split(' ');
 
             if (words.Length < MIN_NUMBER_OF_WORDS)
@@ -72,6 +56,11 @@ namespace CreatingAPI.Domain.Unscrambles
 
             Position = position;
             return true;
+        }
+
+        public void SetUnscrambleId(int unscrambleId)
+        {
+            UnscrambleId = unscrambleId;
         }
 
         public override string ToString()

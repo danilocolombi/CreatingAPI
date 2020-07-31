@@ -40,21 +40,6 @@ namespace CreatingAPI.Domain.Tests.TicTacToes
             _repositoryMock.Verify(rm => rm.CreateAsync(ticTacToe), Times.Once);
         }
 
-        [Fact(DisplayName = "Create an invalid ticTacToe, should return ResultResponse with error")]
-        [Trait("Category", "Create")]
-        public async Task CreateAsync_InvalidTicTacToe_ShouldReturnResultResponseWithError()
-        {
-            var invalidTicTacToe = TicTacToeTestHelper.GetFakeInvalidTicTacToe();
-            var squares = TicTacToeTestHelper.GetFakeTicTacToeSquares();
-            var ticTacToeService = new TicTacToeService(_repositoryMock.Object);
-
-            var result = await ticTacToeService.CreateAsync(invalidTicTacToe, squares);
-
-            result.Success.Should().BeFalse();
-            invalidTicTacToe.IsValid().Should().BeFalse();
-            _repositoryMock.Verify(rm => rm.CreateAsync(It.IsAny<TicTacToe>()), Times.Never);
-        }
-
         [Fact(DisplayName = "Create ticTacToe with an invalid square, should return ResultResponse with error")]
         [Trait("Category", "Create")]
         public async Task CreateAsync_InvalidSquare_ShouldReturnResultResponseWithError()
@@ -99,22 +84,6 @@ namespace CreatingAPI.Domain.Tests.TicTacToes
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity is invalid");
-            _repositoryMock.Verify(rm => rm.UpdateAsync(It.IsAny<TicTacToe>()), Times.Never);
-        }
-
-        [Fact(DisplayName = "Update an invalid ticTacToe, should return ResultResponse with error")]
-        [Trait("Category", "Update")]
-        public async Task UpdateAsync_InvalidTicTacToe_ShouldReturnResultResponseWithError()
-        {
-            var invalidTicTacToe = TicTacToeTestHelper.GetFakeInvalidTicTacToe();
-            var squares = TicTacToeTestHelper.GetFakeTicTacToeSquares();
-            var id = TicTacToeTestHelper.GetRandomInt();
-            var ticTacToeService = new TicTacToeService(_repositoryMock.Object);
-
-            var result = await ticTacToeService.UpdateAsync(id, invalidTicTacToe, squares);
-
-            result.Success.Should().BeFalse();
-            result.ValidationErrors.Should().NotBeEmpty();
             _repositoryMock.Verify(rm => rm.UpdateAsync(It.IsAny<TicTacToe>()), Times.Never);
         }
 

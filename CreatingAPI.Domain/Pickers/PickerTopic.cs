@@ -4,38 +4,20 @@ namespace CreatingAPI.Domain.Pickers
 {
     public class PickerTopic : Entity
     {
-        public string Description { get; private set; }
-        public int PickerId { get; set; }
+        public string Description { get; }
+        public int PickerId { get; private set; }
         public virtual Picker Picker { get; }
 
         public PickerTopic() { }
 
         public PickerTopic(string description)
         {
-            SetDescription(description);
+            Description = description;
         }
 
-        public bool SetDescription(string description)
+        public void SetPickerId(int pickerId)
         {
-            if (string.IsNullOrWhiteSpace(description))
-            {
-                ValidationErrors.Add(new ValidationError("The description can't be empty"));
-                return false;
-            }
-            if (description.Length < 3)
-            {
-                ValidationErrors.Add(new ValidationError("The description can't have less than 3 characters"));
-                return false;
-            }
-            if (description.Length > 150)
-            {
-                ValidationErrors.Add(new ValidationError("The description can't have more than 150 characters"));
-                return false;
-            }
-
-            Description = description;
-
-            return true;
+            PickerId = pickerId;
         }
     }
 }

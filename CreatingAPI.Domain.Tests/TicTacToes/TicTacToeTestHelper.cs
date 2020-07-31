@@ -14,15 +14,7 @@ namespace CreatingAPI.Domain.Tests.TicTacToes
 
             return fakeTicTacToe;
         }
-
-        public static TicTacToe GetFakeInvalidTicTacToe()
-        {
-            var fakeTicTacToe = new Faker<TicTacToe>()
-                .CustomInstantiator(f => new TicTacToe(string.Empty, f.Random.Int(1), f.Random.Bool()));
-
-            return fakeTicTacToe;
-        }
-
+        
         public static IEnumerable<TicTacToeSquare> GetFakeTicTacToeSquares()
         {
             int uniquePosition = 1;

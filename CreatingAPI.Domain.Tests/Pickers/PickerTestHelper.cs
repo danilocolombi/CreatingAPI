@@ -7,6 +7,8 @@ namespace CreatingAPI.Domain.Tests.Pickers
 {
     public class PickerTestHelper : TestHelper
     {
+        public const string TITLE_GENERATES_DATABASE_ERROR_PICKER = "DATABASE ERROR";
+
         public static Picker GetFakePicker()
         {
             var fakePicker = new Faker<Picker>()
@@ -15,10 +17,10 @@ namespace CreatingAPI.Domain.Tests.Pickers
             return fakePicker;
         }
 
-        public static Picker GetFakeInvalidPicker()
+        public static Picker GetPickerGeneratesDatabaseError()
         {
             var fakePicker = new Faker<Picker>()
-                .CustomInstantiator(f => new Picker(string.Empty, f.Random.Int(1), f.Random.Bool()));
+                .CustomInstantiator(f => new Picker(TITLE_GENERATES_DATABASE_ERROR_PICKER, f.Random.Int(1), f.Random.Bool()));
 
             return fakePicker;
         }
@@ -27,12 +29,6 @@ namespace CreatingAPI.Domain.Tests.Pickers
         {
             return new Faker<PickerTopic>()
                 .CustomInstantiator(f => new PickerTopic(f.Lorem.Sentence())).Generate(10);
-        }
-
-        public static IEnumerable<PickerTopic> GetFakeInvalidTopics()
-        {
-            return new Faker<PickerTopic>()
-                .CustomInstantiator(f => new PickerTopic(string.Empty)).Generate(10);
         }
     }
 }

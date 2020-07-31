@@ -9,48 +9,22 @@ namespace CreatingAPI.Domain.Games
     {
         public DateTime StartedAt { get; private set; }
         public DateTime EndedAt { get; private set; }
-        public int NumberOfCorrectAnswers { get; private set; }
-        public int NumberOfWrongAnswers { get; private set; }
-        public int UserId { get; private set; }
-        public virtual User User { get; set; }
-        public int UnscrambleId { get; private set; }
-        public virtual Unscramble Unscramble { get; set; }
+        public int NumberOfCorrectAnswers { get;}
+        public int NumberOfWrongAnswers { get; }
+        public int UserId { get; }
+        public virtual User User { get; }
+        public int UnscrambleId { get;}
+        public virtual Unscramble Unscramble { get; }
 
         public Game() { }
 
-        public Game(int userId, int activityId, DateTime startedAt, DateTime endedAt, int numberOfCorrectAnswers, int numberOfWrongAnwers)
+        public Game(int userId, int activityId, DateTime startedAt, DateTime endedAt, int numberOfCorrectAnswers, int numberOfWrongAnswers)
         {
-            SetUserId(userId);
-            SetUnscrumbleId(activityId);
-            SetDates(startedAt, endedAt);
-            SetNumberOfCorrectAnswers(numberOfCorrectAnswers);
-            SetNumberOfWrongAnswers(numberOfWrongAnwers);
-        }
-
-        public bool SetUserId(int userId)
-        {
-            if (userId <= 0)
-            {
-                ValidationErrors.Add(new ValidationError("The user is invalid"));
-                return false;
-            }
-
             UserId = userId;
-
-            return true;
-        }
-
-        public bool SetUnscrumbleId(int unscrumbleId)
-        {
-            if (unscrumbleId <= 0)
-            {
-                ValidationErrors.Add(new ValidationError("The activity is invalid"));
-                return false;
-            }
-
-            UnscrambleId = unscrumbleId;
-
-            return true;
+            UnscrambleId = activityId;
+            SetDates(startedAt, endedAt);
+            NumberOfCorrectAnswers = numberOfCorrectAnswers;
+            NumberOfWrongAnswers = numberOfWrongAnswers;
         }
 
         public bool SetDates(DateTime startedAt, DateTime endedAt)
@@ -73,32 +47,6 @@ namespace CreatingAPI.Domain.Games
 
             StartedAt = startedAt;
             EndedAt = endedAt;
-
-            return true;
-        }
-
-        public bool SetNumberOfCorrectAnswers(int numberOfCorrectAnswers)
-        {
-            if (numberOfCorrectAnswers < 0)
-            {
-                ValidationErrors.Add(new ValidationError("The number of correct answers can't be less than 0"));
-                return false;
-            }
-
-            NumberOfCorrectAnswers = numberOfCorrectAnswers;
-
-            return true;
-        }
-
-        public bool SetNumberOfWrongAnswers(int numberOfWrongAnswers)
-        {
-            if (numberOfWrongAnswers < 0)
-            {
-                ValidationErrors.Add(new ValidationError("The number of wrong answers can't be less than 0"));
-                return false;
-            }
-
-            NumberOfWrongAnswers = numberOfWrongAnswers;
 
             return true;
         }

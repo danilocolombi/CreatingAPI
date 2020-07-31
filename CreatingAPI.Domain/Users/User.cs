@@ -11,20 +11,20 @@ namespace CreatingAPI.Domain.Users
 {
     public class User : Entity
     {
-        public string Name { get; private set; }
+        public string Name { get; }
         public Email Email { get; private set; }
         public Password Password { get; private set; }
-        public virtual ICollection<Unscramble> Unscrambles { get; private set; }
-        public virtual ICollection<Bookmark> Bookmarks { get; private set; }
-        public virtual ICollection<Game> Games { get; set; }
-        public virtual ICollection<TicTacToe> TicTacToes { get; set; }
-        public virtual ICollection<Picker> Pickers { get; set; }
+        public virtual ICollection<Unscramble> Unscrambles { get;}
+        public virtual ICollection<Bookmark> Bookmarks { get;}
+        public virtual ICollection<Game> Games { get; }
+        public virtual ICollection<TicTacToe> TicTacToes { get; }
+        public virtual ICollection<Picker> Pickers { get; }
 
         public User() { }
 
         public User(string name, string email, string password)
         {
-            SetName(name);
+            Name = name;
             Email = email;
             Password = password;
         }
@@ -32,28 +32,6 @@ namespace CreatingAPI.Domain.Users
         public void SetPassword(string password)
         {
             Password = password;
-        }
-
-        public bool SetName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                ValidationErrors.Add(new ValidationError("The name can't be empty"));
-                return false;
-            }
-            if (name.Length < 3)
-            {
-                ValidationErrors.Add(new ValidationError("The name can't have less than 3 characters"));
-                return false;
-            }
-            if (name.Length > 150)
-            {
-                ValidationErrors.Add(new ValidationError("The name can't have more than 150 characters"));
-                return false;
-            }
-
-            Name = name;
-            return true;
         }
 
         public override string ToString()

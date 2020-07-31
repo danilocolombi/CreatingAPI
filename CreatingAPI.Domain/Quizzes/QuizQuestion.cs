@@ -7,13 +7,13 @@ namespace CreatingAPI.Domain.Quizzes
 {
     public class QuizQuestion : Entity
     {
-        public string Description { get; private set; }
+        public string Description { get; set; }
         public Alternative AlternativeA { get; private set; }
         public Alternative AlternativeB { get; set; }
         public Alternative? AlternativeC { get; private set; }
         public Alternative? AlternativeD { get; private set; }
-        public int QuizId { get; set; }
-        public virtual Quiz Quiz { get; set; }
+        public int QuizId { get; private set; }
+        public virtual Quiz Quiz { get; }
 
         private const int MIN_NUMBER_OF_ALTERNATIVES = 2;
         private const int MAX_NUMBER_OF_ALTERNATIVES = 4;

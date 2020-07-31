@@ -29,7 +29,7 @@ namespace CreatingAPI.Domain.Unscrambles
                 }
 
                 if (Id > 0)
-                    exercise.UnscrambleId = Id;
+                    exercise.SetUnscrambleId(Id);
 
                 Exercises.Add(exercise);
             }

@@ -4,10 +4,10 @@ namespace CreatingAPI.Domain.TicTacToes
 {
     public class TicTacToeSquare : Entity
     {
-        public string Description { get; private set; }
+        public string Description { get; }
         public int Position { get; private set; }
-        public int TicTacToeId { get; set; }
-        public virtual TicTacToe TicTacToe { get; set; }
+        public int TicTacToeId { get; private set; }
+        public virtual TicTacToe TicTacToe { get; }
 
         private const int MIN_POSITION_SQUARE = 1;
         private const int MAX_POSITION_SQUARE = 9;
@@ -35,6 +35,11 @@ namespace CreatingAPI.Domain.TicTacToes
             Position = position;
 
             return true;
+        }
+
+        public void SetTicTacToeId(int ticTacToeId)
+        {
+            TicTacToeId = ticTacToeId;
         }
 
         public override string ToString()
