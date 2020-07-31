@@ -8,6 +8,7 @@ using CreatingAPI.Data.Users.Mapping;
 using CreatingAPI.Domain.Bookmarks;
 using CreatingAPI.Domain.Games;
 using CreatingAPI.Domain.Pickers;
+using CreatingAPI.Domain.Quizzes;
 using CreatingAPI.Domain.TicTacToes;
 using CreatingAPI.Domain.Unscrambles;
 using CreatingAPI.Domain.Users;
@@ -26,6 +27,8 @@ namespace CreatingAPI.Data.Core.Context
         public DbSet<TicTacToeSquare> TicTacToeSquares { get; set; }
         public DbSet<Picker> Pickers { get; set; }
         public DbSet<PickerTopic> PickerTopics { get; set; }
+        public DbSet<Quiz> Quizzes { get; set; }
+        public DbSet<QuizQuestion> QuizQuestions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

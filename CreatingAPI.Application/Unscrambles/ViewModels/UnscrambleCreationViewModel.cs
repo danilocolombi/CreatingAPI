@@ -5,7 +5,6 @@ namespace CreatingAPI.Application.Unscrambles.ViewModels
 {
     public class UnscrambleCreationViewModel : ActivityCreationViewModel
     {
-
         public IEnumerable<ExerciseViewModel> Exercises { get; set; }
     }
 }

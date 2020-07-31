@@ -25,6 +25,11 @@ namespace CreatingAPI.Domain.Quizzes
             SetAlternatives(alternatives);
         }
 
+        public void SetQuizId(int quizId)
+        {
+            QuizId = quizId;
+        }
+
         public bool SetAlternatives(IEnumerable<Alternative> alternatives)
         {
             if (alternatives.Count() < MIN_NUMBER_OF_ALTERNATIVES)

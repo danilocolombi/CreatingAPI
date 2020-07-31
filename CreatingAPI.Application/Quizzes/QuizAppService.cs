@@ -41,5 +41,41 @@ namespace CreatingAPI.Application.Quizzes
 
             return new ResultResponse(businessResult, Operation.CREATE);
         }
+
+        public async Task<ResultResponse> DeleteAsync(int id)
+        {
+            var businessResult = await _quizService.DeleteAsync(id);
+
+            return new ResultResponse(businessResult, Operation.DELETE);
+        }
+
+        public async Task<QuizViewModel> GetAsync(int id)
+        {
+            var quiz = await _quizService.GetAsync(id);
+
+            var quizViewModel = _mapper.Map<QuizViewModel>(quiz);
+
+            return quizViewModel;
+        }
+
+        public async Task<ResultResponse> UpdateAsync(int id, QuizCreationViewModel quizCreationViewModel)
+        {
+            var quiz = _mapper.Map<Quiz>(quizCreationViewModel);
+            var questions = new List<QuizQuestion>(quizCreationViewModel.Questions.Count());
+
+            foreach (var questionViewModel in quizCreationViewModel.Questions)
+            {
+                var alternatives = new List<Alternative>(4);
+
+                foreach (var alternativeViewModel in questionViewModel.Alternatives)
+                    alternatives.Add(Alternative.Parse(alternativeViewModel.description, alternativeViewModel.isCorrect));
+
+                questions.Add(new QuizQuestion(questionViewModel.Description, alternatives));
+            }
+
+            var businessResult = await _quizService.UpdateAsync(id, quiz, questions);
+
+            return new ResultResponse(businessResult, Operation.CREATE);
+        }
     }
 }
