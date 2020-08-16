@@ -12,12 +12,19 @@ namespace CreatingAPI.Controllers
     [ApiController]
     public class TicTacToesController : ControllerBase
     {
+        private readonly ITicTacToeAppService _ticTacToeAppService;
+
+        public TicTacToesController(ITicTacToeAppService ticTacToeAppService)
+        {
+            _ticTacToeAppService = ticTacToeAppService;
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateAsync([FromBody] TicTacToeCreationViewModel ticTacToeViewModel, [FromServices] ITicTacToeAppService ticTacToeAppService)
+        public async Task<IActionResult> CreateAsync([FromBody] TicTacToeCreationViewModel ticTacToeViewModel)
         {
-            var resultTicTacToeCreated = await ticTacToeAppService.CreateAsync(ticTacToeViewModel);
+            var resultTicTacToeCreated = await _ticTacToeAppService.CreateAsync(ticTacToeViewModel);
 
             if (resultTicTacToeCreated.StatusCode == Application.Core.StatusCode.BAD_REQUEST)
                 return BadRequest(resultTicTacToeCreated.Errors);
@@ -29,10 +36,9 @@ namespace CreatingAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateAsync(int ticTacToeId, [FromBody] TicTacToeCreationViewModel ticTacToeViewModel,
-                                                                    [FromServices] ITicTacToeAppService ticTacToeAppService)
+        public async Task<IActionResult> UpdateAsync(int ticTacToeId, [FromBody] TicTacToeCreationViewModel ticTacToeViewModel)
         {
-            var resultTicTacToeUpdated = await ticTacToeAppService.UpdateAsync(ticTacToeId, ticTacToeViewModel);
+            var resultTicTacToeUpdated = await _ticTacToeAppService.UpdateAsync(ticTacToeId, ticTacToeViewModel);
 
             if (resultTicTacToeUpdated.StatusCode == Application.Core.StatusCode.BAD_REQUEST)
                 return BadRequest(resultTicTacToeUpdated.Errors);
@@ -46,9 +52,9 @@ namespace CreatingAPI.Controllers
         [HttpDelete("{ticTacToeId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteAsync(int ticTacToeId, [FromServices] ITicTacToeAppService ticTacToeAppService)
+        public async Task<IActionResult> DeleteAsync(int ticTacToeId)
         {
-            var resultTicTacToeDeleted = await ticTacToeAppService.DeleteAsync(ticTacToeId);
+            var resultTicTacToeDeleted = await _ticTacToeAppService.DeleteAsync(ticTacToeId);
 
             if (resultTicTacToeDeleted.StatusCode == Application.Core.StatusCode.NOT_FOUND)
                 return NotFound(resultTicTacToeDeleted.Errors);
@@ -59,9 +65,9 @@ namespace CreatingAPI.Controllers
         [HttpGet("{ticTacToeId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAsync(int ticTacToeId, [FromServices] ITicTacToeAppService ticTacToeAppService)
+        public async Task<IActionResult> GetAsync(int ticTacToeId)
         {
-            var ticTacToe = await ticTacToeAppService.GetAsync(ticTacToeId);
+            var ticTacToe = await _ticTacToeAppService.GetAsync(ticTacToeId);
 
             if (ticTacToe == null) return NotFound();
 

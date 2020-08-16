@@ -14,9 +14,11 @@ namespace CreatingAPI.Application.Games.ViewModels
         public int UnscrumbleId { get; private set; }
 
         [Required]
+        [DataType(DataType.DateTime)]
         public DateTime StartedAt { get; private set; }
 
         [Required]
+        [DataType(DataType.DateTime)]
         public DateTime EndedAt { get; private set; }
 
         [Required]

@@ -11,12 +11,19 @@ namespace CreatingAPI.Controllers
     [Route("api/[controller]")]
     public class PickersController : ControllerBase
     {
+        private readonly IPickerAppService _pickerAppService;
+
+        public PickersController(IPickerAppService pickerAppService)
+        {
+            _pickerAppService = pickerAppService;
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateAsync([FromBody] PickerCreationViewModel pickerViewModel, [FromServices] IPickerAppService pickerAppService)
+        public async Task<IActionResult> CreateAsync([FromBody] PickerCreationViewModel pickerViewModel)
         {
-            var resultCreatedPicker = await pickerAppService.CreateAsync(pickerViewModel);
+            var resultCreatedPicker = await _pickerAppService.CreateAsync(pickerViewModel);
 
             if (resultCreatedPicker.StatusCode == Application.Core.StatusCode.BAD_REQUEST)
                 return BadRequest(resultCreatedPicker.Errors);
@@ -28,9 +35,9 @@ namespace CreatingAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateAsync(int pickerId, [FromBody] PickerCreationViewModel pickerViewModel, [FromServices] IPickerAppService pickerAppService)
+        public async Task<IActionResult> UpdateAsync(int pickerId, [FromBody] PickerCreationViewModel pickerViewModel)
         {
-            var resultUpdatedPicker = await pickerAppService.UpdateAsync(pickerId, pickerViewModel);
+            var resultUpdatedPicker = await _pickerAppService.UpdateAsync(pickerId, pickerViewModel);
 
             if (resultUpdatedPicker.StatusCode == Application.Core.StatusCode.BAD_REQUEST)
                 return BadRequest(resultUpdatedPicker.Errors);
@@ -44,9 +51,9 @@ namespace CreatingAPI.Controllers
         [HttpDelete("{pickerId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteAsync(int pickerId, [FromServices] IPickerAppService pickerAppService)
+        public async Task<IActionResult> DeleteAsync(int pickerId)
         {
-            var resultDeletedPicker = await pickerAppService.DeleteAsync(pickerId);
+            var resultDeletedPicker = await _pickerAppService.DeleteAsync(pickerId);
 
             if (resultDeletedPicker.StatusCode == Application.Core.StatusCode.NOT_FOUND)
                 return NotFound(resultDeletedPicker.Errors);
@@ -57,9 +64,9 @@ namespace CreatingAPI.Controllers
         [HttpGet("{pickerId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAsync(int pickerId, [FromServices] IPickerAppService pickerAppService)
+        public async Task<IActionResult> GetAsync(int pickerId)
         {
-            var picker = await pickerAppService.GetAsync(pickerId);
+            var picker = await _pickerAppService.GetAsync(pickerId);
 
             if (picker == null) return NotFound();
 

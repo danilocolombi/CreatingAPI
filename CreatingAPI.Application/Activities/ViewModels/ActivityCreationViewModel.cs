@@ -15,6 +15,5 @@ namespace CreatingAPI.Application.Activities.ViewModels
 
         [Required(ErrorMessage = "{0} is required")]
         public bool IsPublic { get; set; }
-
     }
 }

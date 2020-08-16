@@ -43,30 +43,30 @@ namespace CreatingAPI.Infra.IoC
     {
         public static void Register(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IActivityAppService, ActivityAppService>();
-            serviceCollection.AddTransient<IBookmarkAppService, BookmarkAppService>();
-            serviceCollection.AddTransient<IGameAppService, GameAppService>();
-            serviceCollection.AddTransient<IUnscrambleAppService, UnscrambleAppService>();
-            serviceCollection.AddTransient<IUserAppService, UserAppService>();
-            serviceCollection.AddTransient<ITicTacToeAppService, TicTacToeAppService>();
-            serviceCollection.AddTransient<IPickerAppService, PickerAppService>();
-            serviceCollection.AddTransient<IQuizAppService, QuizAppService>();
+            serviceCollection.AddScoped<IActivityAppService, ActivityAppService>();
+            serviceCollection.AddScoped<IBookmarkAppService, BookmarkAppService>();
+            serviceCollection.AddScoped<IGameAppService, GameAppService>();
+            serviceCollection.AddScoped<IUnscrambleAppService, UnscrambleAppService>();
+            serviceCollection.AddScoped<IUserAppService, UserAppService>();
+            serviceCollection.AddScoped<ITicTacToeAppService, TicTacToeAppService>();
+            serviceCollection.AddScoped<IPickerAppService, PickerAppService>();
+            serviceCollection.AddScoped<IQuizAppService, QuizAppService>();
 
-            serviceCollection.AddTransient<IBookmarkService, BookmarkService>();
-            serviceCollection.AddTransient<IGameService, GameService>();
-            serviceCollection.AddTransient<IUnscrambleService, UnscrumbleService>();
-            serviceCollection.AddTransient<IUserService, UserService>();
-            serviceCollection.AddTransient<ITicTacToeService, TicTacToeService>();
-            serviceCollection.AddTransient<IPickerService, PickerService>();
-            serviceCollection.AddTransient<IQuizService, QuizService>();
+            serviceCollection.AddScoped<IBookmarkService, BookmarkService>();
+            serviceCollection.AddScoped<IGameService, GameService>();
+            serviceCollection.AddScoped<IUnscrambleService, UnscrumbleService>();
+            serviceCollection.AddScoped<IUserService, UserService>();
+            serviceCollection.AddScoped<ITicTacToeService, TicTacToeService>();
+            serviceCollection.AddScoped<IPickerService, PickerService>();
+            serviceCollection.AddScoped<IQuizService, QuizService>();
 
-            serviceCollection.AddTransient<IBookmarkRepository, BookmarkRepository>();
-            serviceCollection.AddTransient<IGameRepository, GameRepository>();
-            serviceCollection.AddTransient<IUnscrambleRepository, UnscrambleRepository>();
-            serviceCollection.AddTransient<IUserRepository, UserRepository>();
-            serviceCollection.AddTransient<ITicTacToeRepository, TicTacToeRepository>();
-            serviceCollection.AddTransient<IPickerRepository, PickerRepository>();
-            serviceCollection.AddTransient<IQuizRepository, QuizRepository>();
+            serviceCollection.AddScoped<IBookmarkRepository, BookmarkRepository>();
+            serviceCollection.AddScoped<IGameRepository, GameRepository>();
+            serviceCollection.AddScoped<IUnscrambleRepository, UnscrambleRepository>();
+            serviceCollection.AddScoped<IUserRepository, UserRepository>();
+            serviceCollection.AddScoped<ITicTacToeRepository, TicTacToeRepository>();
+            serviceCollection.AddScoped<IPickerRepository, PickerRepository>();
+            serviceCollection.AddScoped<IQuizRepository, QuizRepository>();
         }
     }
 }
