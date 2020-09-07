@@ -4,6 +4,7 @@ using CreatingAPI.Domain.Users.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CreatingAPI.Data.Users.Repository
@@ -60,6 +61,19 @@ namespace CreatingAPI.Data.Users.Repository
             var user = await _dataContext.Users.FirstOrDefaultAsync(u => u.Email.Address == email);
 
             return user == null ? false : true;
+        }
+
+        public async Task<User> GetUserByIdAsync(int id)
+        {
+            var user = await _dataContext.Users
+                                        .Where(u => u.Id == id)
+                                        .Include(u => u.Unscrambles)
+                                        .Include(u => u.TicTacToes)
+                                        .Include(u => u.Pickers)
+                                        .Include(u => u.Quizzes)
+                                        .FirstOrDefaultAsync();
+
+            return user;
         }
     }
 }

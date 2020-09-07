@@ -18,6 +18,10 @@ namespace CreatingAPI.Data.Core.Context
 {
     public class DataContext : DbContext
     {
+        public DataContext(DbContextOptions options) : base(options)
+        {
+
+        }
         public DbSet<Unscramble> Unscrambles { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<User> Users { get; set; }
@@ -29,11 +33,6 @@ namespace CreatingAPI.Data.Core.Context
         public DbSet<PickerTopic> PickerTopics { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<QuizQuestion> QuizQuestions { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Creating.Demo;Trusted_Connection=True;");
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

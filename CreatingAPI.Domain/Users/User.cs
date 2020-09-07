@@ -3,6 +3,7 @@ using CreatingAPI.Domain.Core;
 using CreatingAPI.Domain.Core.ValueObjects;
 using CreatingAPI.Domain.Games;
 using CreatingAPI.Domain.Pickers;
+using CreatingAPI.Domain.Quizzes;
 using CreatingAPI.Domain.TicTacToes;
 using CreatingAPI.Domain.Unscrambles;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace CreatingAPI.Domain.Users
         public virtual ICollection<Game> Games { get; }
         public virtual ICollection<TicTacToe> TicTacToes { get; }
         public virtual ICollection<Picker> Pickers { get; }
+        public virtual ICollection<Quiz> Quizzes { get; }
 
         public User() { }
 

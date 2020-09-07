@@ -3,6 +3,7 @@ using CreatingAPI.Data.Core.Context;
 using CreatingAPI.Infra.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,17 +15,27 @@ namespace CreatingAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        public Startup(IHostEnvironment hostEnvironment)
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(hostEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", true, true)
+                .AddEnvironmentVariables();
+
+            if (hostEnvironment.IsProduction())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+            Configuration = builder.Build();
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>();
+            services.AddDbContext<DataContext>(opt =>
+                opt.UseSqlServer(Configuration.GetConnectionString("CreatingDbContext")));
+
             services.AddAutoMapperConfiguration();
             BootStrapper.Register(services);
 
@@ -32,32 +43,9 @@ namespace CreatingAPI
 
             services.AddControllers();
 
-            services.AddSwaggerGen(setupAction =>
-            {
-                setupAction.SwaggerDoc(
-                    "CreatingOpenAPISpecification",
-                    new Microsoft.OpenApi.Models.OpenApiInfo()
-                    {
-                        Title = "Creating API",
-                        Version = "1",
-                        Description = "Through this API you can access unscrumbles and their information.",
-                        Contact = new Microsoft.OpenApi.Models.OpenApiContact()
-                        {
-                            Email = "daniloc.t@hotmail.com",
-                            Name = "Danilo Colombi Tavares",
-                            Url = new Uri("https://www.facebook.com/danilo.colombitavares")
-                        }
-
-                    });
-
-                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
-
-                setupAction.IncludeXmlComments(xmlCommentsFullPath);
-            });
+            services.AddSwagger();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

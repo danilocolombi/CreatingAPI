@@ -28,7 +28,7 @@ namespace CreatingAPI.Controllers
             if (resultCreatedPicker.StatusCode == Application.Core.StatusCode.BAD_REQUEST)
                 return BadRequest(resultCreatedPicker.Errors);
 
-            return CreatedAtRoute("", pickerViewModel);
+            return CreatedAtRoute("", resultCreatedPicker);
         }
 
         [HttpPut("{pickerId}")]

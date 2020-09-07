@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using CreatingAPI.Application.Activities.ViewModels;
 using CreatingAPI.Application.Core;
 using CreatingAPI.Application.Users.Interfaces;
 using CreatingAPI.Application.Users.ViewModels;
 using CreatingAPI.Domain.Users;
 using CreatingAPI.Domain.Users.Interfaces;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CreatingAPI.Application.Users
@@ -42,13 +44,18 @@ namespace CreatingAPI.Application.Users
             return new ResultResponse(businessResult, Operation.DELETE);
         }
 
-        public async Task<UserViewModel> GetAsync(int idUser)
+        public async Task<IEnumerable<MyActivitiyViewModel>> GetUserActivitiesAsync(int idUser)
         {
-            var user = await _userService.GetAsync(idUser);
+            var user = await _userService.GetUserByIdAsync(idUser);
 
-            var userViewModel = _mapper.Map<UserViewModel>(user);
+            var myActivities = new List<MyActivitiyViewModel>();
 
-            return userViewModel;
+            myActivities.AddRange(_mapper.Map<IEnumerable<MyActivitiyViewModel>>(user.Pickers));
+            myActivities.AddRange(_mapper.Map<IEnumerable<MyActivitiyViewModel>>(user.TicTacToes));
+            myActivities.AddRange(_mapper.Map<IEnumerable<MyActivitiyViewModel>>(user.Quizzes));
+            myActivities.AddRange(_mapper.Map<IEnumerable<MyActivitiyViewModel>>(user.Unscrambles));
+
+            return myActivities;
         }
     }
 }

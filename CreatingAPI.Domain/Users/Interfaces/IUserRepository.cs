@@ -9,5 +9,6 @@ namespace CreatingAPI.Domain.Users.Interfaces
         Task<bool> DeleteAsync(User user);
         Task<User> GetAsync(int id);
         Task<bool> IsEmailAlreadyRegistered(string email);
+        Task<User> GetUserByIdAsync(int id);
     }
 }

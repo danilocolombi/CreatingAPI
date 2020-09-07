@@ -61,5 +61,19 @@ namespace CreatingAPI.Controllers
 
             return NoContent();
         }
+
+
+        [HttpGet("{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAsync(int userId)
+        {
+            var activities = await _userAppService.GetUserActivitiesAsync(userId);
+
+            if (activities == null)
+                return NotFound();
+
+            return Ok(activities);
+        }
     }
 }

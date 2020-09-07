@@ -83,5 +83,20 @@ namespace CreatingAPI.Domain.Users.Services
                 return new ValidationResult(false, new ValidationError(ex.Message));
             }
         }
+
+        public async Task<User> GetUserByIdAsync(int userId)
+        {
+            try
+            {
+                var user = await _userRepository.GetUserByIdAsync(userId);
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
     }
 }
