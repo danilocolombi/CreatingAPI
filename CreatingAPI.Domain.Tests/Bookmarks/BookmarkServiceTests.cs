@@ -9,29 +9,27 @@ using Xunit;
 
 namespace CreatingAPI.Domain.Tests.Bookmarks
 {
+    [Collection(nameof(BookmarkTestsFixtureCollection))]
     public class BookmarkServiceTests
     {
+        private readonly BookmarkTestsFixture _bookmarkTestsFixture;
+        private readonly BookmarkService _bookmarkService;
         private readonly Mock<IBookmarkRepository> _repositoryMock;
 
-        private const int ID_INEXISTENT_BOOKMARK = 1;
-
-        public BookmarkServiceTests()
+        public BookmarkServiceTests(BookmarkTestsFixture bookmarkTestsFixture)
         {
-            _repositoryMock = new Mock<IBookmarkRepository>(MockBehavior.Loose);
-            _repositoryMock.Setup(rm => rm.CreateAsync(It.IsAny<Bookmark>())).ReturnsAsync(BookmarkTestHelper.GetRandomInt());
-            _repositoryMock.Setup(rm => rm.GetAsync(It.Is<int>(i => i != ID_INEXISTENT_BOOKMARK))).ReturnsAsync(BookmarkTestHelper.GetFakeBookmark());
-            _repositoryMock.Setup(rm => rm.GetAsync(It.Is<int>(i => i == ID_INEXISTENT_BOOKMARK))).ReturnsAsync((Bookmark)null);
-            _repositoryMock.Setup(rm => rm.DeleteAsync(It.IsAny<Bookmark>())).ReturnsAsync(true);
+            _bookmarkTestsFixture = bookmarkTestsFixture;
+            _repositoryMock = _bookmarkTestsFixture.GetBookmarkRepositoryMock();
+            _bookmarkService = new BookmarkService(_repositoryMock.Object);
         }
 
         [Fact(DisplayName = "Create bookmark with success, should return ResultResponse with success")]
         [Trait("Category", "Create")]
         public async Task CreateAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var bookmark = BookmarkTestHelper.GetFakeBookmark();
-            var bookmarkService = new BookmarkService(_repositoryMock.Object);
+            var bookmark = _bookmarkTestsFixture.GetFakeBookmark();
 
-            var resultBookmarkCreated = await bookmarkService.CreateAsync(bookmark);
+            var resultBookmarkCreated = await _bookmarkService.CreateAsync(bookmark);
 
             resultBookmarkCreated.Success.Should().BeTrue();
             _repositoryMock.Verify(rm => rm.CreateAsync(bookmark), Times.Once);
@@ -41,10 +39,9 @@ namespace CreatingAPI.Domain.Tests.Bookmarks
         [Trait("Category", "Create")]
         public async Task CreateAsync_InvalidBookmark_ShouldReturnResultResponseWithError()
         {
-            var invalidBookmark = BookmarkTestHelper.GetFakeInvalidBookmark();
-            var bookmarkService = new BookmarkService(_repositoryMock.Object);
+            var invalidBookmark = _bookmarkTestsFixture.GetFakeInvalidBookmark();
 
-            var resultBookmarkCreated = await bookmarkService.CreateAsync(invalidBookmark);
+            var resultBookmarkCreated = await _bookmarkService.CreateAsync(invalidBookmark);
 
             resultBookmarkCreated.Success.Should().BeFalse();
             _repositoryMock.Verify(rm => rm.CreateAsync(It.IsAny<Bookmark>()), Times.Never);
@@ -54,10 +51,9 @@ namespace CreatingAPI.Domain.Tests.Bookmarks
         [Trait("Category", "Delete")]
         public async Task DeleteAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var bookmarkId = BookmarkTestHelper.GetRandomInt();
-            var bookmarkService = new BookmarkService(_repositoryMock.Object);
+            var bookmarkId = _bookmarkTestsFixture.GetRandomInt();
 
-            var resultBookmarkDeleted = await bookmarkService.DeleteAsync(bookmarkId);
+            var resultBookmarkDeleted = await _bookmarkService.DeleteAsync(bookmarkId);
 
             resultBookmarkDeleted.Success.Should().BeTrue();
             _repositoryMock.Verify(rm => rm.DeleteAsync(It.IsAny<Bookmark>()), Times.Once);
@@ -69,7 +65,7 @@ namespace CreatingAPI.Domain.Tests.Bookmarks
         {
             var bookmarkService = new BookmarkService(_repositoryMock.Object);
 
-            var resultBookmarkDeleted = await bookmarkService.DeleteAsync(ID_INEXISTENT_BOOKMARK);
+            var resultBookmarkDeleted = await _bookmarkService.DeleteAsync(_bookmarkTestsFixture.GetInexistentBoomarkId());
 
             resultBookmarkDeleted.Success.Should().BeFalse();
             resultBookmarkDeleted.ValidationErrors.FirstOrDefault().Message.Should().Be("The bookmark wasn't found");

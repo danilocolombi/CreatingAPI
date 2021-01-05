@@ -41,12 +41,12 @@ namespace CreatingAPI.Controllers
             var resultUnscrambleUpdated = await _unscrambleAppService.UpdateAsync(unscrambleId, usncramble);
 
             if (resultUnscrambleUpdated.StatusCode == Application.Core.StatusCode.BAD_REQUEST)
-                return BadRequest(resultUnscrambleUpdated.Errors);
+                return BadRequest(resultUnscrambleUpdated);
 
             if (resultUnscrambleUpdated.StatusCode == Application.Core.StatusCode.NOT_FOUND)
-                return NotFound(resultUnscrambleUpdated.Errors);
+                return NotFound(resultUnscrambleUpdated);
 
-            return Ok();
+            return Ok(resultUnscrambleUpdated);
         }
 
         [HttpDelete("{unscrambleId}")]
@@ -77,7 +77,7 @@ namespace CreatingAPI.Controllers
         [HttpGet("ShuffledExercises/{unscrambleId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUnscrumble(int unscrambleId, [FromQuery] bool randomizeOrder)
+        public async Task<IActionResult> GetShuffledExercises(int unscrambleId, [FromQuery] bool randomizeOrder)
         {
             var exercises = await _unscrambleAppService.GetShuffledExercises(unscrambleId, randomizeOrder);
 

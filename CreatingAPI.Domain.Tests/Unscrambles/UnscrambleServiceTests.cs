@@ -9,30 +9,28 @@ using Xunit;
 
 namespace CreatingAPI.Domain.Tests.Unscrambles
 {
+    [Collection(nameof(UnscrambleTestsFixtureCollection))]
     public class UnscrambleServiceTests
     {
         private readonly Mock<IUnscrambleRepository> _repositoryMock;
+        private readonly UnscrambleTestsFixture _uncrambleTestsFixture;
+        private readonly UnscrumbleService _unscrambleService;
 
-        private const int ID_INEXISTENT_UNSCRAMBLE = 1;
-        public UnscrambleServiceTests()
+        public UnscrambleServiceTests(UnscrambleTestsFixture uncrambleTestsFixture)
         {
-            _repositoryMock = new Mock<IUnscrambleRepository>(MockBehavior.Loose);
-            _repositoryMock.Setup(mr => mr.CreateAsync(It.IsAny<Unscramble>())).ReturnsAsync(UnscrambleTestHelper.GetRandomInt());
-            _repositoryMock.Setup(mr => mr.UpdateAsync(It.IsAny<Unscramble>())).ReturnsAsync(true);
-            _repositoryMock.Setup(mr => mr.DeleteAsync(It.IsAny<Unscramble>())).ReturnsAsync(true);
-            _repositoryMock.Setup(mr => mr.GetAsync(It.Is<int>(i => i != ID_INEXISTENT_UNSCRAMBLE))).ReturnsAsync(UnscrambleTestHelper.GetFakeUnscramble());
-            _repositoryMock.Setup(mr => mr.GetAsync(It.Is<int>(i => i == ID_INEXISTENT_UNSCRAMBLE))).ReturnsAsync((Unscramble)null);
+            _uncrambleTestsFixture = uncrambleTestsFixture;
+            _repositoryMock = _uncrambleTestsFixture.GetUnscrambleRepositoryMock();
+            _unscrambleService = new UnscrumbleService(_repositoryMock.Object);
         }
 
         [Fact(DisplayName = "Create unscramble with success, should return ResultResponse with success")]
         [Trait("Category", "Create")]
         public async Task CreateAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var unscramble = UnscrambleTestHelper.GetFakeUnscramble();
-            var exercises = UnscrambleTestHelper.GetFakeExercises();
-            var unscrambleService = new UnscrumbleService(_repositoryMock.Object);
+            var unscramble = _uncrambleTestsFixture.GetFakeUnscramble();
+            var exercises = _uncrambleTestsFixture.GetFakeExercises();
 
-            var result = await unscrambleService.CreateAsync(unscramble, exercises);
+            var result = await _unscrambleService.CreateAsync(unscramble, exercises);
 
             result.Success.Should().BeTrue();
             unscramble.IsValid().Should().BeTrue();
@@ -43,12 +41,11 @@ namespace CreatingAPI.Domain.Tests.Unscrambles
         [Trait("Category", "Update")]
         public async Task UpdateAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var unscramble = UnscrambleTestHelper.GetFakeUnscramble();
-            var id = UnscrambleTestHelper.GetRandomInt();
-            var exercises = UnscrambleTestHelper.GetFakeExercises();
-            var unscrambleService = new UnscrumbleService(_repositoryMock.Object);
+            var unscramble = _uncrambleTestsFixture.GetFakeUnscramble();
+            var id = _uncrambleTestsFixture.GetRandomInt();
+            var exercises = _uncrambleTestsFixture.GetFakeExercises();
 
-            var result = await unscrambleService.UpdateAsync(id, unscramble, exercises);
+            var result = await _unscrambleService.UpdateAsync(id, unscramble, exercises);
 
             result.Success.Should().BeTrue();
             unscramble.IsValid().Should().BeTrue();
@@ -61,11 +58,10 @@ namespace CreatingAPI.Domain.Tests.Unscrambles
         [InlineData(0)]
         public async Task UpdateAsync_InvalidId_ShouldReturnResultResponseWithError(int invalidId)
         {
-            var unscramble = UnscrambleTestHelper.GetFakeUnscramble();
-            var exercises = UnscrambleTestHelper.GetFakeExercises();
-            var unscrambleService = new UnscrumbleService(_repositoryMock.Object);
+            var unscramble = _uncrambleTestsFixture.GetFakeUnscramble();
+            var exercises = _uncrambleTestsFixture.GetFakeExercises();
 
-            var result = await unscrambleService.UpdateAsync(invalidId, unscramble, exercises);
+            var result = await _unscrambleService.UpdateAsync(invalidId, unscramble, exercises);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity is invalid");
@@ -76,7 +72,7 @@ namespace CreatingAPI.Domain.Tests.Unscrambles
         [Trait("Category", "Delete")]
         public async Task DeleteAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var id = UnscrambleTestHelper.GetRandomInt();
+            var id = _uncrambleTestsFixture.GetRandomInt();
             var unscrambleService = new UnscrumbleService(_repositoryMock.Object);
 
             var result = await unscrambleService.DeleteAsync(id);
@@ -91,9 +87,7 @@ namespace CreatingAPI.Domain.Tests.Unscrambles
         [InlineData(0)]
         public async Task DeleteAsync_InvalidId_ShouldReturnResultResponseWithError(int invalidId)
         {
-            var unscrambleService = new UnscrumbleService(_repositoryMock.Object);
-
-            var result = await unscrambleService.DeleteAsync(invalidId);
+            var result = await _unscrambleService.DeleteAsync(invalidId);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity is invalid");
@@ -106,7 +100,7 @@ namespace CreatingAPI.Domain.Tests.Unscrambles
         {
             var unscrambleService = new UnscrumbleService(_repositoryMock.Object);
 
-            var result = await unscrambleService.DeleteAsync(ID_INEXISTENT_UNSCRAMBLE);
+            var result = await _unscrambleService.DeleteAsync(_uncrambleTestsFixture.GetInexistentUnscrambleId());
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity wasn't found");

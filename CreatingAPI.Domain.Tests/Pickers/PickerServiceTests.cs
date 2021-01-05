@@ -9,37 +9,29 @@ using Xunit;
 
 namespace CreatingAPI.Domain.Tests.Pickers
 {
+    [Collection(nameof(PickerTestsFixtureCollection))]
     public class PickerServiceTests
     {
-        private readonly Mock<IPickerRepository> _repositoryMock;
+        private readonly PickerTestsFixture _pickerTestsFixture;
+        private readonly PickerService _pickerService;
+        Mock<IPickerRepository> _repositoryMock;
 
-        private const int ID_INEXISTENT_PICKER = 1;
-
-        public PickerServiceTests()
+        public PickerServiceTests(PickerTestsFixture pickerTestsFixture)
         {
-            _repositoryMock = new Mock<IPickerRepository>(MockBehavior.Loose);
-            _repositoryMock.Setup(rm => rm.CreateAsync(It.Is<Picker>(p => p.Title != PickerTestHelper.TITLE_GENERATES_DATABASE_ERROR_PICKER)))
-                                                                                .ReturnsAsync(PickerTestHelper.GetRandomInt());
-            _repositoryMock.Setup(rm => rm.CreateAsync(It.Is<Picker>(p => p.Title == PickerTestHelper.TITLE_GENERATES_DATABASE_ERROR_PICKER))).ReturnsAsync(0);
+            _pickerTestsFixture = pickerTestsFixture;
+            _repositoryMock = _pickerTestsFixture.GetPickerMockRepository();
+            _pickerService = new PickerService(_repositoryMock.Object);
 
-            _repositoryMock.Setup(rm => rm.UpdateAsync(It.Is<Picker>(p => p.Title != PickerTestHelper.TITLE_GENERATES_DATABASE_ERROR_PICKER))).ReturnsAsync(true);
-            _repositoryMock.Setup(rm => rm.UpdateAsync(It.Is<Picker>(p => p.Title == PickerTestHelper.TITLE_GENERATES_DATABASE_ERROR_PICKER))).ReturnsAsync(false);
-
-            _repositoryMock.Setup(rm => rm.DeleteAsync(It.IsAny<Picker>())).ReturnsAsync(true);
-
-            _repositoryMock.Setup(rm => rm.GetAsync(It.Is<int>(i => i != ID_INEXISTENT_PICKER))).ReturnsAsync(PickerTestHelper.GetFakePicker());
-            _repositoryMock.Setup(rm => rm.GetAsync(It.Is<int>(i => i == ID_INEXISTENT_PICKER))).ReturnsAsync((Picker)null);
         }
 
         [Fact(DisplayName = "Create picker with success, should return ResultResponse with success")]
         [Trait("Category", "Create")]
         public async Task CreateAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var picker = PickerTestHelper.GetFakePicker();
-            var topics = PickerTestHelper.GetFakeTopics();
-            var pickerService = new PickerService(_repositoryMock.Object);
+            var picker = _pickerTestsFixture.GetFakePicker();
+            var topics = _pickerTestsFixture.GetFakeTopics();
 
-            var result = await pickerService.CreateAsync(picker, topics);
+            var result = await _pickerService.CreateAsync(picker, topics);
 
             result.Success.Should().BeTrue();
             picker.IsValid().Should().BeTrue();
@@ -50,11 +42,10 @@ namespace CreatingAPI.Domain.Tests.Pickers
         [Trait("Category", "Create")]
         public async Task CreateAsync_DatabaseError_ShouldReturnResultResponseWithError()
         {
-            var picker = PickerTestHelper.GetPickerGeneratesDatabaseError();
-            var topics = PickerTestHelper.GetFakeTopics();
-            var pickerService = new PickerService(_repositoryMock.Object);
+            var picker = _pickerTestsFixture.GetPickerGeneratesDatabaseError();
+            var topics = _pickerTestsFixture.GetFakeTopics();
 
-            var result = await pickerService.CreateAsync(picker, topics);
+            var result = await _pickerService.CreateAsync(picker, topics);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("There was an error while creating the activity");
@@ -65,12 +56,11 @@ namespace CreatingAPI.Domain.Tests.Pickers
         [Trait("Category", "Update")]
         public async Task UpdateAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var picker = PickerTestHelper.GetFakePicker();
-            var topics = PickerTestHelper.GetFakeTopics();
-            var id = PickerTestHelper.GetRandomInt();
-            var pickerService = new PickerService(_repositoryMock.Object);
+            var picker = _pickerTestsFixture.GetFakePicker();
+            var topics = _pickerTestsFixture.GetFakeTopics();
+            var id = _pickerTestsFixture.GetRandomInt();
 
-            var result = await pickerService.UpdateAsync(id, picker, topics);
+            var result = await _pickerService.UpdateAsync(id, picker, topics);
 
             result.Success.Should().BeTrue();
             picker.IsValid().Should().BeTrue();
@@ -83,11 +73,10 @@ namespace CreatingAPI.Domain.Tests.Pickers
         [InlineData(0)]
         public async Task UpdateAsync_InvalidId_ShouldReturnResultResponseWithError(int invalidId)
         {
-            var picker = PickerTestHelper.GetFakePicker();
-            var topics = PickerTestHelper.GetFakeTopics();
-            var pickerService = new PickerService(_repositoryMock.Object);
+            var picker = _pickerTestsFixture.GetFakePicker();
+            var topics = _pickerTestsFixture.GetFakeTopics();
 
-            var result = await pickerService.UpdateAsync(invalidId, picker, topics);
+            var result = await _pickerService.UpdateAsync(invalidId, picker, topics);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity is invalid");
@@ -98,12 +87,11 @@ namespace CreatingAPI.Domain.Tests.Pickers
         [Trait("Category", "Update")]
         public async Task UpdateAsync_DatabaseError_ShouldReturnResultResponseWithError()
         {
-            var picker = PickerTestHelper.GetPickerGeneratesDatabaseError();
-            var topics = PickerTestHelper.GetFakeTopics();
-            var id = PickerTestHelper.GetRandomInt();
-            var pickerService = new PickerService(_repositoryMock.Object);
+            var picker = _pickerTestsFixture.GetPickerGeneratesDatabaseError();
+            var topics = _pickerTestsFixture.GetFakeTopics();
+            var id = _pickerTestsFixture.GetRandomInt();
 
-            var result = await pickerService.UpdateAsync(id, picker, topics);
+            var result = await _pickerService.UpdateAsync(id, picker, topics);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity wasn't found");
@@ -114,10 +102,9 @@ namespace CreatingAPI.Domain.Tests.Pickers
         [Trait("Category", "Delete")]
         public async Task DeleteAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var id = PickerTestHelper.GetRandomInt();
-            var pickerService = new PickerService(_repositoryMock.Object);
+            var id = _pickerTestsFixture.GetRandomInt();
 
-            var result = await pickerService.DeleteAsync(id);
+            var result = await _pickerService.DeleteAsync(id);
 
             result.Success.Should().BeTrue();
             _repositoryMock.Verify(rm => rm.DeleteAsync(It.IsAny<Picker>()), Times.Once);
@@ -129,9 +116,7 @@ namespace CreatingAPI.Domain.Tests.Pickers
         [InlineData(0)]
         public async Task DeleteAsync_InvalidId_ShouldReturnResultResponseWithError(int invalidId)
         {
-            var pickerService = new PickerService(_repositoryMock.Object);
-
-            var result = await pickerService.DeleteAsync(invalidId);
+            var result = await _pickerService.DeleteAsync(invalidId);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity is invalid");
@@ -142,9 +127,7 @@ namespace CreatingAPI.Domain.Tests.Pickers
         [Trait("Category", "Delete")]
         public async Task DeleteAsync_InexistentId_ShouldReturnResultResponseWithError()
         {
-            var pickerService = new PickerService(_repositoryMock.Object);
-
-            var result = await pickerService.DeleteAsync(ID_INEXISTENT_PICKER);
+            var result = await _pickerService.DeleteAsync(_pickerTestsFixture.GetInexistentPickerId());
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity wasn't found");

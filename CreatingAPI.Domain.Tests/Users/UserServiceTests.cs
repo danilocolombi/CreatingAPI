@@ -9,30 +9,27 @@ using Xunit;
 
 namespace CreatingAPI.Domain.Tests.Users
 {
+    [Collection(nameof(UserTestsFixtureCollection))]
     public class UserServiceTests
     {
         private readonly Mock<IUserRepository> _repositoryMock;
+        private readonly UserTestsFixture _userTestsFixture;
+        private readonly UserService _userService;
 
-        private const int ID_INEXISTENT_USER = 1;
-
-        public UserServiceTests()
+        public UserServiceTests(UserTestsFixture userTestsFixture)
         {
-            _repositoryMock = new Mock<IUserRepository>();
-            _repositoryMock.Setup(rm => rm.CreateAsync(It.IsAny<User>())).ReturnsAsync(UserTestHelper.GetRandomInt());
-            _repositoryMock.Setup(rm => rm.UpdateAsync(It.IsAny<User>())).ReturnsAsync(true);
-            _repositoryMock.Setup(rm => rm.DeleteAsync(It.IsAny<User>())).ReturnsAsync(true);
-            _repositoryMock.Setup(rm => rm.GetAsync(It.Is<int>(i => i == ID_INEXISTENT_USER))).ReturnsAsync((User)null);
-            _repositoryMock.Setup(rm => rm.GetAsync(It.Is<int>(i => i != ID_INEXISTENT_USER))).ReturnsAsync(UserTestHelper.GetFakeUser());
+            _userTestsFixture = userTestsFixture;
+            _repositoryMock = _userTestsFixture.GetUserRepositoryMock();
+            _userService = new UserService(_repositoryMock.Object);
         }
 
         [Fact(DisplayName = "Create an user with success, should return ResultResponse with success")]
         [Trait("Category", "Create")]
         public async Task CreateAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var user = UserTestHelper.GetFakeUser();
-            var userService = new UserService(_repositoryMock.Object);
+            var user = _userTestsFixture.GetFakeUser();
 
-            var result = await userService.CreateAsync(user);
+            var result = await _userService.CreateAsync(user);
 
             result.Success.Should().BeTrue();
             _repositoryMock.Verify(rm => rm.CreateAsync(user), Times.Once);
@@ -42,11 +39,10 @@ namespace CreatingAPI.Domain.Tests.Users
         [Trait("Category", "Change Password")]
         public async Task ChangePasswordAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var userId = UserTestHelper.GetRandomInt();
-            var password = UserTestHelper.VALID_PASSWORD;
-            var userService = new UserService(_repositoryMock.Object);
+            var userId = _userTestsFixture.GetRandomInt();
+            var password = _userTestsFixture.GetValidPassword();
 
-            var result = await userService.ChangePasswordAsync(userId, password);
+            var result = await _userService.ChangePasswordAsync(userId, password);
 
             result.Success.Should().BeTrue();
             _repositoryMock.Verify(rm => rm.UpdateAsync(It.Is<User>(u => u.Password.Characters == password)), Times.Once);
@@ -56,10 +52,9 @@ namespace CreatingAPI.Domain.Tests.Users
         [Trait("Category", "Change Password")]
         public async Task ChangePasswordAsync_InexistentUser_ShouldReturnResultResponseWithError()
         {
-            var password = UserTestHelper.VALID_PASSWORD;
-            var userService = new UserService(_repositoryMock.Object);
+            var password = _userTestsFixture.GetValidPassword();
 
-            var result = await userService.ChangePasswordAsync(ID_INEXISTENT_USER, password);
+            var result = await _userService.ChangePasswordAsync(_userTestsFixture.GetInexistentUserId(), password);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The user wasn't found");
@@ -70,10 +65,9 @@ namespace CreatingAPI.Domain.Tests.Users
         [Trait("Category", "Change Password")]
         public async Task ChangePasswordAsync_InvalidPassword_ShouldReturnResultResponseWithError()
         {
-            var userId = UserTestHelper.GetRandomInt();
-            var userService = new UserService(_repositoryMock.Object);
+            var userId = _userTestsFixture.GetRandomInt();
 
-            var result = await userService.ChangePasswordAsync(userId, UserTestHelper.INVALID_PASSWORD);
+            var result = await _userService.ChangePasswordAsync(userId, _userTestsFixture.GetInvalidPassword());
 
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("invalid password");
             _repositoryMock.Verify(rm => rm.UpdateAsync(It.IsAny<User>()), Times.Never);
@@ -83,10 +77,9 @@ namespace CreatingAPI.Domain.Tests.Users
         [Trait("Category", "Delete")]
         public async Task DeleteAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var userId = UserTestHelper.GetRandomInt();
-            var userService = new UserService(_repositoryMock.Object);
+            var userId = _userTestsFixture.GetRandomInt();
 
-            var result = await userService.DeleteAsync(userId);
+            var result = await _userService.DeleteAsync(userId);
 
             result.Success.Should().BeTrue();
             _repositoryMock.Verify(rm => rm.DeleteAsync(It.IsAny<User>()), Times.Once);
@@ -96,9 +89,7 @@ namespace CreatingAPI.Domain.Tests.Users
         [Trait("Category", "Delete")]
         public async Task DeleteAsync_InexistentUser_ShouldReturnResultResponseWithError()
         {
-            var userService = new UserService(_repositoryMock.Object);
-
-            var result = await userService.DeleteAsync(ID_INEXISTENT_USER);
+            var result = await _userService.DeleteAsync(_userTestsFixture.GetInexistentUserId());
 
             result.Success.Should().BeFalse();
             _repositoryMock.Verify(rm => rm.DeleteAsync(It.IsAny<User>()), Times.Never);

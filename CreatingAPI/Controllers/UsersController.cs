@@ -63,7 +63,7 @@ namespace CreatingAPI.Controllers
         }
 
 
-        [HttpGet("{userId}")]
+        [HttpGet("{userId}/Activities")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAsync(int userId)

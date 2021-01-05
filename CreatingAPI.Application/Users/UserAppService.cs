@@ -50,6 +50,9 @@ namespace CreatingAPI.Application.Users
 
             var myActivities = new List<MyActivitiyViewModel>();
 
+            if (user == null)
+                return myActivities;
+
             myActivities.AddRange(_mapper.Map<IEnumerable<MyActivitiyViewModel>>(user.Pickers));
             myActivities.AddRange(_mapper.Map<IEnumerable<MyActivitiyViewModel>>(user.TicTacToes));
             myActivities.AddRange(_mapper.Map<IEnumerable<MyActivitiyViewModel>>(user.Quizzes));

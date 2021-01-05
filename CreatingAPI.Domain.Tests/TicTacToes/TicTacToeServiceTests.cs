@@ -9,31 +9,28 @@ using Xunit;
 
 namespace CreatingAPI.Domain.Tests.TicTacToes
 {
+    [Collection(nameof(TicTacToeTestsFixtureCollection))]
     public class TicTacToeServiceTests
     {
         private readonly Mock<ITicTacToeRepository> _repositoryMock;
+        private readonly TicTacToeTestsFixture _ticTacToeTestsFixture;
+        private readonly TicTacToeService _ticTacToeService;
 
-        private const int ID_INEXISTENT_TIC_TAC_TOE = 1;
-
-        public TicTacToeServiceTests()
+        public TicTacToeServiceTests(TicTacToeTestsFixture ticTacToeTestsFixture)
         {
-            _repositoryMock = new Mock<ITicTacToeRepository>(MockBehavior.Loose);
-            _repositoryMock.Setup(rm => rm.CreateAsync(It.IsAny<TicTacToe>())).ReturnsAsync(TicTacToeTestHelper.GetRandomInt());
-            _repositoryMock.Setup(rm => rm.UpdateAsync(It.IsAny<TicTacToe>())).ReturnsAsync(true);
-            _repositoryMock.Setup(rm => rm.DeleteAsync(It.IsAny<TicTacToe>())).ReturnsAsync(true);
-            _repositoryMock.Setup(rm => rm.GetAsync(It.Is<int>(i => i != ID_INEXISTENT_TIC_TAC_TOE))).ReturnsAsync(TicTacToeTestHelper.GetFakeTicTacToe());
-            _repositoryMock.Setup(rm => rm.GetAsync(It.Is<int>(i => i == ID_INEXISTENT_TIC_TAC_TOE))).ReturnsAsync((TicTacToe)null);
+            _ticTacToeTestsFixture = ticTacToeTestsFixture;
+            _repositoryMock = _ticTacToeTestsFixture.GetTicTacToeRepositoryMock();
+            _ticTacToeService = new TicTacToeService(_repositoryMock.Object);
         }
 
         [Fact(DisplayName = "Create ticTacToe with success, should return ResultResponse with success")]
         [Trait("Category", "Create")]
         public async Task CreateAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var ticTacToe = TicTacToeTestHelper.GetFakeTicTacToe();
-            var squares = TicTacToeTestHelper.GetFakeTicTacToeSquares();
-            var ticTacToeService = new TicTacToeService(_repositoryMock.Object);
+            var ticTacToe = _ticTacToeTestsFixture.GetFakeTicTacToe();
+            var squares = _ticTacToeTestsFixture.GetFakeTicTacToeSquares();
 
-            var result = await ticTacToeService.CreateAsync(ticTacToe, squares);
+            var result = await _ticTacToeService.CreateAsync(ticTacToe, squares);
 
             result.Success.Should().BeTrue();
             ticTacToe.IsValid().Should().BeTrue();
@@ -44,11 +41,10 @@ namespace CreatingAPI.Domain.Tests.TicTacToes
         [Trait("Category", "Create")]
         public async Task CreateAsync_InvalidSquare_ShouldReturnResultResponseWithError()
         {
-            var ticTacToe = TicTacToeTestHelper.GetFakeTicTacToe();
-            var squares = TicTacToeTestHelper.GetFakeInvalidTicTacToeSquares();
-            var ticTacToeService = new TicTacToeService(_repositoryMock.Object);
+            var ticTacToe = _ticTacToeTestsFixture.GetFakeTicTacToe();
+            var squares = _ticTacToeTestsFixture.GetFakeInvalidTicTacToeSquares();
 
-            var result = await ticTacToeService.CreateAsync(ticTacToe, squares);
+            var result = await _ticTacToeService.CreateAsync(ticTacToe, squares);
 
             result.Success.Should().BeFalse();
             _repositoryMock.Verify(rm => rm.CreateAsync(It.IsAny<TicTacToe>()), Times.Never);
@@ -58,12 +54,11 @@ namespace CreatingAPI.Domain.Tests.TicTacToes
         [Trait("Category", "Update")]
         public async Task UpdateAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var ticTacToe = TicTacToeTestHelper.GetFakeTicTacToe();
-            var squares = TicTacToeTestHelper.GetFakeTicTacToeSquares();
-            var id = TicTacToeTestHelper.GetRandomInt();
-            var ticTacToeService = new TicTacToeService(_repositoryMock.Object);
+            var ticTacToe = _ticTacToeTestsFixture.GetFakeTicTacToe();
+            var squares = _ticTacToeTestsFixture.GetFakeTicTacToeSquares();
+            var id = _ticTacToeTestsFixture.GetRandomInt();
 
-            var result = await ticTacToeService.UpdateAsync(id, ticTacToe, squares);
+            var result = await _ticTacToeService.UpdateAsync(id, ticTacToe, squares);
 
             result.Success.Should().BeTrue();
             ticTacToe.IsValid().Should().BeTrue();
@@ -76,11 +71,10 @@ namespace CreatingAPI.Domain.Tests.TicTacToes
         [InlineData(0)]
         public async Task UpdateAsync_InvalidId_ShouldReturnResultResponseWithError(int invalidId)
         {
-            var ticTacToe = TicTacToeTestHelper.GetFakeTicTacToe();
-            var squares = TicTacToeTestHelper.GetFakeTicTacToeSquares();
-            var ticTacToeService = new TicTacToeService(_repositoryMock.Object);
+            var ticTacToe = _ticTacToeTestsFixture.GetFakeTicTacToe();
+            var squares = _ticTacToeTestsFixture.GetFakeTicTacToeSquares();
 
-            var result = await ticTacToeService.UpdateAsync(invalidId, ticTacToe, squares);
+            var result = await _ticTacToeService.UpdateAsync(invalidId, ticTacToe, squares);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity is invalid");
@@ -91,10 +85,10 @@ namespace CreatingAPI.Domain.Tests.TicTacToes
         [Trait("Category", "Delete")]
         public async Task DeleteAsync_ShouldReturnResultResponseWithSuccess()
         {
-            var id = TicTacToeTestHelper.GetRandomInt();
+            var id = _ticTacToeTestsFixture.GetRandomInt();
             var ticTacToeService = new TicTacToeService(_repositoryMock.Object);
 
-            var result = await ticTacToeService.DeleteAsync(id);
+            var result = await _ticTacToeService.DeleteAsync(id);
 
             result.Success.Should().BeTrue();
             _repositoryMock.Verify(rm => rm.DeleteAsync(It.IsAny<TicTacToe>()), Times.Once);
@@ -106,9 +100,7 @@ namespace CreatingAPI.Domain.Tests.TicTacToes
         [InlineData(0)]
         public async Task DeleteAsync_InvalidId_ShouldReturnResultResponseWithError(int invalidId)
         {
-            var ticTacToeService = new TicTacToeService(_repositoryMock.Object);
-
-            var result = await ticTacToeService.DeleteAsync(invalidId);
+            var result = await _ticTacToeService.DeleteAsync(invalidId);
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity is invalid");
@@ -121,7 +113,7 @@ namespace CreatingAPI.Domain.Tests.TicTacToes
         {
             var ticTacToeService = new TicTacToeService(_repositoryMock.Object);
 
-            var result = await ticTacToeService.DeleteAsync(ID_INEXISTENT_TIC_TAC_TOE);
+            var result = await _ticTacToeService.DeleteAsync(_ticTacToeTestsFixture.GetInexistentTicTacToeId());
 
             result.Success.Should().BeFalse();
             result.ValidationErrors.FirstOrDefault().Message.Should().Be("The activity wasn't found");

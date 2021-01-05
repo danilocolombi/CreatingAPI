@@ -4,14 +4,22 @@ using Xunit;
 
 namespace CreatingAPI.Domain.Tests.Unscrambles
 {
+    [Collection(nameof(UnscrambleTestsFixtureCollection))]
     public class UnscrambleTests
     {
+        private readonly UnscrambleTestsFixture _uncrambleTestsFixture;
+
+        public UnscrambleTests(UnscrambleTestsFixture uncrambleTestsFixture)
+        {
+            _uncrambleTestsFixture = uncrambleTestsFixture;
+        }
+
         [Fact(DisplayName = "Add exercises, should return true")]
         [Trait("Category", "Add Exercises")]
         public void AddExercises_ShouldReturnTrue()
         {
-            var unscramble = UnscrambleTestHelper.GetFakeUnscramble();
-            var exercises = UnscrambleTestHelper.GetFakeExercises();
+            var unscramble = _uncrambleTestsFixture.GetFakeUnscramble();
+            var exercises = _uncrambleTestsFixture.GetFakeExercises();
 
             var result = unscramble.AddExercises(exercises);
 
@@ -23,8 +31,8 @@ namespace CreatingAPI.Domain.Tests.Unscrambles
         [Trait("Category", "Add Exercises")]
         public void AddExercises_InvalidExercise_ShouldReturnFalse()
         {
-            var unscramble = UnscrambleTestHelper.GetFakeUnscramble();
-            var exercises = UnscrambleTestHelper.GetFakeExercises();
+            var unscramble = _uncrambleTestsFixture.GetFakeUnscramble();
+            var exercises = _uncrambleTestsFixture.GetFakeExercises();
             exercises.FirstOrDefault().SetDescription(string.Empty);
 
             var result = unscramble.AddExercises(exercises);
@@ -37,8 +45,8 @@ namespace CreatingAPI.Domain.Tests.Unscrambles
         [Trait("Category", "Get Shuffled Exercises")]
         public void GetShuffledExercises_ShouldReturnAListOfShuffledExercises()
         {
-            var unscramble = UnscrambleTestHelper.GetFakeUnscramble();
-            var randomizeExercisesOrder = UnscrambleTestHelper.GetRandomBool();
+            var unscramble = _uncrambleTestsFixture.GetFakeUnscramble();
+            var randomizeExercisesOrder = _uncrambleTestsFixture.GetRandomBool();
 
             var result = unscramble.GetShuffledExercises(randomizeExercisesOrder);
 
